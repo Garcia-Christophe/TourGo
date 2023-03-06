@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-tourgo.alwaysdata.net
--- Generation Time: Mar 06, 2023 at 12:04 PM
+-- Generation Time: Mar 06, 2023 at 03:25 PM
 -- Server version: 10.6.11-MariaDB
 -- PHP Version: 7.4.19
 
@@ -39,7 +39,7 @@ CREATE TABLE `Commande` (
 --
 
 INSERT INTO `Commande` (`idCommande`, `dateCommande`, `pseudoUtilisateur`) VALUES
-(1, '2023-03-01', 'dumby'),
+(1, '2023-01-25', 'dumby'),
 (2, NULL, 'dumby');
 
 -- --------------------------------------------------------
@@ -134,7 +134,7 @@ CREATE TABLE `Sortie` (
 --
 
 INSERT INTO `Sortie` (`idSortie`, `nomSortie`, `prixSortie`, `nbPlaces`, `nbInscrits`, `date`, `heure`, `duree`, `lieu`, `nbVues`) VALUES
-(1, 'Journée au Puy du Fou', 42, 50, 0, '2023-08-15', '06:00:00', '17:00:00', 'Parc d\'attractions aux Épesses', 0),
+(1, 'Journée au Puy du Fou', 42, 50, 0, '2023-03-01', '06:00:00', '17:00:00', 'Parc d\'attractions aux Épesses', 0),
 (2, 'Marathon La Transléonarde', 35, 600, 0, '2023-06-25', '08:00:00', '08:00:00', 'Complexe sportif de Guisseny', 0),
 (3, 'Balade au Jardin du Conservatoire Botanique National de Brest (visite guidée)', 5, 20, 0, '2023-07-14', '10:30:00', '05:30:00', 'Rpe de Stangalard, 29200 Brest', 0);
 
