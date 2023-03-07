@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-tourgo.alwaysdata.net
--- Generation Time: Mar 07, 2023 at 10:37 AM
+-- Generation Time: Mar 07, 2023 at 01:14 PM
 -- Server version: 10.6.11-MariaDB
 -- PHP Version: 7.4.19
 
@@ -45,6 +45,20 @@ INSERT INTO `Commande` (`idCommande`, `dateCommande`, `pseudoUtilisateur`) VALUE
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Dog`
+--
+
+DROP TABLE IF EXISTS `Dog`;
+CREATE TABLE `Dog` (
+  `Id` bigint(20) NOT NULL,
+  `birthDate` date DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `race` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `dog`
 --
 
@@ -55,6 +69,13 @@ CREATE TABLE `dog` (
   `name` varchar(255) DEFAULT NULL,
   `race` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `dog`
+--
+
+INSERT INTO `dog` (`id`, `birth_date`, `name`, `race`) VALUES
+(1, '2023-03-01', 'Rio', 'Berger australien');
 
 -- --------------------------------------------------------
 
@@ -162,7 +183,7 @@ INSERT INTO `Sortie` (`idSortie`, `nomSortie`, `prixSortie`, `nbPlaces`, `nbInsc
 DROP TABLE IF EXISTS `Utilisateur`;
 CREATE TABLE `Utilisateur` (
   `pseudo` varchar(20) NOT NULL,
-  `mdp` varchar(50) NOT NULL,
+  `mdp` varchar(500) NOT NULL,
   `nom` varchar(50) NOT NULL,
   `prenom` varchar(50) NOT NULL,
   `dateNaissance` date DEFAULT NULL,
@@ -174,7 +195,7 @@ CREATE TABLE `Utilisateur` (
 --
 
 INSERT INTO `Utilisateur` (`pseudo`, `mdp`, `nom`, `prenom`, `dateNaissance`, `mail`) VALUES
-('admin', 'admin', 'TourGo', 'Administrateur', NULL, NULL),
+('admin', 'h7aXpGTyIYCmm8GJgurARIUd/5X+7MQ3DuY4Xs9cE1WuUJ12EJyZHhR5Pykfr9ZKK8wADaxbhjJ2MIH2bz4wlA==', 'TourGo', 'Administrateur', NULL, NULL),
 ('dumby', 'dumby123', 'Albus', 'Dumbledore', '1881-07-01', 'albus.dumbledore@gmail.com');
 
 --
@@ -187,6 +208,12 @@ INSERT INTO `Utilisateur` (`pseudo`, `mdp`, `nom`, `prenom`, `dateNaissance`, `m
 ALTER TABLE `Commande`
   ADD PRIMARY KEY (`idCommande`),
   ADD KEY `fk_commande_utilisateur` (`pseudoUtilisateur`);
+
+--
+-- Indexes for table `Dog`
+--
+ALTER TABLE `Dog`
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Indexes for table `dog`
@@ -240,10 +267,16 @@ ALTER TABLE `Commande`
   MODIFY `idCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `Dog`
+--
+ALTER TABLE `Dog`
+  MODIFY `Id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `dog`
 --
 ALTER TABLE `dog`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `LiaisonReservationOption`
