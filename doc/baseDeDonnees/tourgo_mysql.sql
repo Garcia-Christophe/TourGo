@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-tourgo.alwaysdata.net
--- Generation Time: Mar 06, 2023 at 03:25 PM
+-- Generation Time: Mar 07, 2023 at 10:37 AM
 -- Server version: 10.6.11-MariaDB
 -- PHP Version: 7.4.19
 
@@ -41,6 +41,20 @@ CREATE TABLE `Commande` (
 INSERT INTO `Commande` (`idCommande`, `dateCommande`, `pseudoUtilisateur`) VALUES
 (1, '2023-01-25', 'dumby'),
 (2, NULL, 'dumby');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dog`
+--
+
+DROP TABLE IF EXISTS `dog`;
+CREATE TABLE `dog` (
+  `id` bigint(20) NOT NULL,
+  `birth_date` date DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `race` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -126,6 +140,7 @@ CREATE TABLE `Sortie` (
   `heure` time NOT NULL,
   `duree` time NOT NULL,
   `lieu` varchar(50) NOT NULL,
+  `image` varchar(500) DEFAULT NULL,
   `nbVues` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -133,10 +148,10 @@ CREATE TABLE `Sortie` (
 -- Dumping data for table `Sortie`
 --
 
-INSERT INTO `Sortie` (`idSortie`, `nomSortie`, `prixSortie`, `nbPlaces`, `nbInscrits`, `date`, `heure`, `duree`, `lieu`, `nbVues`) VALUES
-(1, 'Journée au Puy du Fou', 42, 50, 0, '2023-03-01', '06:00:00', '17:00:00', 'Parc d\'attractions aux Épesses', 0),
-(2, 'Marathon La Transléonarde', 35, 600, 0, '2023-06-25', '08:00:00', '08:00:00', 'Complexe sportif de Guisseny', 0),
-(3, 'Balade au Jardin du Conservatoire Botanique National de Brest (visite guidée)', 5, 20, 0, '2023-07-14', '10:30:00', '05:30:00', 'Rpe de Stangalard, 29200 Brest', 0);
+INSERT INTO `Sortie` (`idSortie`, `nomSortie`, `prixSortie`, `nbPlaces`, `nbInscrits`, `date`, `heure`, `duree`, `lieu`, `image`, `nbVues`) VALUES
+(1, 'Journée au Puy du Fou', 42, 50, 0, '2023-03-01', '06:00:00', '17:00:00', 'Parc d\'attractions aux Épesses', 'https://www.chausseliere.com/wp-content/uploads/2018/01/puy-du-fou-2.gif', 0),
+(2, 'Marathon La Transléonarde', 35, 600, 0, '2023-06-25', '08:00:00', '08:00:00', 'Complexe sportif de Guisseny', 'https://www.transleonarde.com/accueil/images/images/Cartes_des_Epreuves/Trace_marathon_2019.jpg', 0),
+(3, 'Balade au Jardin du Conservatoire Botanique National de Brest (visite guidée)', 5, 20, 0, '2023-07-14', '10:30:00', '05:30:00', 'Rpe de Stangalard, 29200 Brest', 'https://www.marinasbrest.fr/wp-content/uploads/2022/01/Jardin-conservatoire-Brest-metropole-1.jpeg', 0);
 
 -- --------------------------------------------------------
 
@@ -172,6 +187,12 @@ INSERT INTO `Utilisateur` (`pseudo`, `mdp`, `nom`, `prenom`, `dateNaissance`, `m
 ALTER TABLE `Commande`
   ADD PRIMARY KEY (`idCommande`),
   ADD KEY `fk_commande_utilisateur` (`pseudoUtilisateur`);
+
+--
+-- Indexes for table `dog`
+--
+ALTER TABLE `dog`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `LiaisonReservationOption`
@@ -217,6 +238,12 @@ ALTER TABLE `Utilisateur`
 --
 ALTER TABLE `Commande`
   MODIFY `idCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `dog`
+--
+ALTER TABLE `dog`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `LiaisonReservationOption`
