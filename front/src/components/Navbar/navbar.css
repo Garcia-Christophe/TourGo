@@ -1,0 +1,181 @@
+/* Couleurs */
+:root {
+  --primary-color: #782fde;
+  --secondary-color: #b527f5;
+  --tertiary-color: #e326eb;
+  --primary-blue: #4527f5;
+  --secondary-blue: #263eeb;
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 18%);
+  --textColor: hsl(240, 1%, 48%);
+  --whiteColorDeam: hsl(0, 0%, 93%);
+  --greyBg: hsl(0, 0%, 96%);
+  --greyText: hsl(190, 190, 190);
+  --inputColor: hsl(330, 12%, 97%);
+}
+
+.navBarSection .header {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  width: 100%;
+  padding: 1rem;
+  z-index: 1000;
+}
+.navBarSection .header .logoDiv .logo {
+  color: var(--white);
+  font-weight: 500;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+@media screen and (max-width: 919px) {
+  .navBarSection .header .navBar {
+    background: var(--greyBg);
+    position: absolute;
+    height: -moz-max-content;
+    height: max-content;
+    padding: 1rem;
+    width: 100%;
+    top: 0;
+    left: -500%;
+    box-shadow: 0 2px 4px rgba(209, 209, 209, 0.904);
+    transition: 0.5s ease;
+    z-index: 1000;
+  }
+  .navBarSection .header .navBar .navLists {
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    margin: auto;
+  }
+  .navBarSection .header .navBar .navLists .navItem {
+    padding: 1rem 0;
+  }
+  .navBarSection .header .navBar .navLists .navItem .navLink {
+    color: var(--textColor);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .navBarSection .header .navBar .navLists .navItem .navLink:hover {
+    color: var(--primary-color);
+  }
+  .navBarSection .header .navBar .navLists .headerBtns {
+    flex-direction: column;
+  }
+  .navBarSection .header .navBar .navLists .headerBtns .btn {
+    margin-top: 1rem;
+  }
+  .navBarSection .header .navBar .navLists .headerBtns .btn a {
+    font-weight: 600;
+  }
+  .navBarSection .header .navBar .navLists .headerBtns .btn a:hover {
+    color: var(--white);
+  }
+  .navBarSection .header .navBar .navLists .headerBtns .panierBtn {
+    background: none;
+    border: 1px solid var(--primary-color);
+  }
+  .navBarSection .header .navBar .navLists .headerBtns .panierBtn a {
+    color: var(--primary-color);
+  }
+  .navBarSection .header .navBar .navLists .headerBtns .panierBtn:hover {
+    background: var(--primary-color);
+  }
+  .navBarSection .header .navBar .navLists .headerBtns .panierBtn:hover a {
+    color: var(--white);
+  }
+  .navBarSection .header .navBar .closeNavbar {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    color: var(--primary-color);
+  }
+  .navBarSection .header .navBar .closeNavbar:hover .icon {
+    color: var(--primary-color);
+  }
+  .navBarSection .header .activeNavbar {
+    left: 0;
+  }
+}
+.navBarSection .header .toggleNavbar .icon {
+  font-size: 25px;
+  color: var(--white);
+}
+.navBarSection .header .toggleNavbar .icon:hover {
+  color: var(--primary-color);
+}
+.navBarSection .activeHeader {
+  background: var(--white);
+  box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.45);
+}
+.navBarSection .activeHeader .logoDiv .logo {
+  color: var(--black);
+}
+.navBarSection .activeHeader .logoDiv .logo .go {
+  color: var(--primary-color);
+}
+.navBarSection .activeHeader .toggleNavbar .icon {
+  color: var(--black);
+}
+.navBarSection .activeHeader .navBar .navLists .navItem .navLink {
+  color: var(--black);
+}
+.navBarSection .activeHeader .navBar .navLists .navItem .navLink:hover {
+  color: var(--primary-color);
+}
+.navBarSection .activeHeader .navBar .navLists .panierBtn a {
+  color: var(--primary-color);
+}
+
+@media screen and (min-width: 920px) {
+  .toggleNavbar,
+  .closeNavbar {
+    display: none;
+  }
+  .header {
+    padding: 1.5rem 2rem;
+  }
+  .header .navBar .navLists {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+  }
+  .header .navBar .navLists .navItem .navLink {
+    color: var(--white);
+    padding: 0 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  .header .navBar .navLists .navItem .navLink:hover {
+    color: var(--tertiary-color);
+  }
+  .header .navBar .navLists .btn {
+    margin-left: 1rem;
+  }
+  .header .navBar .navLists .btn a {
+    color: var(--white);
+    font-weight: 500;
+  }
+  .header .navBar .navLists .panierBtn {
+    background: none;
+    border: 1px solid var(--primary-color);
+  }
+  .header .navBar .navLists .panierBtn:hover {
+    background: var(--primary-color);
+  }
+  .header .navBar .navLists .panierBtn:hover a {
+    color: var(--white);
+  }
+}
+@media screen and (min-width: 1200px) {
+  .header {
+    padding: 1rem 8.5rem !important;
+  }
+  .header .navBar .navLists .navItem .navLink {
+    padding: 0 0.8rem;
+  }
+}/*# sourceMappingURL=navbar.css.map */

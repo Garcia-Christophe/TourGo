@@ -1,0 +1,212 @@
+/* Couleurs */
+:root {
+  --primary-color: #782fde;
+  --secondary-color: #b527f5;
+  --tertiary-color: #e326eb;
+  --primary-blue: #4527f5;
+  --secondary-blue: #263eeb;
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 18%);
+  --textColor: hsl(240, 1%, 48%);
+  --whiteColorDeam: hsl(0, 0%, 93%);
+  --greyBg: hsl(0, 0%, 96%);
+  --greyText: hsl(190, 190, 190);
+  --inputColor: hsl(330, 12%, 97%);
+}
+
+.accueil {
+  height: 80vh;
+  background: linear-gradient(rgba(33, 33, 33, 0.522), rgb(33, 33, 33)), url("../../assets/fondEcranAccueil.jpg");
+  background-position: bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  position: relative;
+}
+.accueil .secContainer .homeText {
+  text-align: center;
+}
+.accueil .secContainer .homeText .title {
+  color: var(--white);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+}
+.accueil .secContainer .homeText .subTitle {
+  color: var(--white);
+  opacity: 0.9;
+  font-size: 13px;
+  font-weight: 300;
+  padding: 1rem 0;
+  max-width: 70%;
+  text-align: center;
+  margin: auto;
+}
+.accueil .secContainer .homeText .btn {
+  padding: 0.6rem 1.5rem;
+}
+.accueil .secContainer .homeText .btn:hover {
+  background: none;
+  border: 1px solid var(--primary-color);
+}
+.accueil .secContainer .homeText .btn:hover a {
+  color: var(--white);
+}
+.accueil .secContainer .accueilCard {
+  width: 80%;
+  border-radius: 1rem;
+  padding: 2rem;
+  background: var(--white);
+  position: absolute;
+  gap: 1rem;
+  justify-content: center;
+  bottom: -30%;
+  transform: translate(-50%);
+  left: 50%;
+  box-shadow: 0 2px 8px 4px rgba(178, 178, 178, 0.45);
+}
+.accueil .secContainer .accueilCard label {
+  display: block;
+  color: var(--textColor);
+  padding-bottom: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.accueil .secContainer .accueilCard .label_total {
+  justify-content: space-between;
+  align-items: center;
+}
+.accueil .secContainer .accueilCard .label_total .total {
+  color: var(--textColor);
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+.accueil .secContainer .accueilCard .input {
+  height: 40px;
+  padding: 0 1rem;
+  background: var(--inputColor);
+  border-radius: 10px;
+  /*generated with Input range slider CSS style generator (version 20211225)
+    https://toughengineer.github.io/demo/slider-styler*/
+  /*progress support*/
+  /*webkit*/
+}
+.accueil .secContainer .accueilCard .input input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 500;
+}
+.accueil .secContainer .accueilCard .input ::-webkit-calendar-picker-indicator {
+  background-image: url("../../assets/datePicker_CouleurSecondaire.png");
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider {
+  height: 1em;
+  -webkit-appearance: none;
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider.slider-progress {
+  --range: calc(var(--max) - var(--min));
+  --ratio: calc((var(--value) - var(--min)) / var(--range));
+  --sx: calc(0.5 * 2em + var(--ratio) * (100% - 2em));
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider:focus {
+  outline: none;
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 1em;
+  background: var(--secondary-color);
+  border: none;
+  box-shadow: 0 0 2px black;
+  margin-top: calc(max((0.75em - 1px - 1px) * 0.5, 0px) - 0.75em);
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider::-webkit-slider-runnable-track {
+  height: 0.75em;
+  border: 1px solid #b2b2b2;
+  border-radius: 0.5em;
+  background: #e5e5e5;
+  box-shadow: none;
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider::-webkit-slider-thumb:hover {
+  background: var(--secondary-color);
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider:hover::-webkit-slider-runnable-track {
+  border-color: #9a9a9a;
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider::-webkit-slider-thumb:active {
+  background: var(--secondary-color);
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider:active::-webkit-slider-runnable-track {
+  border-color: #c1c1c1;
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider.slider-progress::-webkit-slider-runnable-track {
+  background: linear-gradient(var(--secondary-color), var(--secondary-color)) 0/var(--sx) 100% no-repeat, #e5e5e5;
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider.slider-progress:hover::-webkit-slider-runnable-track {
+  background: linear-gradient(var(--secondary-color), var(--secondary-color)) 0/var(--sx) 100% no-repeat, #e5e5e5;
+}
+.accueil .secContainer .accueilCard .input input[type=range].styled-slider.slider-progress:active::-webkit-slider-runnable-track {
+  background: linear-gradient(var(--secondary-color), var(--secondary-color)) 0/var(--sx) 100% no-repeat, #e5e5e5;
+}
+.accueil .secContainer .accueilCard .btn {
+  width: 100%;
+  padding: 0.6rem 1.5rem;
+  color: var(--white);
+  background: var(--secondary-color);
+  font-weight: 600;
+}
+.accueil .secContainer .accueilCard .btn:hover {
+  background: none;
+  border: 1px solid var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+@media screen and (min-width: 480px) {
+  .accueil .secContainer .accueilCard {
+    bottom: -100px;
+    width: 90%;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .accueil .secContainer .accueilCard .btn {
+    transform: translateY(18px);
+  }
+}
+@media screen and (min-width: 795px) {
+  .accueil .secContainer .homeText .title {
+    font-size: 2.5rem;
+  }
+  .accueil .secContainer .homeText .subTitle {
+    font-size: 18px;
+    max-width: 100%;
+  }
+  .accueil .secContainer .accueilCard {
+    bottom: -10%;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .accueil .secContainer .accueilCard .prixDiv {
+    transform: translateY(-4px);
+  }
+  .accueil .secContainer .accueilCard .btn {
+    transform: translateY(14px);
+  }
+}
+@media screen and (min-width: 1406px) {
+  .accueil .secContainer .homeText {
+    padding: 1rem 10rem;
+  }
+  .accueil .secContainer .homeText .title {
+    font-size: 3.5rem;
+    margin: auto;
+    line-height: 4rem;
+  }
+  .accueil .secContainer .homeText .subTitle {
+    width: 70%;
+  }
+}/*# sourceMappingURL=accueil.css.map */

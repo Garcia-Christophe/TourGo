@@ -1,38 +1,143 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  transition: 0.3s ease;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Couleurs */
+:root {
+  --primary-color: #782fde;
+  --secondary-color: #b527f5;
+  --tertiary-color: #e326eb;
+  --primary-blue: #4527f5;
+  --secondary-blue: #263eeb;
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 18%);
+  --textColor: hsl(240, 1%, 48%);
+  --whiteColorDeam: hsl(0, 0%, 93%);
+  --greyBg: hsl(0, 0%, 96%);
+  --greyText: hsl(190, 190, 190);
+  --inputColor: hsl(330, 12%, 97%);
+  /* box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.334); */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Global */
+a {
+  text-decoration: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+li {
+  list-style: none;
+}
+
+.section {
+  padding: 4rem 0 2rem;
+}
+
+.container {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.icon {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.flex {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.grid {
+  display: grid;
+  align-items: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.btn {
+  padding: 0.4rem 1.5rem;
+  background: var(--primary-color);
+  border: none;
+  outline: none;
+  border-radius: 3rem;
+  cursor: pointer;
+}
+
+.btn a {
+  color: var(--white);
+  font-weight: 500;
+}
+
+.btn:hover a {
+  color: var(--white);
+}
+
+.secIntro {
+  max-width: 70%;
+  text-align: center;
+  margin: 0 auto 2rem;
+}
+
+.secIntro .secTitle {
+  color: var(--black);
+  line-height: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.secIntro p {
+  font-size: 13px;
+  color: var(--textColor);
+  font-weight: 500;
+}
+
+img,
+video {
+  width: 100%;
+  height: auto;
+}
+
+input {
+  font-size: 100%;
+}
+
+/* MEDIA QUERIES */
+@media screen and (min-width: 480px) {
+  .mainContent,
+  .singlePost {
+    grid-template-columns: repeat(2, 1fr);
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media screen and (min-width: 920px) {
+  .mainContent {
+    grid-template-columns: repeat(3, 1fr);
   }
+}
+
+@media screen and (min-width: 1200px) {
+  .container {
+    width: 75% !important;
+    margin: auto !important;
+  }
+}
+
+/* Design de l'application */
+::selection {
+  background: var(--primary-color);
+  color: var(--white);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: var(--greyBg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 10px;
+  cursor: pointer;
 }

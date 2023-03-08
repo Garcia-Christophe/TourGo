@@ -1,0 +1,113 @@
+/* Couleurs */
+:root {
+  --primary-color: #782fde;
+  --secondary-color: #b527f5;
+  --tertiary-color: #e326eb;
+  --primary-blue: #4527f5;
+  --secondary-blue: #263eeb;
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 18%);
+  --textColor: hsl(240, 1%, 48%);
+  --whiteColorDeam: hsl(0, 0%, 93%);
+  --greyBg: hsl(0, 0%, 96%);
+  --greyText: hsl(190, 190, 190);
+  --inputColor: hsl(330, 12%, 97%);
+  /* box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.334); */
+}
+
+.footer {
+  background: var(--greyBg);
+  padding: 2rem 0;
+
+  .secContainer {
+    gap: 1.5rem;
+    text-align: center;
+    .footerLogo {
+      padding-bottom: 0.5rem;
+      .logo {
+        color: var(--black);
+        font-weight: 500;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+
+        .icon {
+          font-size: 25px;
+          color: var(--primary-color);
+          margin-right: 0.5rem;
+        }
+      }
+    }
+
+    .socials {
+      gap: 0.5rem;
+      margin: auto;
+      justify-content: center;
+
+      .icon {
+        font-size: 30px;
+        background: var(--tertiary-color);
+        border-radius: 50%;
+        padding: 8px;
+        color: var(--white);
+        &:hover {
+          background: var(--secondary-color);
+        }
+      }
+    }
+
+    .footerLinks {
+      display: grid;
+      row-gap: 0.2rem;
+
+      .linkTitle {
+        padding-bottom: 0.5rem;
+        color: var(--textColor);
+        font-weight: 700;
+      }
+
+      li {
+        &:hover {
+          transform: translateX(10px);
+          a {
+            color: var(--primary-color);
+          }
+        }
+      }
+
+      a,
+      .phone,
+      .email,
+      .chat {
+        color: var(--textColor);
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .chat {
+        color: var(--tertiary-color);
+      }
+    }
+  }
+}
+
+// MEDIA QUERIES
+@media screen and (min-width: 520px) {
+  .secContainer {
+    grid-template-columns: repeat(2, 1fr);
+    text-align: center;
+    align-items: flex-start;
+  }
+}
+
+@media screen and (min-width: 920px) {
+  .secContainer {
+    grid-template-columns: repeat(4, 1fr);
+    text-align: start !important;
+    align-items: flex-start;
+
+    .logoDiv {
+      margin-right: 5rem;
+    }
+  }
+}
