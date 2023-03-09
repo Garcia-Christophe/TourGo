@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./accueil.css";
+import "./filtres.css";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
-const Accueil = () => {
+const Filtres = () => {
   useEffect(() => {
     // Personnalisation de la barre de progression
     for (let e of document.querySelectorAll(
@@ -93,4 +93,4 @@ const Accueil = () => {
   );
 };
 
-export default Accueil;
+export default Filtres;

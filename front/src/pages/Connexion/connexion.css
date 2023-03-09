@@ -1,0 +1,186 @@
+/* Couleurs */
+:root {
+  --primary-color: #782fde;
+  --secondary-color: #b527f5;
+  --tertiary-color: #e326eb;
+  --primary-blue: #4527f5;
+  --secondary-blue: #263eeb;
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 18%);
+  --textColor: hsl(240, 1%, 48%);
+  --whiteColorDeam: hsl(0, 0%, 93%);
+  --greyBg: hsl(0, 0%, 96%);
+  --greyText: hsl(190, 190, 190);
+  --inputColor: hsl(330, 12%, 97%);
+}
+
+.pageConnexion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 99vw;
+  overflow: hidden;
+}
+.pageConnexion .containerConnexion {
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  position: relative;
+  overflow: hidden;
+  width: 900px;
+  max-width: 100%;
+  min-height: 500px;
+}
+.pageConnexion .containerConnexion .signUpContainer {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+.pageConnexion .containerConnexion .activeSignUp {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+}
+.pageConnexion .containerConnexion .signInContainer {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+.pageConnexion .containerConnexion .activeSignIn {
+  transform: translateX(100%);
+}
+.pageConnexion .containerConnexion .formConnexion {
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  text-align: center;
+}
+.pageConnexion .containerConnexion .formConnexion .title {
+  font-weight: bold;
+  margin: 0;
+}
+.pageConnexion .containerConnexion .formConnexion input {
+  background-color: var(--greyBg);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+}
+.pageConnexion .containerConnexion .formConnexion .btn {
+  border-radius: 20px;
+  border: 1px solid var(--primary-color);
+  background-color: var(--primary-color);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+}
+.pageConnexion .containerConnexion .formConnexion .btn:active {
+  transform: scale(0.95);
+}
+.pageConnexion .containerConnexion .formConnexion .btn:focus {
+  outline: none;
+}
+.pageConnexion .containerConnexion .overlayContainer {
+  background: var(--tertiary-color);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
+.pageConnexion .containerConnexion .overlayContainer .overlay {
+  background: var(--primary-color);
+  background: linear-gradient(to right, var(--primary-color), var(--tertiary-color));
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  color: var(--white);
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+.pageConnexion .containerConnexion .overlayContainer .overlay .leftOverlayPanel,
+.pageConnexion .containerConnexion .overlayContainer .overlay .rightOverlayPanel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+.pageConnexion .containerConnexion .overlayContainer .overlay .leftOverlayPanel {
+  transform: translateX(-20%);
+}
+.pageConnexion .containerConnexion .overlayContainer .overlay .leftTrue {
+  transform: translateX(0);
+}
+.pageConnexion .containerConnexion .overlayContainer .overlay .rightOverlayPanel {
+  right: 0;
+  transform: translateX(0);
+}
+.pageConnexion .containerConnexion .overlayContainer .overlay .rightTrue {
+  transform: translateX(20%);
+}
+.pageConnexion .containerConnexion .overlayContainer .overlay .ghostBtn {
+  border-radius: 20px;
+  border: 1px solid var(--white);
+  background: none;
+  color: var(--white);
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  cursor: pointer;
+}
+.pageConnexion .containerConnexion .overlayContainer .overlay .ghostBtn:active {
+  transform: scale(0.95);
+}
+.pageConnexion .containerConnexion .overlayContainer .overlay .ghostBtn:focus {
+  outline: none;
+}
+.pageConnexion .containerConnexion .overlayContainer .overlay p {
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  margin: 20px 0 30px;
+}
+.pageConnexion .containerConnexion .overlayContainer .left {
+  transform: translateX(50%);
+}
+.pageConnexion .containerConnexion .leftOverlay {
+  transform: translateX(-100%);
+}/*# sourceMappingURL=connexion.css.map */
