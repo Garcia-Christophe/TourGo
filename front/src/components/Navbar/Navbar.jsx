@@ -63,23 +63,59 @@ const Navbar = ({ navbarTransparente }) => {
                 Contact
               </a>
             </li>
-            <li className="navItem">
-              <a href="/MonCompte" className="navLink">
-                Mon compte
-              </a>
-            </li>
-            <li className="navItem">
-              <a href="/Gestion" className="navLink">
-                Gestion
-              </a>
-            </li>
+            {
+              // Si l'utilisateur est connecté
+              sessionStorage.getItem("token") != null && (
+                <li className="navItem">
+                  <a href="/MonCompte" className="navLink">
+                    Mon compte
+                  </a>
+                </li>
+              )
+            }
+            {
+              // Si l'administrateur est connecté
+              sessionStorage.getItem("token") != null &&
+                sessionStorage.getItem("role") === "admin" && (
+                  <li className="navItem">
+                    <a href="/Gestion" className="navLink">
+                      Gestion
+                    </a>
+                  </li>
+                )
+            }
             <div className="headerBtns flex">
               <button className="btn panierBtn">
-                <a href="/Panier">Panier</a>
+                <a
+                  href={
+                    // Si l'utilisateur n'est pas connecté, renvoie vers la page de connexion
+                    sessionStorage.getItem("token") != null
+                      ? "/Panier"
+                      : "/Connexion"
+                  }
+                >
+                  Panier
+                </a>
               </button>
-              <button className="btn">
-                <a href="/Connexion">Connexion</a>
-              </button>
+              {
+                // Si l'utilisateur n'est pas connecté, affiche le bouton "Connexion"
+                sessionStorage.getItem("token") == null ? (
+                  <button className="btn">
+                    <a href="/Connexion">Connexion</a>
+                  </button>
+                ) : (
+                  // Sinon, affiche le bouton "Déconnexion"
+                  <button
+                    className="btn"
+                    onClick={() => {
+                      sessionStorage.removeItem("token");
+                      sessionStorage.removeItem("role");
+                    }}
+                  >
+                    <a href="/">Déconnexion</a>
+                  </button>
+                )
+              }
             </div>
           </ul>
           <div onClick={hideNav} className="closeNavbar">

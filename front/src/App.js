@@ -2,11 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Accueil from "./pages/Accueil";
-import Sorties from "./pages/Sorties";
-import Contact from "./pages/Contact";
-import MonCompte from "./pages/MonCompte";
-import Gestion from "./pages/Gestion";
-import Panier from "./pages/Panier";
+import Sorties from "./pages/Sorties/Sorties";
+import Contact from "./pages/Contact/Contact";
+import MonCompte from "./pages/MonCompte/MonCompte";
+import Gestion from "./pages/Gestion/Gestion";
+import Panier from "./pages/Panier/Panier";
 import Connexion from "./pages/Connexion/Connexion";
 import Footer from "./components/Footer/Footer";
 

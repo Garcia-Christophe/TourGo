@@ -1,15 +1,49 @@
 import React, { useState } from "react";
 import "./connexion.css";
 import Navbar from "../../components/Navbar/Navbar";
+import axios from "axios";
 
 const Connexion = () => {
   const [inscription, setInscription] = useState("signUpContainer");
+  const [utilisateur, setUtilisateur] = useState({
+    nom: "",
+    prenom: "",
+    mail: "",
+    dateNaissance: "",
+    pseudo: "",
+    mdp: "",
+  });
 
   const showConnexion = () => {
     setInscription("signUpContainer");
   };
   const showInscription = () => {
     setInscription("signUpContainer activeSignUp");
+  };
+  const seConnecter = () => {
+    const options = {
+      url: "http://localhost:3001/Connexion",
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      data: {
+        pseudo: utilisateur.pseudo,
+        mdp: utilisateur.mdp,
+      },
+    };
+
+    axios(options).then((response) => {
+      if (response.data.connexion) {
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("role", response.data.role);
+        window.location.href = "/";
+      }
+    });
+  };
+  const sInscrire = () => {
+    console.log("inscrit");
   };
 
   return (
@@ -21,13 +55,57 @@ const Connexion = () => {
           <div className={inscription}>
             <div className="formConnexion">
               <h1 className="title">Créer un compte</h1>
-              <input type="text" placeholder="Nom" />
-              <input type="text" placeholder="Prénom" />
-              <input type="text" placeholder="Adresse mail" />
-              <input type="date" />
-              <input type="text" placeholder="Pseudo" />
-              <input type="password" placeholder="Mot de passe" />
-              <button className="btn" onClick={() => console.log("inscrit")}>
+              <input
+                type="text"
+                value={utilisateur.nom}
+                placeholder="Nom"
+                onChange={(e) => {
+                  setUtilisateur({ ...utilisateur, nom: e.target.value });
+                }}
+              />
+              <input
+                type="text"
+                value={utilisateur.prenom}
+                placeholder="Prénom"
+                onChange={(e) => {
+                  setUtilisateur({ ...utilisateur, prenom: e.target.value });
+                }}
+              />
+              <input
+                type="text"
+                value={utilisateur.mail}
+                placeholder="Adresse mail"
+                onChange={(e) => {
+                  setUtilisateur({ ...utilisateur, mail: e.target.value });
+                }}
+              />
+              <input
+                type="date"
+                value={utilisateur.dateNaissance}
+                onChange={(e) => {
+                  setUtilisateur({
+                    ...utilisateur,
+                    dateNaissance: e.target.value,
+                  });
+                }}
+              />
+              <input
+                type="text"
+                value={utilisateur.pseudo}
+                placeholder="Pseudo"
+                onChange={(e) => {
+                  setUtilisateur({ ...utilisateur, pseudo: e.target.value });
+                }}
+              />
+              <input
+                type="password"
+                value={utilisateur.mdp}
+                placeholder="Mot de passe"
+                onChange={(e) => {
+                  setUtilisateur({ ...utilisateur, mdp: e.target.value });
+                }}
+              />
+              <button className="btn" onClick={sInscrire}>
                 S'inscrire
               </button>
             </div>
@@ -42,9 +120,23 @@ const Connexion = () => {
           >
             <div className="formConnexion">
               <h1 className="title">Se connecter</h1>
-              <input type="text" placeholder="Pseudo" />
-              <input type="password" placeholder="Mot de passe" />
-              <button className="btn" onClick={() => console.log("connecté")}>
+              <input
+                type="text"
+                value={utilisateur.pseudo}
+                placeholder="Pseudo"
+                onChange={(e) => {
+                  setUtilisateur({ ...utilisateur, pseudo: e.target.value });
+                }}
+              />
+              <input
+                type="password"
+                value={utilisateur.mdp}
+                placeholder="Mot de passe"
+                onChange={(e) => {
+                  setUtilisateur({ ...utilisateur, mdp: e.target.value });
+                }}
+              />
+              <button className="btn" onClick={seConnecter}>
                 Se connecter
               </button>
             </div>
