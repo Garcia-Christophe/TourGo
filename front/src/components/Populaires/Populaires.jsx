@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import "./populaires.css";
 import BG from "../../assets/fondEcranAccueil.jpg";
-import { BsArrowRightShort } from "react-icons/bs";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import CarteSortie from "../CarteSortie/CarteSortie";
 
 const sorties = [
   {
@@ -52,33 +52,22 @@ const Populaires = () => {
         {/* Cartes des sorties les plus populaires */}
         <div className="mainContent grid">
           {sorties.map((sortie, index) => (
-            <div
-              data-aos={
+            <CarteSortie
+              sortie={{
+                titre: "0" + (index + 1),
+                infoSupp: sortie.titre,
+                date: sortie.date,
+                lieu: sortie.lieu,
+                image: sortie.image,
+              }}
+              fade={
                 index === 0
                   ? "fade-right"
                   : index === 1
                   ? "fade-up"
                   : "fade-left"
               }
-              data-aos-duration="1000"
-              className="singleDestination"
-            >
-              <div className="destImage">
-                <img src={sortie.image} alt={sortie.titre} />
-                <div className="overlayInfo">
-                  <h3>Le {sortie.date}</h3>
-                  <p>{sortie.lieu}</p>
-
-                  <BsArrowRightShort className="icon" />
-                </div>
-              </div>
-              <div className="destFooter">
-                <div className="number">0{index + 1}</div>
-                <div className="destText flex">
-                  <h6>{sortie.titre}</h6>
-                </div>
-              </div>
-            </div>
+            />
           ))}
         </div>
       </div>
