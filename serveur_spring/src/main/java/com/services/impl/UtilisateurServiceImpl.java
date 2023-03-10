@@ -1,5 +1,6 @@
 package com.services.impl;
 
+import com.dtos.ResultatDto;
 import com.dtos.SortieDto;
 import com.dtos.UtilisateurDto;
 import com.entities.*;
@@ -23,91 +24,146 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         this.utilisateurRepository = utilisateurRepository;
         this.commandeRepository = commandeRepository;
     }
-     @Override
-    public UtilisateurDto saveUtilisateur(UtilisateurDto utilisateurDto) {
+    @Override
+    public ResultatDto saveUtilisateur(UtilisateurDto utilisateurDto) {
         UtilisateurDto utilisateurDtoRetourne = null;
+        ResultatDto res = new ResultatDto();
+
+        // Vérification de l'unicité du pseudo
         try {
-            // Vérification de l'unicité du pseudo
-            UtilisateurDto utilisateurExistant = this.getUtilisateurById(utilisateurDto.getPseudo());
-            throw new EntityExistsException("Le pseudo est déjà utilisé.");
+            Utilisateur u = utilisateurRepository.findById(utilisateurDto.getPseudo()).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
+            res.setOk(false);
+            res.setMessage("Le pseudo est déjà pris.");
         } catch (EntityNotFoundException e) {
+            boolean erreur = false;
+
             // Vérification que le mot de passe, le nom, le prenom et le mail ne sont pas null
-            if(utilisateurDto.getNom()==null || utilisateurDto.getNom().length()==0 || utilisateurDto.getPrenom()==null || utilisateurDto.getPrenom().length()==0  || utilisateurDto.getMail()==null || utilisateurDto.getMail().length()==0 || utilisateurDto.getMdp()==null || utilisateurDto.getMdp().length()==0 ){
-                throw new NoResultException("Le mot de passe, le nom, le prenom et/ou le mail ne sont pas définit.");
+            if (utilisateurDto.getNom() == null || utilisateurDto.getNom().length() == 0 || utilisateurDto.getPrenom() == null || utilisateurDto.getPrenom().length() == 0 || utilisateurDto.getMail() == null || utilisateurDto.getMail().length() == 0 || utilisateurDto.getMdp() == null || utilisateurDto.getMdp().length() == 0) {
+                res.setOk(false);
+                res.setMessage("Le mot de passe, le nom, le prenom et/ou le mail ne sont pas définis.");
+                erreur = true;
             }
-            // Aucune erreurn enregistrement de l'utilisateur
-            Utilisateur utilisateur = utilisateurDtoToEntity(utilisateurDto);
-            utilisateur = utilisateurRepository.save(utilisateur);
-            utilisateurDtoRetourne = utilisateurEntityToDto(utilisateur);
-        }
-        return utilisateurDtoRetourne;
-    }
 
-    @Override
-    public UtilisateurDto getUtilisateurById(String utilisateurId) {
-        Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
-        return utilisateurEntityToDto(utilisateur);
-    }
-
-    @Override
-    public UtilisateurDto updateUtilisateurById(String utilisateurId, UtilisateurDto utilisateurDto) {
-        Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
-        UtilisateurDto utilisateurDtoFinal = null;
-        //Vérification que le pseudo n'est pas modifier
-        if(!utilisateur.getPseudo().equals(utilisateurDto.getPseudo())){
-            throw new NoResultException("Le pseudo ne peut pas être modifié.");
-        }
-        //Vérification que le mot de passe n'est pas null
-        if(utilisateurDto.getMdp()!=null && utilisateurDto.getMdp().length()>0 ){
-            //Changement du mot de passe
-            utilisateur.setMdp(utilisateurDto.getMdp());
-        }
-        //Vérification que le nom n'est pas null
-        if(utilisateurDto.getNom()!=null && utilisateurDto.getNom().length()>0 ){
-            //Changement du nom
-            utilisateur.setNom(utilisateurDto.getNom());
-        }
-        //Vérification que le prenom n'est pas null
-        if(utilisateurDto.getPrenom()!=null && utilisateurDto.getPrenom().length()>0 ){
-            //Changement du prenom
-            utilisateur.setPrenom(utilisateurDto.getPrenom());
-        }
-        //Vérification que le mail n'est pas null
-        if(utilisateurDto.getMail()!=null && utilisateurDto.getMail().length()>0 ) {
-            //Changement du mail
-            utilisateur.setMail(utilisateurDto.getMail());
-        }
-        //Changement de la date de naissance
-        utilisateur.setDateNaissance(utilisateurDto.getDateNaissance());
-        utilisateurRepository.save(utilisateur);
-        utilisateurDtoFinal = this.utilisateurEntityToDto(utilisateur);
-        return utilisateurDtoFinal;
-    }
-
-
-    @Override
-    public boolean deleteUtilisateur(String utilisateurId) {
-        Utilisateur utilisateur = utilisateurDtoToEntity(this.getUtilisateurById(utilisateurId));
-        Set<Commande> commandes = utilisateur.getCommandeSet();
-        if(commandes!=null){
-            Iterator<Commande> it = commandes.iterator();
-            while (it.hasNext()){
-                Commande c = it.next();
-                commandeRepository.deleteById(c.getIdCommande());
+            // Aucune erreur enregistrement de l'utilisateur
+            if (!erreur) {
+                Utilisateur utilisateur = utilisateurDtoToEntity(utilisateurDto);
+                System.out.println("u : "+ utilisateur);
+                utilisateur = utilisateurRepository.save(utilisateur);
+                utilisateurDtoRetourne = utilisateurEntityToDto(utilisateur);
+                res.setOk(true);
+                res.setMessage("L'utilisateur est bien inscrit");
+                Set<Object> set = new HashSet<>();
+                set.add(utilisateurDtoRetourne);
+                res.setData(set);
             }
         }
-        utilisateurRepository.deleteById(utilisateurId);
-        return true;
+        return res;
     }
 
     @Override
-    public List<UtilisateurDto> getAllUtilisateurs() {
-        List<UtilisateurDto> utilisateurDtos = new ArrayList<>();
+    public ResultatDto getUtilisateurById(String utilisateurId) {
+        ResultatDto res = new ResultatDto();
+        try {
+            Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
+            Set<Object> set = new HashSet<>();
+            set.add(this.utilisateurEntityToDto(utilisateur));
+            res.setData(set);
+            res.setOk(true);
+            res.setMessage("Utilisateur existant");
+        }catch (EntityNotFoundException e) {
+            res.setOk(false);
+            res.setMessage("Utilisateur inexistant");
+        }
+        return res;
+    }
+
+    @Override
+    public ResultatDto updateUtilisateurById(String utilisateurId, UtilisateurDto utilisateurDto) {
+        ResultatDto res = new ResultatDto();
+        try{
+            Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
+            UtilisateurDto utilisateurDtoFinal = null;
+            boolean erreur = false;
+            //Vérification que le pseudo n'est pas modifier
+            if(!utilisateur.getPseudo().equals(utilisateurDto.getPseudo())){
+                res.setOk(false);
+                res.setMessage("Le pseudo ne peut pas être modifié.");
+                erreur=true;
+            }
+            if(!erreur) {
+                //Vérification que le mot de passe n'est pas null
+                if(utilisateurDto.getMdp()!=null && utilisateurDto.getMdp().length()>0 ){
+                    //Changement du mot de passe
+                    utilisateur.setMdp(utilisateurDto.getMdp());
+                }
+                //Vérification que le nom n'est pas null
+                if(utilisateurDto.getNom()!=null && utilisateurDto.getNom().length()>0 ){
+                    //Changement du nom
+                    utilisateur.setNom(utilisateurDto.getNom());
+                }
+                //Vérification que le prenom n'est pas null
+                if(utilisateurDto.getPrenom()!=null && utilisateurDto.getPrenom().length()>0 ){
+                    //Changement du prenom
+                    utilisateur.setPrenom(utilisateurDto.getPrenom());
+                }
+                //Vérification que le mail n'est pas null
+                if(utilisateurDto.getMail()!=null && utilisateurDto.getMail().length()>0 ) {
+                    //Changement du mail
+                    utilisateur.setMail(utilisateurDto.getMail());
+                }
+                //Changement de la date de naissance
+                utilisateur.setDateNaissance(utilisateurDto.getDateNaissance());
+                utilisateurRepository.save(utilisateur);
+                utilisateurDtoFinal = this.utilisateurEntityToDto(utilisateur);
+                res.setOk(true);
+                res.setMessage("Modification réussi.");
+                Set<Object> set = new HashSet<>();
+                set.add(utilisateurDtoFinal);
+                res.setData(set);
+            }
+        }catch(EntityNotFoundException e){
+            res.setOk(false);
+            res.setMessage("Utilisateur inexistant.");
+        }
+        return res;
+    }
+
+
+    @Override
+    public ResultatDto deleteUtilisateur(String utilisateurId) {
+        ResultatDto res = new ResultatDto();
+        try{
+            Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
+            Set<Commande> commandes = utilisateur.getCommandeSet();
+            if(commandes!=null){
+                Iterator<Commande> it = commandes.iterator();
+                while (it.hasNext()){
+                    Commande c = it.next();
+                    commandeRepository.deleteById(c.getIdCommande());
+                }
+            }
+            utilisateurRepository.deleteById(utilisateurId);
+            res.setOk(true);
+            res.setMessage("Suppression réussi.");
+        }catch (EntityNotFoundException e){
+            res.setOk(false);
+            res.setMessage("Utilisateur inexistant.");
+        }
+        return res;
+    }
+
+    @Override
+    public ResultatDto getAllUtilisateurs() {
+        ResultatDto res = new ResultatDto();
+        Set<Object> utilisateurDtos = new HashSet<>();
         List<Utilisateur> utilisateurs = utilisateurRepository.findAll();
         utilisateurs.forEach(utilisateur -> {
             utilisateurDtos.add(utilisateurEntityToDto(utilisateur));
         });
-        return utilisateurDtos;
+        res.setOk(true);
+        res.setMessage("Liste de tous les utilisateurs.");
+        res.setData(utilisateurDtos);
+        return res;
     }
 
     private UtilisateurDto utilisateurEntityToDto(Utilisateur utilisateur) {

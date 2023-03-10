@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.dtos.ResultatDto;
 import com.dtos.UtilisateurDto;
 import com.services.impl.UtilisateurServiceImpl;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class UtilisateurController {
      * @return List<UtilisateurDto>
      */
     @GetMapping
-    public List<UtilisateurDto> getUtilisateur() {
+    public ResultatDto getUtilisateur() {
         return utilisateurService.getAllUtilisateurs();
     }
 
@@ -27,7 +28,7 @@ public class UtilisateurController {
      * Method to get the Utilisateur based on the ID
      */
     @GetMapping("/{id}")
-    public UtilisateurDto getUtilisateur(@PathVariable String id){
+    public ResultatDto getUtilisateur(@PathVariable String id){
         return utilisateurService.getUtilisateurById(id);
     }
 
@@ -35,7 +36,7 @@ public class UtilisateurController {
      * Create a new Utilisateur in the system
      */
     @PostMapping
-    public UtilisateurDto saveUtilisateur(final @RequestBody UtilisateurDto utilisateurDto){
+    public ResultatDto saveUtilisateur(final @RequestBody UtilisateurDto utilisateurDto){
         return utilisateurService.saveUtilisateur(utilisateurDto);
     }
 
@@ -43,7 +44,7 @@ public class UtilisateurController {
      * Update a Utilisateur in the system
      */
     @PutMapping("/{id}")
-    public UtilisateurDto updateUtilisateur(@PathVariable String id, final @RequestBody UtilisateurDto utilisateurDto){
+    public ResultatDto updateUtilisateur(@PathVariable String id, final @RequestBody UtilisateurDto utilisateurDto){
         return utilisateurService.updateUtilisateurById(id ,utilisateurDto);
     }
 
@@ -51,7 +52,7 @@ public class UtilisateurController {
      * Delete a Utilisateur by it's id
      */
     @DeleteMapping("/{id}")
-    public Boolean deleteUtilisateur(@PathVariable String id){
+    public ResultatDto deleteUtilisateur(@PathVariable String id){
         return utilisateurService.deleteUtilisateur(id);
     }
 
