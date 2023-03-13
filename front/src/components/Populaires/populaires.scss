@@ -10,7 +10,7 @@
   --textColor: hsl(240, 1%, 48%);
   --whiteColorDeam: hsl(0, 0%, 93%);
   --greyBg: hsl(0, 0%, 96%);
-  --greyText: hsl(190, 190, 190);
+  --greyText: rgb(190, 190, 190);
   --inputColor: hsl(330, 12%, 97%);
   // box-shadow: 0 2px 8px 2px rgba(178, 178, 178, 0.334);
 }
@@ -38,7 +38,7 @@
 
     .mainContent {
       padding: 2rem 0;
-      gap: 3rem;
+      gap: 1rem;
     }
   }
 }

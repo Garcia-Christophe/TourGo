@@ -10,6 +10,309 @@
   --textColor: hsl(240, 1%, 48%);
   --whiteColorDeam: hsl(0, 0%, 93%);
   --greyBg: hsl(0, 0%, 96%);
-  --greyText: hsl(190, 190, 190);
+  --greyText: rgb(100, 100, 100);
   --inputColor: hsl(330, 12%, 97%);
+}
+
+.page-sorties {
+  padding-top: 7rem;
+  flex-direction: column;
+  background: var(--white);
+
+  .sortiesFiltresContainer {
+    .secContainer {
+      width: 80%;
+      border-radius: 1rem;
+      padding: 2rem;
+      background: var(--white);
+      position: absolute;
+      gap: 1rem;
+      justify-content: center;
+      transform: translate(-50%);
+      left: 50%;
+      box-shadow: 0 2px 8px 4px rgba(178, 178, 178, 0.45);
+
+      .filtresPart {
+        gap: 5rem;
+
+        .dateDebutDiv,
+        .dateFinDiv,
+        .filtresPrix,
+        .filtresDuree,
+        .filtresDispo,
+        .filtresPeriode {
+          margin-bottom: 2rem;
+        }
+      }
+
+      .btnDiv {
+        justify-content: center;
+      }
+
+      .radioBtns {
+        width: 100%;
+        gap: 2rem;
+      }
+
+      label {
+        display: block;
+        color: var(--textColor);
+        padding-bottom: 10px;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .label_total,
+      .label_duree {
+        justify-content: space-between;
+        align-items: center;
+
+        .total,
+        .duree {
+          color: var(--textColor);
+          font-size: 18px;
+          padding-bottom: 10px;
+        }
+      }
+
+      .input {
+        height: 40px;
+        padding: 0 1rem;
+        background: var(--inputColor);
+        border-radius: 10px;
+
+        input {
+          background: none;
+          border: none;
+          outline: none;
+          width: 100%;
+          font-size: 13px;
+          font-weight: 500;
+        }
+
+        // Personnalisation de l'image du calendrier
+        ::-webkit-calendar-picker-indicator {
+          background-image: url("../../assets/datePicker_CouleurSecondaire.png");
+        }
+
+        // Personnalisation de la barre de progression du prix maximum
+        /*generated with Input range slider CSS style generator (version 20211225)
+          https://toughengineer.github.io/demo/slider-styler*/
+        input[type="range"].styled-slider {
+          height: 1em;
+          -webkit-appearance: none;
+        }
+
+        /*progress support*/
+        input[type="range"].styled-slider.slider-progress {
+          --range: calc(var(--max) - var(--min));
+          --ratio: calc((var(--value) - var(--min)) / var(--range));
+          --sx: calc(0.5 * 2em + var(--ratio) * (100% - 2em));
+        }
+
+        input[type="range"].styled-slider:focus {
+          outline: none;
+        }
+
+        /*webkit*/
+        input[type="range"].styled-slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          width: 1.5em;
+          height: 1.5em;
+          border-radius: 1em;
+          background: var(--secondary-color);
+          border: none;
+          box-shadow: 0 0 2px black;
+          margin-top: calc(max((0.75em - 1px - 1px) * 0.5, 0px) - 1.5em * 0.5);
+        }
+
+        input[type="range"].styled-slider::-webkit-slider-runnable-track {
+          height: 0.75em;
+          border: 1px solid #b2b2b2;
+          border-radius: 0.5em;
+          background: #e5e5e5;
+          box-shadow: none;
+        }
+
+        input[type="range"].styled-slider::-webkit-slider-thumb:hover {
+          background: var(--secondary-color);
+        }
+
+        input[type="range"].styled-slider:hover::-webkit-slider-runnable-track {
+          border-color: #9a9a9a;
+        }
+
+        input[type="range"].styled-slider::-webkit-slider-thumb:active {
+          background: var(--secondary-color);
+        }
+
+        input[type="range"].styled-slider:active::-webkit-slider-runnable-track {
+          border-color: #c1c1c1;
+        }
+
+        input[type="range"].styled-slider.slider-progress::-webkit-slider-runnable-track {
+          background: linear-gradient(
+                var(--secondary-color),
+                var(--secondary-color)
+              )
+              0 / var(--sx) 100% no-repeat,
+            #e5e5e5;
+        }
+
+        input[type="range"].styled-slider.slider-progress:hover::-webkit-slider-runnable-track {
+          background: linear-gradient(
+                var(--secondary-color),
+                var(--secondary-color)
+              )
+              0 / var(--sx) 100% no-repeat,
+            #e5e5e5;
+        }
+
+        input[type="range"].styled-slider.slider-progress:active::-webkit-slider-runnable-track {
+          background: linear-gradient(
+                var(--secondary-color),
+                var(--secondary-color)
+              )
+              0 / var(--sx) 100% no-repeat,
+            #e5e5e5;
+        }
+      }
+
+      .btn {
+        padding: 0.6rem 1.5rem;
+        color: var(--white);
+        background: var(--secondary-color);
+        font-weight: 600;
+        border: 1px solid var(--secondary-color);
+
+        &:hover {
+          background: none;
+          color: var(--secondary-color);
+        }
+      }
+    }
+  }
+
+  .sortiesSortiesContainer {
+    width: 100%;
+    margin-bottom: 3rem;
+
+    .secContainer {
+      width: 80%;
+      margin: auto;
+      .secHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+
+        .textDiv {
+          .secTitle {
+            color: var(--black);
+            line-height: 1.5rem;
+            padding-bottom: 0.5rem;
+          }
+          p {
+            font-size: 13px;
+            color: var(--textColor);
+            font-weight: 500;
+          }
+        }
+
+        .iconsDiv {
+          gap: 0.5rem;
+          .icon {
+            padding: 0.5rem;
+            background: var(--greyText);
+            border-radius: 50%;
+            font-size: 2.5rem;
+            &:hover {
+              background: var(--black);
+              color: var(--white);
+            }
+          }
+
+          .leftIcon {
+            background: var(--black);
+            color: var(--white);
+            &:hover {
+              background: var(--greyText);
+              color: var(--black);
+            }
+          }
+        }
+      }
+
+      .cartesSorties {
+        width: 100%;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 3rem;
+        margin-top: 2rem;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 795px) {
+  .page-sorties {
+    .sortiesFiltresContainer {
+      .secContainer {
+        .filtresPart {
+          grid-template-columns: repeat(3, 1fr);
+
+          .prixDiv {
+            transform: translateY(-4px);
+          }
+        }
+      }
+    }
+
+    .sortiesSortiesContainer {
+      margin-top: 30rem;
+      .secContainer {
+        .secHeader {
+          width: 100%;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+
+          .textDiv {
+            text-align: start;
+            max-width: 70%;
+          }
+
+          .iconsDiv {
+            justify-content: flex-end;
+          }
+        }
+
+        .cartesSorties {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .page-sorties {
+    .sortiesSortiesContainer {
+      margin-top: 25rem;
+      .secContainer {
+        .secHeader {
+          .textDiv {
+            .secTitle {
+              font-size: 2.2rem;
+            }
+            p {
+              font-size: 15px;
+            }
+          }
+        }
+
+        .cartesSorties {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+    }
+  }
 }
