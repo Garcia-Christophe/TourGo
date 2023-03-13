@@ -3,6 +3,7 @@ package com.services;
 
 import com.dtos.CommandeDto;
 import com.dtos.ResultatDto;
+import com.dtos.UtilisateurDto;
 
 import java.util.List;
 
@@ -28,4 +29,9 @@ public interface CommandeService {
      * Récuperer toutes les commandes
      */
     ResultatDto getAllCommande();
+
+    /**
+     * Récuperer toutes les commandes d'un utilisateur
+     */
+    ResultatDto getCommandeByIdUtilisateur(String pseudo);
 }

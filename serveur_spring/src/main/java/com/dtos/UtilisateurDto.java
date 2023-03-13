@@ -15,5 +15,4 @@ public class UtilisateurDto {
     private String prenom;
     private Date dateNaissance;
     private String mail;
-    private Set<Integer> commandeIdSet;
 }

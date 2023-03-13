@@ -11,5 +11,4 @@ public class CommandeDto {
     private int idCommande;
     private Date dateCommande;
     private String pseudoUtilisateur;
-    private Set<Integer> reservationIdSet;
 }

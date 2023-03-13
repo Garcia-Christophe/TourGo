@@ -2,6 +2,7 @@ package com.controllers;
 
 import com.dtos.CommandeDto;
 import com.dtos.ResultatDto;
+import com.dtos.UtilisateurDto;
 import com.services.impl.CommandeServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,14 @@ public class CommandeController {
     @GetMapping("/{id}")
     public ResultatDto getCommande(@PathVariable int id){
         return commandeService.getCommandeById(id);
+    }
+
+    /**
+     * Get a Commande by it's user id
+     */
+    @GetMapping("/utilisateur/{pseudo}")
+    public ResultatDto getCommandeByIdUtilisateur(@PathVariable String pseudo){
+        return commandeService.getCommandeByIdUtilisateur(pseudo);
     }
 
     /**

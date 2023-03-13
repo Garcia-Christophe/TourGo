@@ -2,8 +2,10 @@ package com.services.impl;
 
 import com.dtos.CommandeDto;
 import com.dtos.ResultatDto;
+import com.dtos.UtilisateurDto;
 import com.entities.Commande;
 import com.entities.Reservation;
+import com.entities.Utilisateur;
 import com.repositories.ReservationRepository;
 import com.repositories.UtilisateurRepository;
 import com.services.CommandeService;
@@ -148,11 +150,32 @@ public class CommandeServiceImpl implements CommandeService {
         List<Commande> commandes = commandeRepository.findAll();
         commandes.forEach(commande -> {
             commandesDto.add(commandeEntityToDto(commande));
-            System.out.println("test");
         });
         res.setOk(true);
         res.setMessage("Liste de toutes les commandes.");
         res.setData(commandesDto);
+        return res;
+    }
+
+    @Override
+    public ResultatDto getCommandeByIdUtilisateur(String pseudo) {
+        ResultatDto res = new ResultatDto();
+        try {
+            Utilisateur u = this.utilisateurRepository.findById(pseudo).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
+            Set<Object> commandesDto = new HashSet<>();
+            List<Commande> commandes = commandeRepository.findAll();
+            commandes.forEach(commande -> {
+                if (commande.getPseudoUtilisateur().getPseudo().equals(pseudo)) {
+                    commandesDto.add(this.commandeEntityToDto(commande));
+                }
+            });
+            res.setOk(true);
+            res.setMessage("Liste de toutes les commandes de l'utlisateur " + pseudo + ".");
+            res.setData(commandesDto);
+        }catch (EntityNotFoundException e){
+            res.setOk(false);
+            res.setMessage("Utilisateur inexistant.");
+        }
         return res;
     }
 
