@@ -129,58 +129,65 @@ const Sortie = () => {
               Lieu : <b>{sortie.lieu}</b>
             </p>
           </div>
-          <div className="reservation">
-            <div className="formulaire">
-              <div className="inputNbPersonnes input flex">
-                <h1 className="nbPersonnes">
-                  Nombre de personnes<span> : {nbPersonnes}</span>
-                </h1>
-                <div className="input flex">
-                  <input
-                    type="range"
-                    min="1"
-                    max={sortie.nbPlaces - sortie.nbInscrits}
-                    value={nbPersonnes}
-                    step="1"
-                    className="styled-slider slider-progress"
-                    onChange={(e) => setNbPersonnes(e.target.value)}
-                  />
+          {
+            // Possibilité de réserver si la sortie n'est pas passée
+            new Date(sortie.date) > new Date() && (
+              <div className="reservation">
+                <div className="formulaire">
+                  <div className="inputNbPersonnes input flex">
+                    <h1 className="nbPersonnes">
+                      Nombre de personnes<span> : {nbPersonnes}</span>
+                    </h1>
+                    <div className="input flex">
+                      <input
+                        type="range"
+                        min="1"
+                        max={sortie.nbPlaces - sortie.nbInscrits}
+                        value={nbPersonnes}
+                        step="1"
+                        className="styled-slider slider-progress"
+                        onChange={(e) => setNbPersonnes(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="optionsDiv">
+                    <h1 className="options">Options</h1>
+                    <div className="inputOptions input flex">
+                      {
+                        // Affichage des options
+                        options.map((option) => (
+                          <div className="option flex">
+                            <input
+                              type="checkbox"
+                              id={option.idOption}
+                              name={option.nomOption}
+                              value={option.prixOption}
+                              onChange={(e) =>
+                                (option.ajoutee = e.target.checked)
+                              }
+                            />
+                            &nbsp;{option.nomOption} ({option.prixOption} €)
+                          </div>
+                        ))
+                      }
+                    </div>
+                  </div>
                 </div>
+                <button
+                  onClick={(e) => {
+                    if (sessionStorage.getItem("token") === null) {
+                      window.location.href = "/Connexion";
+                    } else {
+                      console.log("resa : " + nbPersonnes);
+                    }
+                  }}
+                  className="btnReserver btn"
+                >
+                  Réserver
+                </button>
               </div>
-              <div className="optionsDiv">
-                <h1 className="options">Options</h1>
-                <div className="inputOptions input flex">
-                  {
-                    // Affichage des options
-                    options.map((option) => (
-                      <div className="option flex">
-                        <input
-                          type="checkbox"
-                          id={option.idOption}
-                          name={option.nomOption}
-                          value={option.prixOption}
-                          onChange={(e) => (option.ajoutee = e.target.checked)}
-                        />
-                        &nbsp;{option.nomOption} ({option.prixOption} €)
-                      </div>
-                    ))
-                  }
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={(e) => {
-                if (sessionStorage.getItem("token") === null) {
-                  window.location.href = "/Connexion";
-                } else {
-                  console.log("resa : " + nbPersonnes);
-                }
-              }}
-              className="btnReserver btn"
-            >
-              Réserver
-            </button>
-          </div>
+            )
+          }
           <div className="commentairesDiv">
             <h1 className="titre">Commentaires</h1>
             <div className="commentaires">

@@ -68,10 +68,15 @@ const Reservation = ({ reservation, deleteCallback }) => {
                 "/Sortie?id=" + reservation.sortie.idSortie)
             }
           />
-          <RiDeleteBin6Line
-            className="icon deleteIcon"
-            onClick={() => deleteCallback(reservation.idReservation)}
-          />
+          {
+            // affichage du bouton Supprimer si un callbak est fourni
+            deleteCallback && (
+              <RiDeleteBin6Line
+                className="icon deleteIcon"
+                onClick={() => deleteCallback(reservation.idReservation)}
+              />
+            )
+          }
         </div>
       </div>
     </div>

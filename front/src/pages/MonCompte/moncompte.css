@@ -12,4 +12,77 @@
   --greyBg: hsl(0, 0%, 96%);
   --greyText: rgb(190, 190, 190);
   --inputColor: hsl(330, 12%, 97%);
+}
+
+.monCompteSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  min-height: 100vh;
+  position: relative;
+}
+.monCompteSection .secContainer {
+  width: 100%;
+  margin-top: 7rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+.monCompteSection .secContainer .titre {
+  color: var(--black);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.monCompteSection .secContainer .formulaire {
+  width: 50%;
+  border-radius: 1rem;
+  padding: 1rem;
+  background: var(--white);
+  gap: 1rem;
+  justify-content: start;
+  align-items: center;
+  box-shadow: 0 2px 8px 4px rgba(178, 178, 178, 0.45);
+  grid-template-columns: repeat(2, 1fr);
+}
+.monCompteSection .secContainer .formulaire .input input {
+  background-color: var(--greyBg);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+}
+.monCompteSection .secContainer .btnValider {
+  padding: 0.6rem 1.5rem;
+  color: var(--white);
+  background: var(--primary-color);
+  font-weight: 600;
+  border: 1px solid var(--primary-color);
+}
+.monCompteSection .secContainer .btnValider:hover {
+  background: none;
+  color: var(--primary-color);
+}
+.monCompteSection .secContainer .commandes {
+  width: 75%;
+  margin: auto;
+  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.monCompteSection .secContainer .commandes .commande {
+  width: 100%;
+  border: 1px solid var(--greyText);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: var(--white);
+  gap: 1rem;
+  justify-content: start;
+  align-items: center;
 }/*# sourceMappingURL=moncompte.css.map */
