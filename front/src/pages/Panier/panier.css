@@ -19,6 +19,7 @@
   align-items: center;
   justify-content: center;
   margin: auto;
+  min-height: 100vh;
   position: relative;
 }
 .panierSection .secContainer {
@@ -41,83 +42,6 @@
   width: 75%;
   margin: auto;
   gap: 2rem;
-}
-.panierSection .secContainer .panier .reservation {
-  width: 100%;
-  border-radius: 1rem;
-  padding: 1rem;
-  background: var(--white);
-  gap: 1rem;
-  justify-content: start;
-  align-items: center;
-  box-shadow: 0 2px 8px 4px rgba(178, 178, 178, 0.45);
-}
-.panierSection .secContainer .panier .reservation .reservationInfosGaucheImage {
-  width: 35%;
-}
-.panierSection .secContainer .panier .reservation .reservationInfosGaucheImage img {
-  border-radius: 1rem;
-}
-.panierSection .secContainer .panier .reservation .reservationInfos {
-  width: 65%;
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosGauche {
-  width: 100%;
-  gap: 1rem;
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosGauche .infoResa .reservationPrix {
-  width: 95%;
-  display: flex;
-  justify-content: space-between;
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosGauche .infoResa .reservationOptions {
-  width: 95%;
-  gap: 1rem;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  background: var(--greyBg);
-  color: var(--greyText);
-  font-size: 0.8rem;
-  font-weight: 700;
-  line-height: 1rem;
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosGauche .infoResa .reservationOptions .option {
-  display: flex;
-  justify-content: space-between;
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosGauche .reservationInfosDroitePrix {
-  width: 95%;
-  justify-content: space-between;
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosGauche .reservationInfosDroitePrix .prixOptions {
-  color: var(--black);
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 2rem;
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosDroite {
-  gap: 3rem;
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosDroite .icon {
-  padding: 0.5rem;
-  border-radius: 50%;
-  font-size: 2.5rem;
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosDroite .seeIcon {
-  border: 1px solid var(--black);
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosDroite .seeIcon:hover {
-  color: var(--white);
-  background: var(--black);
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosDroite .deleteIcon {
-  border: 1px solid red;
-  color: red;
-}
-.panierSection .secContainer .panier .reservation .reservationInfos .reservationInfosDroite .deleteIcon:hover {
-  color: var(--white);
-  background: red;
 }
 .panierSection .secContainer .total {
   color: var(--black);
