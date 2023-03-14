@@ -2,21 +2,16 @@ package com.services.impl;
 
 import com.dtos.CommandeDto;
 import com.dtos.ResultatDto;
-import com.dtos.UtilisateurDto;
 import com.entities.Commande;
 import com.entities.Reservation;
 import com.entities.Utilisateur;
-import com.repositories.ReservationRepository;
-import com.repositories.UtilisateurRepository;
+import com.repositories.*;
 import com.services.CommandeService;
-import com.repositories.CommandeRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service("commandeService")
 public class CommandeServiceImpl implements CommandeService {
@@ -24,10 +19,15 @@ public class CommandeServiceImpl implements CommandeService {
     private final UtilisateurRepository utilisateurRepository;
     private final ReservationRepository reservationRepository;
 
-    public CommandeServiceImpl(CommandeRepository commandeRepository, UtilisateurRepository utilisateurRepository, ReservationRepository reservationRepository) {
+    private final OptionRepository optionRepository;
+    private final SortieRepository sortieRepository;
+
+    public CommandeServiceImpl(CommandeRepository commandeRepository, UtilisateurRepository utilisateurRepository, ReservationRepository reservationRepository, OptionRepository optionRepository, SortieRepository sortieRepository) {
         this.commandeRepository = commandeRepository;
         this.utilisateurRepository = utilisateurRepository;
         this.reservationRepository = reservationRepository;
+        this.optionRepository = optionRepository;
+        this.sortieRepository = sortieRepository;
     }
 
     @Override
@@ -54,6 +54,7 @@ public class CommandeServiceImpl implements CommandeService {
             if (!erreur) {
                 try{
                     Commande c = this.commandeDtoToEntity(commandeDto);
+                    c.setDateCommande(null);
                     c = this.commandeRepository.save(c);
                     commandeDtoRetourne= this.commandeEntityToDto(c);
                     res.setOk(true);
@@ -106,7 +107,22 @@ public class CommandeServiceImpl implements CommandeService {
                 }
             }
             if(!erreur){
-                if(commandeDto!=null){
+                if(commandeDto.getDateCommande()!=null){
+                    Iterator<Reservation> it = c.getReservationSet().iterator();
+                    while (it.hasNext()){
+                        Reservation r = it.next();
+                        long miliseconds = System.currentTimeMillis();
+                        Date date = new Date(miliseconds);
+                        if(r.getIdSortie().getDate().before(date)){
+                            erreur=true;
+                            res.setOk(false);
+                            res.setMessage("La réservation "+r+" est pour une sortie déjà passée.");
+                        }
+                    }
+                }
+            }
+            if(!erreur){
+                if(commandeDto.getDateCommande()!=null){
                     c.setDateCommande(commandeDto.getDateCommande());
                 }
                 c=this.commandeRepository.save(c);
@@ -131,7 +147,8 @@ public class CommandeServiceImpl implements CommandeService {
             Commande c =  this.commandeRepository.findById(commandeId).orElseThrow(() -> new EntityNotFoundException("Commande not found"));
             Iterator<Reservation> it = c.getReservationSet().iterator();
             while(it.hasNext()){
-                this.reservationRepository.delete(it.next());
+                ReservationServiceImpl rsi = new ReservationServiceImpl(reservationRepository, commandeRepository,optionRepository,sortieRepository);
+                rsi.deleteReservation(it.next().getIdReservation());
             }
             this.commandeRepository.delete(c);
             res.setOk(true);

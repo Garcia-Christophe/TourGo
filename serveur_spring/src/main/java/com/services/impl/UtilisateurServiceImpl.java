@@ -1,17 +1,13 @@
 package com.services.impl;
 
 import com.dtos.ResultatDto;
-import com.dtos.SortieDto;
 import com.dtos.UtilisateurDto;
 import com.entities.*;
-import com.repositories.CommandeRepository;
-import com.repositories.UtilisateurRepository;
+import com.repositories.*;
 import com.services.UtilisateurService;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.NoResultException;
 import java.util.*;
 
 @Service("utilisateurService")
@@ -19,10 +15,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     private final UtilisateurRepository utilisateurRepository;
     private final CommandeRepository commandeRepository;
+    private final ReservationRepository reservationRepository;
+    private final OptionRepository optionRepository;
+    private final SortieRepository sortieRepository;
 
-    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository,CommandeRepository commandeRepository){
+    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, CommandeRepository commandeRepository, ReservationRepository reservationRepository, OptionRepository optionRepository, SortieRepository sortieRepository){
         this.utilisateurRepository = utilisateurRepository;
         this.commandeRepository = commandeRepository;
+        this.reservationRepository = reservationRepository;
+        this.optionRepository = optionRepository;
+        this.sortieRepository = sortieRepository;
     }
     @Override
     public ResultatDto saveUtilisateur(UtilisateurDto utilisateurDto) {
@@ -139,9 +141,13 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 Iterator<Commande> it = commandes.iterator();
                 while (it.hasNext()){
                     Commande c = it.next();
-                    commandeRepository.deleteById(c.getIdCommande());
+                    it.remove();
+                    System.out.println(c.getIdCommande());
+                    CommandeServiceImpl csi = new CommandeServiceImpl(commandeRepository,utilisateurRepository,reservationRepository, optionRepository, sortieRepository);
+                    csi.deleteCommande(c.getIdCommande());
                 }
             }
+            System.out.println(utilisateur.getCommandeSet().size());
             utilisateurRepository.deleteById(utilisateurId);
             res.setOk(true);
             res.setMessage("Suppression réussi.");
