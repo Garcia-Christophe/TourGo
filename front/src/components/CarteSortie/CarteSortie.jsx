@@ -24,7 +24,9 @@ const CarteSortie = ({ sortie, fade = "fade-up", fadeDuration = "1000" }) => {
 
           <BsArrowRightShort
             className="icon"
-            onClick={() => (window.location.href = "/")}
+            onClick={() =>
+              (window.location.href = "/Sortie?id=" + sortie.idSortie)
+            }
           />
         </div>
       </div>

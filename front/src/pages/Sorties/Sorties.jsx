@@ -27,6 +27,7 @@ const Sorties = () => {
 
   const sorties = [
     {
+      idSortie: 1,
       nomSortie: "La transléonardetransléonardetransléonarde",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -39,6 +40,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 2,
       nomSortie: "La transléonarde",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -51,6 +53,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 3,
       nomSortie: "La transléonarde",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -63,6 +66,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 4,
       nomSortie: "La transléonarde",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -75,6 +79,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 5,
       nomSortie: "La transléonarde",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -87,6 +92,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 6,
       nomSortie: "La transléonarde",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -99,6 +105,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 7,
       nomSortie: "La transléonarde",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -111,6 +118,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 8,
       nomSortie: "La transléonarde",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -123,6 +131,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 9,
       nomSortie: "La transléonarde",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -135,6 +144,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 10,
       nomSortie: "TEST test TEST",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -147,6 +157,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 11,
       nomSortie: "TEST test TEST",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -159,6 +170,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 12,
       nomSortie: "TEST test TEST",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -171,6 +183,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 13,
       nomSortie: "TEST test TEST",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -183,6 +196,7 @@ const Sorties = () => {
       image: BG,
     },
     {
+      idSortie: 14,
       nomSortie: "TEST test TEST",
       descriptionSortie: "description plus ou moins longue de la sortie",
       prixSortie: "A côté du terrain de Pontivy.",
@@ -216,7 +230,7 @@ const Sorties = () => {
             <div className="filtresPart grid">
               {/* Filtres : date de début, date de fin. Type : date picker */}
               <div className="filtresDates">
-                <div data-aos="fade-up" className="dateDebutDiv">
+                <div className="dateDebutDiv">
                   <label htmlFor="dateDebut">Date de début :</label>
                   <div className="input flex">
                     <input
@@ -226,7 +240,7 @@ const Sorties = () => {
                     />
                   </div>
                 </div>
-                <div data-aos="fade-up" className="dateFinDiv">
+                <div className="dateFinDiv">
                   <label htmlFor="dateFin">Date de fin :</label>
                   <div className="input flex">
                     <input
@@ -240,11 +254,11 @@ const Sorties = () => {
               {/* Filtres : prix max, durée max. Type : progress bar */}
               <div className="filtresPrixDuree">
                 <div className="filtresPrix">
-                  <div data-aos="fade-up" className="label_total flex">
+                  <div className="label_total flex">
                     <label htmlFor="prix">Prix max :</label>
                     <h3 className="total">{prixMax} €</h3>
                   </div>
-                  <div data-aos="fade-up" className="input flex">
+                  <div className="input flex">
                     <input
                       type="range"
                       min="0"
@@ -257,11 +271,11 @@ const Sorties = () => {
                   </div>
                 </div>
                 <div className="filtresDuree">
-                  <div data-aos="fade-up" className="label_duree flex">
+                  <div className="label_duree flex">
                     <label htmlFor="prix">Durée max :</label>
                     <h3 className="duree">{dureeMax} h</h3>
                   </div>
-                  <div data-aos="fade-up" className="input flex">
+                  <div className="input flex">
                     <input
                       type="range"
                       min="0"
@@ -275,7 +289,7 @@ const Sorties = () => {
               </div>
               {/* Filtres : disponibilités, période. Type : radio buttons */}
               <div className="filtresDispoPeriode">
-                <div data-aos="fade-up" className="filtresDispo">
+                <div className="filtresDispo">
                   <label htmlFor="disponibilite">Disponibilités :</label>
                   <div className="radioBtns flex">
                     <div className="dispo-toutes">
@@ -313,7 +327,7 @@ const Sorties = () => {
                     </div>
                   </div>
                 </div>
-                <div data-aos="fade-up" className="filtresPeriode">
+                <div className="filtresPeriode">
                   <label htmlFor="periode">Période :</label>
                   <div className="radioBtns flex">
                     <div className="periode-toutes">
@@ -354,11 +368,7 @@ const Sorties = () => {
               </div>
             </div>
             <div className="btnDiv flex">
-              <button
-                data-aos="fade-up"
-                data-aos-duration="3000"
-                className="btn"
-              >
+              <button data-aos="fade-up" className="btn">
                 Rechercher
               </button>
             </div>
@@ -370,11 +380,11 @@ const Sorties = () => {
           <div className="secContainer">
             {/* Titre, sous-titre et flèches */}
             <div className="secHeader flex">
-              <div className="textDiv">
+              <div data-aos="fade-right" className="textDiv">
                 <h2 className="secTitle">Toutes les sorties</h2>
                 <p>Trouvez la sortie qui vous correspond !</p>
               </div>
-              <div className="iconsDiv flex">
+              <div data-aos="fade-left" className="iconsDiv flex">
                 <BsArrowLeftShort
                   className="icon leftIcon"
                   onClick={() => {
@@ -410,6 +420,7 @@ const Sorties = () => {
                   return (
                     <CarteSortie
                       sortie={{
+                        idSortie: sortie.idSortie,
                         titre: sortie.nomSortie,
                         infoSupp: sortie.descriptionSortie,
                         date: sortie.date,

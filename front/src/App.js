@@ -8,6 +8,7 @@ import MonCompte from "./pages/MonCompte/MonCompte";
 import Gestion from "./pages/Gestion/Gestion";
 import Panier from "./pages/Panier/Panier";
 import Connexion from "./pages/Connexion/Connexion";
+import Sortie from "./pages/Sortie/Sortie";
 import Footer from "./components/Footer/Footer";
 
 class App extends React.Component {
@@ -23,6 +24,7 @@ class App extends React.Component {
             <Route exact path="/Gestion" element={<Gestion />} />
             <Route exact path="/Panier" element={<Panier />} />
             <Route exact path="/Connexion" element={<Connexion />} />
+            <Route exact path="/Sortie" element={<Sortie />} />
           </Routes>
         </Router>
         <Footer />

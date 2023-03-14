@@ -1,0 +1,367 @@
+/* Couleurs */
+:root {
+  --primary-color: #782fde;
+  --secondary-color: #b527f5;
+  --tertiary-color: #e326eb;
+  --primary-blue: #4527f5;
+  --secondary-blue: #263eeb;
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 18%);
+  --textColor: hsl(240, 1%, 48%);
+  --whiteColorDeam: hsl(0, 0%, 93%);
+  --greyBg: hsl(0, 0%, 96%);
+  --greyText: rgb(100, 100, 100);
+  --inputColor: hsl(330, 12%, 97%);
+}
+
+.page-sortie {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  position: relative;
+}
+.page-sortie .secContainer {
+  width: 100%;
+}
+.page-sortie .secContainer img {
+  height: 80vh;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.page-sortie .secContainer .premieresInfos {
+  width: 75%;
+  margin: auto;
+}
+.page-sortie .secContainer .premieresInfos .premiereLigne {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+.page-sortie .secContainer .premieresInfos .premiereLigne .nom {
+  color: var(--black);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+}
+.page-sortie .secContainer .premieresInfos .premiereLigne .prix {
+  color: var(--black);
+  opacity: 0.9;
+  font-size: 2rem;
+  font-weight: 300;
+  text-align: center;
+}
+.page-sortie .secContainer .premieresInfos p {
+  margin-bottom: 1rem;
+}
+.page-sortie .secContainer .reservation {
+  width: 50%;
+  margin: auto;
+  margin-top: 3rem;
+  border-radius: 1rem;
+  padding: 2rem;
+  background: var(--white);
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px 4px rgba(178, 178, 178, 0.45);
+}
+.page-sortie .secContainer .reservation .formulaire {
+  width: 100%;
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes {
+  display: block;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .nbPersonnes {
+  color: var(--black);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input {
+  height: 40px;
+  padding: 0 1rem;
+  /*generated with Input range slider CSS style generator (version 20211225) https://toughengineer.github.io/demo/slider-styler*/
+  /*progress support*/
+  /*webkit*/
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 500;
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider {
+  height: 1em;
+  -webkit-appearance: none;
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider.slider-progress {
+  --range: calc(var(--max) - var(--min));
+  --ratio: calc((var(--value) - var(--min)) / var(--range));
+  --sx: calc(0.5 * 2em + var(--ratio) * (100% - 2em));
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider:focus {
+  outline: none;
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 1em;
+  background: var(--secondary-color);
+  border: none;
+  box-shadow: 0 0 2px black;
+  margin-top: calc(max((0.75em - 1px - 1px) * 0.5, 0px) - 0.75em);
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider::-webkit-slider-runnable-track {
+  height: 0.75em;
+  border: 1px solid #b2b2b2;
+  border-radius: 0.5em;
+  background: #e5e5e5;
+  box-shadow: none;
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider::-webkit-slider-thumb:hover {
+  background: var(--secondary-color);
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider:hover::-webkit-slider-runnable-track {
+  border-color: #9a9a9a;
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider::-webkit-slider-thumb:active {
+  background: var(--secondary-color);
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider:active::-webkit-slider-runnable-track {
+  border-color: #c1c1c1;
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider.slider-progress::-webkit-slider-runnable-track {
+  background: linear-gradient(var(--secondary-color), var(--secondary-color)) 0/var(--sx) 100% no-repeat, #e5e5e5;
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider.slider-progress:hover::-webkit-slider-runnable-track {
+  background: linear-gradient(var(--secondary-color), var(--secondary-color)) 0/var(--sx) 100% no-repeat, #e5e5e5;
+}
+.page-sortie .secContainer .reservation .formulaire .inputNbPersonnes .input input[type=range].styled-slider.slider-progress:active::-webkit-slider-runnable-track {
+  background: linear-gradient(var(--secondary-color), var(--secondary-color)) 0/var(--sx) 100% no-repeat, #e5e5e5;
+}
+.page-sortie .secContainer .reservation .formulaire .optionsDiv {
+  display: block;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.page-sortie .secContainer .reservation .formulaire .optionsDiv .options {
+  color: var(--black);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.page-sortie .secContainer .reservation .formulaire .optionsDiv .inputOptions {
+  display: block;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-sortie .secContainer .reservation .formulaire .optionsDiv .inputOptions .option {
+  padding: 1rem;
+}
+.page-sortie .secContainer .reservation .btnReserver {
+  width: 20%;
+  padding: 0.6rem 1.5rem;
+  color: var(--white);
+  background: var(--secondary-color);
+  font-weight: 600;
+  border: 1px solid var(--secondary-color);
+  margin: auto;
+}
+.page-sortie .secContainer .reservation .btnReserver:hover {
+  background: none;
+  color: var(--secondary-color);
+}
+.page-sortie .secContainer .commentairesDiv {
+  padding-top: 5rem;
+  width: 75%;
+  margin: auto;
+}
+.page-sortie .secContainer .commentairesDiv .titre {
+  color: var(--black);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.page-sortie .secContainer .commentairesDiv .commentaires {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem auto;
+}
+.page-sortie .secContainer .commentairesDiv .commentaires .commentaire {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--white);
+  box-shadow: 0 2px 8px 4px rgba(178, 178, 178, 0.45);
+}
+.page-sortie .secContainer .commentairesDiv .commentaires .commentaire .infos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.page-sortie .secContainer .commentairesDiv .commentaires .commentaire .infos .nomUtilisateur {
+  color: var(--black);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.page-sortie .secContainer .commentairesDiv .commentaires .commentaire .infos .etoiles {
+  position: relative;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: auto;
+}
+.page-sortie .secContainer .commentairesDiv .commentaires .commentaire .infos .etoiles img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.page-sortie .secContainer .commentairesDiv .commentaires .commentaire .infos .date {
+  color: var(--black);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.page-sortie .secContainer .commentairesDiv .commentaires .commentaire .commentaireText {
+  width: 95%;
+  margin: auto;
+  text-align: justify;
+}
+.page-sortie .secContainer .commentairesDiv .commentaires .commentaire .images {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem auto;
+}
+.page-sortie .secContainer .commentairesDiv .commentaires .commentaire .images img {
+  max-width: 300px;
+  max-height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 3rem auto;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .titre {
+  color: var(--black);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input {
+  width: 100%;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .note {
+  color: var(--black);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input {
+  height: 40px;
+  padding: 0 1rem;
+  /*generated with Input range slider CSS style generator (version 20211225) https://toughengineer.github.io/demo/slider-styler*/
+  /*progress support*/
+  /*webkit*/
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 500;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider {
+  height: 1em;
+  -webkit-appearance: none;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider.slider-progress {
+  --range: calc(var(--max) - var(--min));
+  --ratio: calc((var(--value) - var(--min)) / var(--range));
+  --sx: calc(0.5 * 2em + var(--ratio) * (100% - 2em));
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider:focus {
+  outline: none;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 1em;
+  background: var(--secondary-color);
+  border: none;
+  box-shadow: 0 0 2px black;
+  margin-top: calc(max((0.75em - 1px - 1px) * 0.5, 0px) - 0.75em);
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider::-webkit-slider-runnable-track {
+  height: 0.75em;
+  border: 1px solid #b2b2b2;
+  border-radius: 0.5em;
+  background: #e5e5e5;
+  box-shadow: none;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider::-webkit-slider-thumb:hover {
+  background: var(--secondary-color);
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider:hover::-webkit-slider-runnable-track {
+  border-color: #9a9a9a;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider::-webkit-slider-thumb:active {
+  background: var(--secondary-color);
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider:active::-webkit-slider-runnable-track {
+  border-color: #c1c1c1;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider.slider-progress::-webkit-slider-runnable-track {
+  background: linear-gradient(var(--secondary-color), var(--secondary-color)) 0/var(--sx) 100% no-repeat, #e5e5e5;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider.slider-progress:hover::-webkit-slider-runnable-track {
+  background: linear-gradient(var(--secondary-color), var(--secondary-color)) 0/var(--sx) 100% no-repeat, #e5e5e5;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .input .input input[type=range].styled-slider.slider-progress:active::-webkit-slider-runnable-track {
+  background: linear-gradient(var(--secondary-color), var(--secondary-color)) 0/var(--sx) 100% no-repeat, #e5e5e5;
+}
+.page-sortie .secContainer .commentairesDiv .mettreUnCommentaire .formulaire .btnEnvoyer {
+  color: var(--white);
+  font-weight: 500;
+}/*# sourceMappingURL=sortie.css.map */
