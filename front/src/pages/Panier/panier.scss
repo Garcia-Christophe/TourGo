@@ -13,3 +13,153 @@
   --greyText: rgb(190, 190, 190);
   --inputColor: hsl(330, 12%, 97%);
 }
+
+.panierSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  position: relative;
+
+  .secContainer {
+    width: 100%;
+    margin-top: 7rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+
+    .titre {
+      color: var(--black);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 2.5rem;
+      text-align: center;
+    }
+
+    .panier {
+      width: 75%;
+      margin: auto;
+      gap: 2rem;
+
+      .reservation {
+        width: 100%;
+        border-radius: 1rem;
+        padding: 1rem;
+        background: var(--white);
+        gap: 1rem;
+        justify-content: start;
+        align-items: center;
+        box-shadow: 0 2px 8px 4px rgba(178, 178, 178, 0.45);
+
+        .reservationInfosGaucheImage {
+          width: 35%;
+          img {
+            border-radius: 1rem;
+          }
+        }
+
+        .reservationInfos {
+          width: 65%;
+
+          .reservationInfosGauche {
+            width: 100%;
+            gap: 1rem;
+
+            .infoResa {
+              .reservationPrix {
+                width: 95%;
+                display: flex;
+                justify-content: space-between;
+              }
+
+              .reservationOptions {
+                width: 95%;
+                gap: 1rem;
+                align-items: center;
+                padding: 0.5rem 1rem;
+                border-radius: 1rem;
+                background: var(--greyBg);
+                color: var(--greyText);
+                font-size: 0.8rem;
+                font-weight: 700;
+                line-height: 1rem;
+
+                .option {
+                  display: flex;
+                  justify-content: space-between;
+                }
+              }
+            }
+
+            .reservationInfosDroitePrix {
+              width: 95%;
+              justify-content: space-between;
+
+              .prixOptions {
+                color: var(--black);
+                font-size: 1.5rem;
+                font-weight: 700;
+                line-height: 2rem;
+              }
+            }
+          }
+
+          .reservationInfosDroite {
+            gap: 3rem;
+
+            .icon {
+              padding: 0.5rem;
+              border-radius: 50%;
+              font-size: 2.5rem;
+            }
+
+            .seeIcon {
+              border: 1px solid var(--black);
+
+              &:hover {
+                color: var(--white);
+                background: var(--black);
+              }
+            }
+
+            .deleteIcon {
+              border: 1px solid red;
+              color: red;
+
+              &:hover {
+                color: var(--white);
+                background: red;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .total {
+      color: var(--black);
+      font-size: 2rem;
+      line-height: 2.5rem;
+      text-align: center;
+
+      .totalPrix {
+        font-weight: 700;
+      }
+    }
+
+    .btn {
+      padding: 0.6rem 1.5rem;
+      color: var(--white);
+      background: var(--primary-color);
+      font-weight: 600;
+      border: 1px solid var(--primary-color);
+
+      &:hover {
+        background: none;
+        color: var(--primary-color);
+      }
+    }
+  }
+}
