@@ -1,5 +1,6 @@
 package com.services;
 
+import com.dtos.ResultatDto;
 import com.dtos.SortieDto;
 
 import java.util.List;
@@ -8,20 +9,25 @@ public interface SortieService {
     /**
      * Sauvegarder une sortie
      */
-    SortieDto saveSortie(SortieDto sortieDto);
+    ResultatDto saveSortie(SortieDto sortieDto);
 
     /**
      * Récupérer une sortie par son id
      */
-    SortieDto getSortieById(int sortieId);
+    ResultatDto getSortieById(int sortieId);
+
+    /**
+     * Récupérer une sortie par son id
+     */
+    ResultatDto updateSortie(int idSortie,SortieDto sortieDto);
 
     /**
      * Supprimer une sortie par son identifiant
      */
-    boolean deleteSortie(int sortieId);
+    ResultatDto deleteSortie(int sortieId);
 
     /**
      * Récuperer toutes les sorties
      */
-    List<SortieDto> getAllSorties();
+    ResultatDto getAllSorties();
 }

@@ -1,5 +1,6 @@
 package com.controllers;
 
+import com.dtos.ResultatDto;
 import com.dtos.SortieDto;
 import com.services.impl.SortieServiceImpl;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class SortieController {
      * @return List<SortieDto>
      */
     @GetMapping
-    public List<SortieDto> getSortie() {
+    public ResultatDto getSortie() {
         return sortieService.getAllSorties();
     }
 
@@ -27,7 +28,7 @@ public class SortieController {
      * Method to get the sortie based on the ID
      */
     @GetMapping("/{id}")
-    public SortieDto getSortie(@PathVariable int id){
+    public ResultatDto getSortie(@PathVariable int id){
         return sortieService.getSortieById(id);
     }
 
@@ -35,15 +36,23 @@ public class SortieController {
      * Create a new Sortie in the system
      */
     @PostMapping
-    public SortieDto saveSortie(final @RequestBody SortieDto sortieDto){
+    public ResultatDto saveSortie(final @RequestBody SortieDto sortieDto){
         return sortieService.saveSortie(sortieDto);
+    }
+
+    /**
+     * Update a Sortie in the system
+     */
+    @PutMapping("/{id}")
+    public ResultatDto updateSortie(@PathVariable int id, final @RequestBody SortieDto sortieDto){
+        return sortieService.updateSortie(id,sortieDto);
     }
 
     /**
      * Delete a sortie by it's id
      */
     @DeleteMapping("/{id}")
-    public Boolean deleteSortie(@PathVariable int id){
+    public ResultatDto deleteSortie(@PathVariable int id){
         return sortieService.deleteSortie(id);
     }
 
