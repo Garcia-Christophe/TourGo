@@ -1,15 +1,328 @@
 /* Couleurs */
 :root {
-  --primary-color: #782fde;
-  --secondary-color: #b527f5;
-  --tertiary-color: #e326eb;
-  --primary-blue: #4527f5;
-  --secondary-blue: #263eeb;
-  --white: hsl(0, 0%, 100%);
-  --black: hsl(0, 0%, 18%);
-  --textColor: hsl(240, 1%, 48%);
-  --whiteColorDeam: hsl(0, 0%, 93%);
-  --greyBg: hsl(0, 0%, 96%);
+  --primary-color: rgb(120, 47, 222);
+  --secondary-color: rgb(181, 39, 245);
+  --tertiary-color: rgb(227, 38, 235);
+  --primary-blue: rgb(69, 38, 245);
+  --secondary-blue: rgb(38, 62, 235);
+  --white: rgb(255, 255, 255);
+  --black: rgb(46, 46, 46);
+  --textColor: rgb(121, 121, 124);
+  --whiteColorDeam: rgb(237, 237, 237);
+  --greyBg: rgb(245, 245, 245);
   --greyText: rgb(190, 190, 190);
-  --inputColor: hsl(330, 12%, 97%);
+  --inputColor: rgb(248, 246, 247);
+  --rouge: #c20d0d;
+  --vert: #1dc20e;
+}
+
+.gestionSection {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin: auto;
+  min-height: 100vh;
+  position: relative;
+}
+.gestionSection .secContainer {
+  width: 100%;
+  margin-top: 7rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+.gestionSection .secContainer .titre {
+  color: var(--black);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.gestionSection .secContainer .gestionOnglets {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 90%;
+  background: var(--white);
+  margin: auto;
+  word-break: break-all;
+  border-radius: 0.3rem;
+  box-shadow: 0 2px 8px 4px rgba(178, 178, 178, 0.45);
+}
+.gestionSection .secContainer .gestionOnglets .bloc-onglets {
+  display: flex;
+}
+.gestionSection .secContainer .gestionOnglets .bloc-onglets .onglet {
+  padding: 15px;
+  text-align: center;
+  width: 50%;
+  background: var(--greyBg);
+  cursor: pointer;
+  box-sizing: content-box;
+  position: relative;
+  outline: none;
+  border: none;
+}
+.gestionSection .secContainer .gestionOnglets .bloc-onglets .onglet:hover {
+  background: var(--greyText);
+}
+.gestionSection .secContainer .gestionOnglets .bloc-onglets .onglet:not(:last-child) {
+  border-right: 1px solid rgba(0, 0, 0, 0.274);
+}
+.gestionSection .secContainer .gestionOnglets .bloc-onglets .onglet-actif {
+  background: var(--white);
+  border-bottom: 1px solid transparent;
+}
+.gestionSection .secContainer .gestionOnglets .bloc-onglets .onglet-actif::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% + 2px);
+  height: 5px;
+  background: linear-gradient(to right, var(--primary-color), var(--tertiary-color));
+}
+.gestionSection .secContainer .gestionOnglets .bloc-onglets .onglet-actif:hover {
+  background: var(--white);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets {
+  flex-grow: 1;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu {
+  background: white;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu h2 {
+  color: var(--black);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  text-align: center;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu hr {
+  width: 25rem;
+  height: 2px;
+  background: var(--primary-color);
+  border: none;
+  margin: 1rem auto;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu table {
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  border-spacing: 0px;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu table thead th {
+  white-space: nowrap;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu table tbody {
+  border-collapse: collapse;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu table tbody tr:hover {
+  cursor: pointer;
+  border-radius: 0.3rem;
+  box-shadow: 0 2px 8px 4px rgba(178, 178, 178, 0.45);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu table tbody td {
+  height: 2.8rem;
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu table tbody tr:last-child td {
+  border-bottom: none;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu table tbody .idObjet {
+  font-weight: 700;
+  color: var(--primary-color);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-ID {
+  width: 2%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-Nom {
+  width: 17%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-Description {
+  width: 17%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-Prix {
+  width: 3%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-Places {
+  width: 4%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-Inscrits {
+  width: 5%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-Date {
+  width: 6%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-Heure {
+  width: 5%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-Duree {
+  width: 5%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-Lieu {
+  width: 17%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-Image {
+  width: 17%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-sorties #sorties-Vues {
+  width: 2%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-options #options-ID {
+  width: 13%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-options #options-Nom {
+  width: 60%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-options #options-Prix {
+  width: 14%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-options #options-IDSortie {
+  width: 13%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-commentaires #commentaires-Utilisateur {
+  width: 15%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-commentaires #commentaires-IDSortie {
+  width: 5%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-commentaires #commentaires-Note {
+  width: 5%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-commentaires #commentaires-Commentaire {
+  width: 40%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-commentaires #commentaires-Date {
+  width: 15%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-commentaires #commentaires-Images {
+  width: 20%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-utilisateurs #utilisateurs-Pseudo {
+  width: 18%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-utilisateurs #utilisateurs-Nom {
+  width: 20%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-utilisateurs #utilisateurs-Prenom {
+  width: 20%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-utilisateurs #utilisateurs-DateNaissance {
+  width: 10%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-utilisateurs #utilisateurs-Email {
+  width: 29%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-utilisateurs #utilisateurs-Mdp {
+  width: 3%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-commandes #commandes-ID {
+  width: 10%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-commandes #commandes-Date {
+  width: 30%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-commandes #commandes-Utilisateur {
+  width: 60%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-reservations #reservations-ID {
+  width: 25%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-reservations #reservations-Personnes {
+  width: 25%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-reservations #reservations-IDSortie {
+  width: 25%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .table-reservations #reservations-IDCommande {
+  width: 25%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .btnActions {
+  justify-content: space-between;
+  padding: 1rem 5rem;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .btnActions button {
+  color: var(--white);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .btnActions .btnDeselectionner {
+  background: var(--black);
+  color: var(--white);
+  border: 1px solid var(--black);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .btnActions .btnDeselectionner:hover {
+  background: var(--white);
+  color: var(--black);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .btnActions .btnSupprimer {
+  background: var(--rouge);
+  color: var(--white);
+  border: 1px solid var(--rouge);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .btnActions .btnSupprimer:hover {
+  background: var(--white);
+  color: var(--rouge);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .ajouterModifierDiv {
+  justify-content: space-evenly;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .ajouterModifierDiv h3 {
+  color: var(--black);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 2rem;
+  text-align: center;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .ajouterModifierDiv .ajouterDiv,
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .ajouterModifierDiv .modifierDiv {
+  width: 30%;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .ajouterModifierDiv .ajouterDiv,
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .ajouterModifierDiv .modifierDiv,
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .ajouterModifierDiv .formulaireAjouter,
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .ajouterModifierDiv .formulaireModifier {
+  gap: 1rem;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .ajouterModifierDiv label {
+  display: block;
+  color: var(--textColor);
+  font-size: 13px;
+  font-weight: 500;
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .ajouterModifierDiv .btn {
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: auto;
+  background: var(--secondary-color);
+  color: var(--white);
+  border: 1px solid var(--secondary-color);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .ajouterModifierDiv .btn:hover {
+  background: var(--white);
+  color: var(--secondary-color);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .message {
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--black);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .messageOK {
+  color: var(--vert);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu .messageKO {
+  color: var(--rouge);
+}
+.gestionSection .secContainer .gestionOnglets .contenu-onglets .contenu-actif {
+  display: block;
 }/*# sourceMappingURL=gestion.css.map */
