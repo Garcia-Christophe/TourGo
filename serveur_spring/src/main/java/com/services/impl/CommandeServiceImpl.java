@@ -122,6 +122,21 @@ public class CommandeServiceImpl implements CommandeService {
                 }
             }
             if(!erreur){
+                Iterator<Reservation> it = c.getReservationSet().iterator();
+                while (it.hasNext()) {
+                    Reservation r = it.next();
+                    int newNbInscrit = r.getIdSortie().getNbInscrits()+r.getNbPersonnes();
+                    if(newNbInscrit>r.getIdSortie().getNbPlaces()){
+                        erreur=true;
+                        res.setOk(false);
+                        res.setMessage("Le nombre de place disciponible n'est pas suffisant pour la sortie "+r.getIdSortie()+".");
+                    }else{
+                        r.getIdSortie().setNbInscrits(newNbInscrit);
+                        this.sortieRepository.save(r.getIdSortie());
+                    }
+                }
+            }
+            if(!erreur){
                 if(commandeDto.getDateCommande()!=null){
                     c.setDateCommande(commandeDto.getDateCommande());
                 }
