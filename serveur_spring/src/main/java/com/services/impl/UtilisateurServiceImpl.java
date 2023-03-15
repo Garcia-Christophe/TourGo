@@ -33,9 +33,14 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         // Vérification de l'unicité du pseudo
         try {
-            Utilisateur u = utilisateurRepository.findById(utilisateurDto.getPseudo()).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
-            res.setOk(false);
-            res.setMessage("Le pseudo est déjà pris.");
+            if(utilisateurDto.getPseudo()==null){
+                res.setOk(false);
+                res.setMessage("Le pseudo doit être défini.");
+            }else{
+                Utilisateur u = utilisateurRepository.findById(utilisateurDto.getPseudo()).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
+                res.setOk(false);
+                res.setMessage("Le pseudo est déjà pris.");
+            }
         } catch (EntityNotFoundException e) {
             boolean erreur = false;
 
