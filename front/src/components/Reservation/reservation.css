@@ -12,6 +12,8 @@
   --greyBg: hsl(0, 0%, 96%);
   --greyText: rgb(190, 190, 190);
   --inputColor: hsl(330, 12%, 97%);
+  --rouge: #c20d0d;
+  --vert: #1dc20e;
 }
 
 .reservation {
@@ -84,10 +86,10 @@
   background: var(--black);
 }
 .reservation .reservationInfos .reservationInfosDroite .deleteIcon {
-  border: 1px solid red;
-  color: red;
+  border: 1px solid var(--rouge);
+  color: var(--rouge);
 }
 .reservation .reservationInfos .reservationInfosDroite .deleteIcon:hover {
   color: var(--white);
-  background: red;
+  background: var(--rouge);
 }/*# sourceMappingURL=reservation.css.map */
