@@ -153,7 +153,7 @@ public class SortieServiceImpl implements SortieService {
                 rsi.deleteReservation(resa.getIdReservation());
             }
             Iterator<Option> itOp = sortie.getOptionSet().iterator();
-            OptionServiceImpl osp = new OptionServiceImpl(optionRepository);
+            OptionServiceImpl osp = new OptionServiceImpl(optionRepository, sortieRepository, reservationRepository);
             while(itOp.hasNext()){
                 Option op = itOp.next();
                 osp.deleteOption(op.getIdOption());
