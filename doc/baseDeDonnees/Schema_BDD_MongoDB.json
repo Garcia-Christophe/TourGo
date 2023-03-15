@@ -1,5 +1,5 @@
 {
-  "idUtilisateur": 1,
+  "pseudoUtilisateur": "string",
   "idSortie": 1,
   "note": 5,
   "commentaire": "string",
