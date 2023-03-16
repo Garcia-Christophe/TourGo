@@ -6,15 +6,12 @@ import Base64 from "crypto-js/enc-base64.js";
 import mysql from "mysql";
 import jwt from "jsonwebtoken";
 import cors from "cors";
+import { Server } from "socket.io";
+import http from "http";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Écoute des requêtes HTTP sur le port 3001
-app.listen(port_http, function () {
-  console.log("Serveur HTTP démarré sur le port " + port_http);
-});
 
 // Définit les 'headers' pour autoriser les requêtes CORS
 app.use(
@@ -24,6 +21,36 @@ app.use(
     allowedHeaders: "Authorization,content-type,X-Requested-With", // Autorise les headers indiqués
   })
 );
+
+// =================================
+// Gestion du chat avec les websockets
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  socket.on("join_room", (data) => {
+    socket.join(data);
+  });
+
+  socket.on("send_message", (data) => {
+    socket.to(data.room).emit("receive_message", data);
+  });
+
+  socket.on("disconnect", () => {});
+});
+// Gestion du chat avec les websockets
+// =================================
+
+// Écoute des requêtes HTTP sur le port 3001
+server.listen(port_http, function () {
+  console.log("Serveur HTTP démarré sur le port " + port_http);
+});
 
 // Route par défaut (Accueil)
 app.get("/", function (req, res) {

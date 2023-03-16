@@ -15,3 +15,119 @@
   --rouge: #c20d0d;
   --vert: #1dc20e;
 }
+
+.contact-app {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin: auto;
+  min-height: 100vh;
+  position: relative;
+
+  .secContainer {
+    width: 100%;
+    padding-top: 7rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    position: relative;
+
+    .titre {
+      color: var(--black);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 2.5rem;
+      text-align: center;
+    }
+
+    .contactContainer {
+      width: 100%;
+      gap: 3rem;
+
+      .contactInfo {
+        justify-content: center;
+        width: 100%;
+
+        h2 {
+          width: 100%;
+          color: var(--black);
+          font-size: 1.5rem;
+          font-weight: 700;
+          line-height: 5rem;
+          text-align: center;
+        }
+
+        .contactInfo2 {
+          width: 100%;
+
+          .contactInfoText {
+            width: 100%;
+            gap: 1rem;
+
+            .flex {
+              gap: 1rem;
+
+              .icon {
+                color: var(--primary-color);
+              }
+            }
+          }
+
+          .contactInfoMaps {
+            height: 300px;
+            width: 100%;
+          }
+        }
+      }
+
+      .contactForm {
+        h2 {
+          color: var(--black);
+          font-size: 1.5rem;
+          font-weight: 700;
+          line-height: 5rem;
+          text-align: center;
+        }
+
+        .joinChatContainer {
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+
+          input {
+            background: var(--greyBg);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin: 8px 0;
+            width: 50%;
+          }
+          button {
+            border-radius: 20px;
+            border: 1px solid var(--primary-color);
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-size: 12px;
+            font-weight: bold;
+            padding: 12px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 80ms ease-in;
+
+            &:focus {
+              outline: none;
+            }
+            &:hover {
+              transform: scale(0.95);
+            }
+            &:active {
+              transform: scale(0.9);
+            }
+          }
+        }
+      }
+    }
+  }
+}
