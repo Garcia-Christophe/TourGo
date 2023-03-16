@@ -178,6 +178,11 @@ public class ReservationServiceImpl implements ReservationService {
                 o.getReservationSet().remove(reservation);
                 this.optionRepository.save(o);
             }
+            if(reservation.getIdCommande().getDateCommande()!=null){
+                int newNbInscrit = reservation.getIdSortie().getNbInscrits()-reservation.getNbPersonnes();
+                reservation.getIdSortie().setNbInscrits(newNbInscrit);
+                this.sortieRepository.save(reservation.getIdSortie());
+            }
             this.reservationRepository.deleteById(reservationId);
             res.setOk(true);
             res.setMessage("Suppression réussi.");
