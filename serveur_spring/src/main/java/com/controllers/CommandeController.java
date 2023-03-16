@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @RequestMapping("/commandes")
+@CrossOrigin(origins = "http://localhost:3001")
 public class CommandeController {
     private final CommandeServiceImpl commandeService;
 

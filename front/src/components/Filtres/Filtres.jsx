@@ -35,7 +35,7 @@ const Filtres = () => {
             Découvrez de nouveaux endroits et de nouvelles personnes !
           </p>
           <button data-aos="fade-up" data-aos-duration="3000" className="btn">
-            <a href="/">Découvrir</a>
+            <a href="/Sorties">Découvrir</a>
           </button>
         </div>
 
@@ -86,7 +86,9 @@ const Filtres = () => {
               />
             </div>
           </div>
-          <button className="btn">Rechercher</button>
+          <button className="btn">
+            <a href="/Sorties">Rechercher</a>
+          </button>
         </div>
       </div>
     </section>

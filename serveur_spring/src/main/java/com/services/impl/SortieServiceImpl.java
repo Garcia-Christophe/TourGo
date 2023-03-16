@@ -85,13 +85,13 @@ public class SortieServiceImpl implements SortieService {
     @Override
     public ResultatDto updateSortie(int idSortie,SortieDto sortieDto) {
         ResultatDto res = new ResultatDto();
+        System.out.println(sortieDto.getNbVues());
         SortieDto sortieDtoRetourne = null;
         try {
             Sortie sortie = sortieRepository.findById(idSortie).orElseThrow(() -> new EntityNotFoundException("Sortie not found"));
             if(sortieDto.getNomSortie()!=null && sortieDto.getNomSortie().length()!=0){
                 sortie.setNomSortie(sortieDto.getNomSortie());
             }
-            System.out.println("description : "+sortieDto.getDescriptionSortie().length());
             if(sortieDto.getDescriptionSortie()!=null && sortieDto.getDescriptionSortie().length()!=0){
                 sortie.setDescriptionSortie(sortieDto.getDescriptionSortie());
             }

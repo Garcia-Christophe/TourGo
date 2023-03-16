@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @RequestMapping("/sorties")
+@CrossOrigin(origins = "http://localhost:3001")
 public class SortieController {
     private final SortieServiceImpl sortieService;
 

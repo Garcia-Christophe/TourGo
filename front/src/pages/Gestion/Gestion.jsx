@@ -3,33 +3,12 @@ import "./gestion.css";
 import Navbar from "../../components/Navbar/Navbar";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import axios from "axios";
 
 const Gestion = () => {
-  useEffect(() => {
-    // Effets d'affichage
-    Aos.init({ duration: 2000 });
-  }, []);
-
   const [onglet, setOnglet] = useState(1);
 
-  const [utilisateurs, setUtilisateurs] = useState([
-    {
-      pseudo: "mon_pseudo",
-      nom: "mon_nom",
-      prenom: "mon_prenom",
-      dateNaissance: "2001-07-01",
-      email: "albus.dumbledore@gmail.com",
-      mdp: "",
-    },
-    {
-      pseudo: "mon_pseudo2",
-      nom: "mon_nom2",
-      prenom: "mon_prenom2",
-      dateNaissance: "2001-07-02",
-      email: "222",
-      mdp: "",
-    },
-  ]);
+  const [utilisateurs, setUtilisateurs] = useState([]);
   const [utilisateurSelectionne, setUtilisateurSelectionne] = useState({
     pseudo: "",
     nom: "",
@@ -46,23 +25,7 @@ const Gestion = () => {
     email: "",
     mdp: "",
   });
-  const [commandes, setCommandes] = useState([
-    {
-      idCommande: 1,
-      dateCommande: "2021-01-01",
-      pseudoUtilisateur: "mon_pseudo",
-    },
-    {
-      idCommande: 2,
-      dateCommande: "2021-01-02",
-      pseudoUtilisateur: "mon_pseudo",
-    },
-    {
-      idCommande: 3,
-      dateCommande: "2021-01-03",
-      pseudoUtilisateur: "mon_pseudo2",
-    },
-  ]);
+  const [commandes, setCommandes] = useState([]);
   const [commandeSelectionnee, setCommandeSelectionnee] = useState({
     idCommande: "",
     dateCommande: "",
@@ -73,32 +36,7 @@ const Gestion = () => {
     dateCommande: "",
     pseudoUtilisateur: "",
   });
-  const [reservations, setReservations] = useState([
-    {
-      idReservation: 1,
-      nbPersonnes: 5,
-      idSortie: 1,
-      idCommande: 1,
-    },
-    {
-      idReservation: 2,
-      nbPersonnes: 1,
-      idSortie: 2,
-      idCommande: 1,
-    },
-    {
-      idReservation: 3,
-      nbPersonnes: 2,
-      idSortie: 3,
-      idCommande: 1,
-    },
-    {
-      idReservation: 4,
-      nbPersonnes: 3,
-      idSortie: 1,
-      idCommande: 2,
-    },
-  ]);
+  const [reservations, setReservations] = useState([]);
   const [reservationSelectionnee, setReservationSelectionnee] = useState({
     idReservation: "",
     nbPersonnes: "",
@@ -111,50 +49,7 @@ const Gestion = () => {
     idSortie: "",
     idCommande: "",
   });
-  const [sorties, setSorties] = useState([
-    {
-      idSortie: 1,
-      nomSortie: "Journée au Puy du Fou",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: 50,
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "2023-06-05",
-      heure: "08:00:00",
-      duree: "06:00:00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: "https://picsum.photos/1920/1080",
-      nbVues: 5,
-    },
-    {
-      idSortie: 2,
-      nomSortie: "Journée2 au Puy du Fou",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: 50,
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "2023-06-05",
-      heure: "08:00:00",
-      duree: "06:00:00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: "https://picsum.photos/1920/1080",
-      nbVues: 3,
-    },
-    {
-      idSortie: 3,
-      nomSortie: "Journée3 au Puy du Fou",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: 50,
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "2023-06-05",
-      heure: "08:00:00",
-      duree: "06:00:00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: "https://picsum.photos/1920/1080",
-      nbVues: 7,
-    },
-  ]);
+  const [sorties, setSorties] = useState([]);
   const [sortieSelectionnee, setSortieSelectionnee] = useState({
     idSortie: 0,
     nomSortie: "",
@@ -179,32 +74,7 @@ const Gestion = () => {
     lieu: "",
     image: "",
   });
-  const [options, setOptions] = useState([
-    {
-      idOption: 1,
-      nomOption: "Option 1",
-      prixOption: 10,
-      idSortie: 1,
-    },
-    {
-      idOption: 2,
-      nomOption: "Option 2",
-      prixOption: 2,
-      idSortie: 1,
-    },
-    {
-      idOption: 3,
-      nomOption: "Option 3",
-      prixOption: 3,
-      idSortie: 1,
-    },
-    {
-      idOption: 4,
-      nomOption: "Option 1",
-      prixOption: 1,
-      idSortie: 2,
-    },
-  ]);
+  const [options, setOptions] = useState([]);
   const [optionSelectionnee, setOptionSelectionnee] = useState({
     idOption: "",
     nomOption: "",
@@ -217,36 +87,7 @@ const Gestion = () => {
     prixOption: "",
     idSortie: "",
   });
-  const [commentaires, setCommentaires] = useState([
-    {
-      pseudoUtilisateur: "mon_pseudo",
-      idSortie: 1,
-      note: 4,
-      commentaire: "Très bien, je recommande !",
-      dateHeureCreation: "2020-12-01T15:00:00.000Z",
-      images: ["https://picsum.photos/1920/1080"],
-    },
-    {
-      pseudoUtilisateur: "mon_pseudo",
-      idSortie: 2,
-      note: 5,
-      commentaire: "Très bien, je recommande !",
-      dateHeureCreation: "2020-12-01T15:00:00.000Z",
-      images: [],
-    },
-    {
-      pseudoUtilisateur: "mon_pseudo2",
-      idSortie: 2,
-      note: 1,
-      commentaire: "Organisation à revoir, à changer je dirais même !",
-      dateHeureCreation: "2020-12-01T15:00:00.000Z",
-      images: [
-        "https://picsum.photos/1920/1080",
-        "https://picsum.photos/1920/1080",
-        "https://picsum.photos/1920/1080",
-      ],
-    },
-  ]);
+  const [commentaires, setCommentaires] = useState([]);
   const [commentaireSelectionne, setCommentaireSelectionne] = useState({
     pseudoUtilisateur: "",
     idSortie: "",
@@ -263,6 +104,32 @@ const Gestion = () => {
     dateHeureCreation: "",
     images: [],
   });
+
+  useEffect(() => {
+    // Effets d'affichage
+    Aos.init({ duration: 2000 });
+
+    // Récupération des sorties les plus populaires
+    const options = {
+      url: "http://localhost:3001/Gestion",
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+    };
+    axios(options).then((response) => {
+      if (response.data.ok) {
+        setSorties(response.data.sorties.data);
+        setOptions(response.data.options.data);
+        setCommentaires(response.data.commentaires.data);
+        setUtilisateurs(response.data.utilisateurs.data);
+        setCommandes(response.data.commandes.data);
+        setReservations(response.data.reservations.data);
+      }
+    });
+  }, []);
 
   return (
     <>

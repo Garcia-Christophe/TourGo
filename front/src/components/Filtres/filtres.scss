@@ -209,7 +209,9 @@
         &:hover {
           background: none;
           border: 1px solid var(--secondary-color);
-          color: var(--secondary-color);
+          a {
+            color: var(--secondary-color);
+          }
         }
       }
     }

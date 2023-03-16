@@ -35,6 +35,7 @@ const Connexion = () => {
     };
 
     axios(options).then((response) => {
+      console.log(response.data.connexion);
       if (response.data.connexion) {
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("role", response.data.role);
