@@ -1,35 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./populaires.css";
-import BG from "../../assets/fondEcranAccueil.jpg";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import CarteSortie from "../CarteSortie/CarteSortie";
-
-const sorties = [
-  {
-    titre: "La transléonarde",
-    date: "05/06/2023",
-    lieu: "A côté du terrain de Pontivy.",
-    image: BG,
-  },
-  {
-    titre: "Puy du Fou",
-    date: "05/06/2023",
-    lieu: "A côté du terrain de Pontivy.",
-    image: BG,
-  },
-  {
-    titre: "Le Fort du Petit minou",
-    date: "05/06/2023",
-    lieu: "A côté du terrain de Pontivy.",
-    image: BG,
-  },
-];
+import axios from "axios";
 
 const Populaires = () => {
+  const [sorties, setSorties] = useState([]);
+
   useEffect(() => {
     // Effets d'affichage
     Aos.init({ duration: 2000 });
+
+    // Récupération des sorties les plus populaires
+    const options = {
+      url: "http://localhost:3001/Sorties/Populaires",
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      params: {
+        nbPopulaires: 3,
+      },
+    };
+
+    axios(options).then((response) => {
+      if (response.data.ok) {
+        setSorties(response.data.data);
+      }
+    });
   }, []);
 
   return (
@@ -55,10 +55,11 @@ const Populaires = () => {
             <CarteSortie
               sortie={{
                 titre: "0" + (index + 1),
-                infoSupp: sortie.titre,
+                infoSupp: sortie.nomSortie,
                 date: sortie.date,
                 lieu: sortie.lieu,
                 image: sortie.image,
+                idSortie: sortie.idSortie,
               }}
               fade={
                 index === 0

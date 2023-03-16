@@ -8,6 +8,7 @@ import jwt from "jsonwebtoken";
 import cors from "cors";
 import { Server } from "socket.io";
 import http from "http";
+import axios from "axios";
 
 const app = express();
 app.use(express.json());
@@ -22,17 +23,15 @@ app.use(
   })
 );
 
-// =================================
+// **********************************
 // Gestion du chat avec les websockets
 const server = http.createServer(app);
-
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
-
 io.on("connection", (socket) => {
   socket.on("join_room", (data) => {
     socket.join(data);
@@ -44,29 +43,125 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {});
 });
-// Gestion du chat avec les websockets
-// =================================
+// **********************************
 
 // Écoute des requêtes HTTP sur le port 3001
 server.listen(port_http, function () {
   console.log("Serveur HTTP démarré sur le port " + port_http);
 });
 
-// Route par défaut (Accueil)
-app.get("/", function (req, res) {
-  console.log("Accueil");
+// Accueil
+app.get("/Sorties/Populaires", function (req, res) {
+  let nbPopulaires = req.query.nbPopulaires;
+
+  // Requête vers le serveur Spring
+  const options = {
+    url: "http://172.23.224.1:8080/sorties/",
+    method: "GET",
+  };
+  axios(options)
+    .then((response) => {
+      if (response.data.ok) {
+        let sorties = response.data.data;
+        let sortiesPopulaires = sorties.sort((a, b) => {
+          return b.nbVues - a.nbVues;
+        });
+        sortiesPopulaires = sortiesPopulaires.slice(0, nbPopulaires);
+        response.data.data = sortiesPopulaires;
+      }
+      res.send(response.data);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
 
-// Route de connexion
+// 1 Sortie
+app.get("/Sortie", function (req, res) {
+  let idSortie = req.query.idSortie;
+
+  // Requête vers le serveur Spring
+  const options = {
+    url: "http://172.23.224.1:8080/sorties/" + idSortie,
+    method: "GET",
+  };
+  axios(options)
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+app.put("/Sortie/IncrNbVues", function (req, res) {
+  let idSortie = req.query.idSortie;
+
+  // Requête vers le serveur Spring
+  const options = {
+    url: "http://172.23.224.1:8080/sorties/" + idSortie,
+    method: "PUT",
+    data: {
+      nbVues: 1,
+    },
+  };
+  axios(options)
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+app.get("/optionsSortie", function (req, res) {
+  let idSortie = req.query.idSortie;
+
+  // Requête vers le serveur Spring
+  const options = {
+    url: "http://172.23.224.1:8080/options/sortie/" + idSortie,
+    method: "GET",
+  };
+  axios(options)
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
+
+// Connexion
 app.post("/Connexion", async function (req, res) {
+  const pseudo = req.body.pseudo;
+  const mdp = req.body.mdp;
+
+  // Requête vers le serveur Spring
+  const options = {
+    url: "http://172.23.224.1:8080/utilisateurs/" + pseudo,
+    method: "GET",
+  };
+  let connecte = 0;
+  await axios(options).then((response) => {
+    if (response.data.ok) {
+      let utilisateur = response.data.data[0];
+      // Récupération du mot de passe haché en base de données
+      let mdpBdd = utilisateur.mdp;
+      // Hachage (sha256) + salage avec login en préfixe
+      const hashDigest = sha256(pseudo + mdp);
+      // Hachage (hmacSHA512) + salage avec private_key en suffixe
+      const hmacDigest = Base64.stringify(hmacSHA512(hashDigest, private_key));
+
+      // Vérification du mot de passe
+      if (mdpBdd == hmacDigest) {
+        connecte = pseudo == "admin" ? 1 : 2;
+      }
+    }
+  });
+
   // connecte = 0 => Connexion KO
   // connecte = 1 => Connexion Admin
   // connecte = 2 => Connexion Utilisateur
-  let connecte = await connexionOK(req);
   let connexion = false;
-
-  let token;
-  let role;
+  let token, role;
   if (connecte > 0) {
     connexion = true;
     role = connecte == 1 ? "admin" : "utilisateur";
@@ -83,14 +178,72 @@ app.post("/Connexion", async function (req, res) {
   res.send({ connexion, token, role });
 });
 
-// Route test d'accès
-// Seul l'admin peut accéder à cette route
-// L'accès est autorisé si :
-// - le rôle est 'admin'
-// - le token est valide et si le temps restant est inférieur à 1 heure
-app.get("/test", function (req, res) {
+// Gestion (admin)
+app.get("/Gestion", async function (req, res) {
+  if (tokenOK(req, true)) {
+    let obj = {
+      ok: true,
+      message: "Accès autorisé",
+      sorties: {},
+      options: {},
+      commandes: {},
+      reservations: {},
+      utilisateurs: {},
+      commentaires: {},
+    };
+    // Requête vers le serveur Spring
+    let options = {
+      url: "http://172.23.224.1:8080/sorties",
+      method: "GET",
+    };
+    await axios(options).then((response) => {
+      obj.sorties = response.data;
+    });
+    options = {
+      url: "http://172.23.224.1:8080/options",
+      method: "GET",
+    };
+    await axios(options).then((response) => {
+      obj.options = response.data;
+    });
+    options = {
+      url: "http://172.23.224.1:8080/commandes",
+      method: "GET",
+    };
+    await axios(options).then((response) => {
+      obj.commandes = response.data;
+    });
+    options = {
+      url: "http://172.23.224.1:8080/reservations",
+      method: "GET",
+    };
+    await axios(options).then((response) => {
+      obj.reservations = response.data;
+    });
+    options = {
+      url: "http://172.23.224.1:8080/utilisateurs",
+      method: "GET",
+    };
+    await axios(options).then((response) => {
+      obj.utilisateurs = response.data;
+    });
+    options = {
+      url: "http://172.23.224.1:8080/commentaires",
+      method: "GET",
+    };
+    await axios(options).then((response) => {
+      obj.commentaires = response.data;
+    });
+    res.send(obj);
+  } else {
+    res.send({ ok: false, message: "Accès refusé" });
+  }
+});
+
+// Vérifie si le token est valide
+function tokenOK(req, admin = false) {
+  let valide = false;
   const authHeader = req.headers.authorization;
-  let autorise = false;
   if (authHeader) {
     const token = authHeader.split(" ")[1];
 
@@ -100,60 +253,15 @@ app.get("/test", function (req, res) {
       // temps restant en ms
       let exp = decoded.exp * 1000 - Date.now();
 
-      if (role == "admin" && exp > 0 && exp < 60 * 60 * 1000) {
-        autorise = true;
+      // L'accès est autorisé si :
+      // - admin = true, alors si le rôle est 'admin'
+      // - le token est valide et si le temps restant est inférieur à 1 heure
+      if ((admin ? role == "admin" : true) && exp > 0 && exp < 60 * 60 * 1000) {
+        valide = true;
       }
     } catch (e) {
-      console.log('app.get("/test") : ' + e);
+      console.log("tokenOK(): " + e);
     }
   }
-
-  let mess = "";
-  if (autorise) {
-    mess = "Accès autorisé";
-  } else {
-    mess = "Accès refusé";
-  }
-  res.send({ mess });
-});
-
-// Vérifie la connexion d'un utilisateur
-async function connexionOK(req) {
-  const pseudo = req.body.pseudo;
-  const mdp = req.body.mdp;
-
-  // TMP =========================
-  var connection = await mysql.createConnection({
-    host: "mysql-tourgo.alwaysdata.net",
-    database: "tourgo_mysql",
-    user: "tourgo",
-    password: "LCbg.@YeV3NGzfY",
-  });
-  await connection.connect();
-  return new Promise((resolve, reject) => {
-    connection.query(
-      `select mdp from Utilisateur where pseudo = '${pseudo}'`,
-      function (err, rows) {
-        if (err || rows.length == 0 || rows[0] == undefined) resolve(0);
-        else {
-          // Récupération du mot de passe haché en base de données
-          let mdpBdd = rows[0].mdp;
-          // Hachage (sha256) + salage avec login en préfixe
-          const hashDigest = sha256(pseudo + mdp);
-          // Hachage (hmacSHA512) + salage avec private_key en suffixe
-          const hmacDigest = Base64.stringify(
-            hmacSHA512(hashDigest, private_key)
-          );
-
-          // Vérification du mot de passe
-          if (mdpBdd == hmacDigest) {
-            resolve(pseudo == "admin" ? 1 : 2);
-          } else {
-            resolve(0);
-          }
-        }
-      }
-    );
-    connection.end();
-  });
+  return valide;
 }

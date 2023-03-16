@@ -167,6 +167,8 @@
 .accueil .secContainer .accueilCard .btn:hover {
   background: none;
   border: 1px solid var(--secondary-color);
+}
+.accueil .secContainer .accueilCard .btn:hover a {
   color: var(--secondary-color);
 }
 

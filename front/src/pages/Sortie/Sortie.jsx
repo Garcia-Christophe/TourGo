@@ -5,6 +5,7 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import etoilePleine from "../../assets/etoilePleine.png";
 import etoileVide from "../../assets/etoileVide.png";
+import axios from "axios";
 
 const Sortie = () => {
   useEffect(() => {
@@ -22,44 +23,98 @@ const Sortie = () => {
 
     // Effets d'affichage
     Aos.init({ duration: 2000 });
+
+    // Récupération de la sortie
+    const queryParameters = new URLSearchParams(window.location.search);
+    const id = queryParameters.get("id");
+    const optionsHttp = {
+      url: "http://localhost:3001/Sortie",
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      params: {
+        idSortie: id,
+      },
+    };
+    axios(optionsHttp).then((response) => {
+      if (response.data.ok) {
+        setSortie(response.data.data[0]);
+      }
+    });
+
+    // Récupération des options
+    const optionsHttp2 = {
+      url: "http://localhost:3001/optionsSortie",
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      params: {
+        idSortie: id,
+      },
+    };
+
+    axios(optionsHttp2).then((response) => {
+      if (response.data.ok) {
+        setOptions(response.data.data);
+      }
+    });
+
+    // Incrémentation du nombre de vues de la sortie
+    const optionsHttp3 = {
+      url: "http://localhost:3001/Sortie/IncrNbVues",
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      params: {
+        idSortie: id,
+      },
+    };
+    axios(optionsHttp3).then((response) => {
+      if (response.data.ok) {
+        console.log("Nombre de vues incrémenté");
+      }
+    });
   }, []);
 
-  const queryParameters = new URLSearchParams(window.location.search);
-  const id = queryParameters.get("id");
-
-  const sortie = {
+  const [sortie, setSortie] = useState({
     idSortie: 1,
-    nomSortie: "Sortie à la plage",
-    descriptionSortie:
-      "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibu",
-    prixSortie: 10,
-    nbPlaces: 10,
-    nbInscrits: 5,
-    date: "2021-06-01",
-    heure: "10:00",
-    lieu: "50, Rue Jean Jaurès Centre Commercial Coat Ar Gueven, 29200 Brest",
-    image: "https://picsum.photos/1920/1080",
-  };
-  const options = [
-    {
-      idOption: 1,
-      nomOption: "Option 1",
-      prixOption: 1,
-      ajoutee: false,
-    },
-    {
-      idOption: 2,
-      nomOption: "Option 2",
-      prixOption: 2,
-      ajoutee: false,
-    },
-    {
-      idOption: 3,
-      nomOption: "Option 3",
-      prixOption: 3,
-      ajoutee: false,
-    },
-  ];
+    nomSortie: "",
+    descriptionSortie: "",
+    prixSortie: 0,
+    nbPlaces: 0,
+    nbInscrits: 0,
+    date: "1970-01-01",
+    heure: "00:00",
+    lieu: "",
+    image: "",
+  });
+  const [options, setOptions] = useState([]);
+  // const options = [
+  //   {
+  //     idOption: 1,
+  //     nomOption: "Option 1",
+  //     prixOption: 1,
+  //     ajoutee: false,
+  //   },
+  //   {
+  //     idOption: 2,
+  //     nomOption: "Option 2",
+  //     prixOption: 2,
+  //     ajoutee: false,
+  //   },
+  //   {
+  //     idOption: 3,
+  //     nomOption: "Option 3",
+  //     prixOption: 3,
+  //     ajoutee: false,
+  //   },
+  // ];
   const [commentaires, setCommentaires] = useState([
     {
       prenomUtilisateur: "Jean",
