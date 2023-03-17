@@ -12,7 +12,7 @@ public interface OptionService {
     ResultatDto saveOption(OptionDto optionDto);
 
     /**
-     * Récupérer une Option par son id
+     * Récupérer une option par son id
      */
     ResultatDto getOptionById(int optionId);
 
@@ -22,22 +22,22 @@ public interface OptionService {
     ResultatDto updateOptionById(int optionId, OptionDto optionDto);
 
     /**
-     * Supprimer une Option par son identifiant
+     * Supprimer une option par son id
      */
     ResultatDto deleteOption(int optionId);
 
     /**
-     * Récuperer toutes les Options
+     * Récuperer toutes les options
      */
     ResultatDto getAllOptions();
 
     /**
-     * Récuperer toutes les Options de la soirée dont l'identifiant est passée en paramètre
+     * Récupérer toutes les options d'une sortie par son id
      */
     ResultatDto getOptionBySortieId(int sortieId);
 
     /**
-     * Récuperer toutes les Options de la reservation dont l'identifiant est passée en paramètre
+     * Récupérer toutes les options d'une réservation par son id
      */
     ResultatDto getOptionByReservationId(int reservationId);
 }

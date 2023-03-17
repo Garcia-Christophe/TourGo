@@ -18,10 +18,13 @@ public interface CommandeService {
      */
     ResultatDto getCommandeById(int commandeId);
 
+    /**
+     * Modifier une commande par son id
+     */
     ResultatDto updateCommandeById(int commandeId, CommandeDto commandeDto);
 
     /**
-     * Supprimer une commande par son identifiant
+     * Supprimer une commande par son id
      */
     ResultatDto deleteCommande(int commandeId);
 
@@ -31,7 +34,7 @@ public interface CommandeService {
     ResultatDto getAllCommande();
 
     /**
-     * Récuperer toutes les commandes d'un utilisateur
+     * Récuperer toutes les commandes d'un utilisateur par son pseudo
      */
     ResultatDto getCommandeByIdUtilisateur(String pseudo);
 }

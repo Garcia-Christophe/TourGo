@@ -38,6 +38,7 @@ public class CommandeServiceImpl implements CommandeService {
         // Vérification de l'unicité de l'id
         try {
             Commande c = commandeRepository.findById(commandeDto.getIdCommande()).orElseThrow(() -> new EntityNotFoundException("Commande not found"));
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("L'identifiant est déjà pris.");
         } catch (EntityNotFoundException e) {
@@ -57,12 +58,14 @@ public class CommandeServiceImpl implements CommandeService {
                     c.setDateCommande(null);
                     c = this.commandeRepository.save(c);
                     commandeDtoRetourne= this.commandeEntityToDto(c);
+                    //Ecriture de la réponse
                     res.setOk(true);
                     res.setMessage("Commande ajouté");
                     Set<Object> set = new HashSet<>();
                     set.add(commandeDtoRetourne);
                     res.setData(set);
                 }catch (EntityNotFoundException err){
+                    //Ecriture de la réponse
                     res.setOk(false);
                     res.setMessage("L'utilisateur définis n'existe pas.");
                 }
@@ -74,14 +77,17 @@ public class CommandeServiceImpl implements CommandeService {
     @Override
     public ResultatDto getCommandeById(int commandeId) {
         ResultatDto res = new ResultatDto();
+        //Recherche de la commande correspondant à l'id
         try{
             Commande c =  this.commandeRepository.findById(commandeId).orElseThrow(() -> new EntityNotFoundException("Commande not found"));
+            //Ecriture de la réponse
             res.setOk(true);
             res.setMessage("Commende existante");
             Set<Object> set = new HashSet<>();
             set.add(this.commandeEntityToDto(c));
             res.setData(set);
         }catch(EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("Commande inexistante");
         }
@@ -91,22 +97,28 @@ public class CommandeServiceImpl implements CommandeService {
     @Override
     public ResultatDto updateCommandeById(int commandeId, CommandeDto commandeDto) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existance de la commande
         try{
             Commande c =  this.commandeRepository.findById(commandeId).orElseThrow(() -> new EntityNotFoundException("Commande not found"));
             boolean erreur = false;
+           //Vérification de la non modification de l'utilisateur de la commande
             if(commandeDto.getPseudoUtilisateur()!=null && !commandeDto.getPseudoUtilisateur().equals(c.getPseudoUtilisateur().getPseudo())){
+                //Ecriture de la réponse
                 res.setOk(false);
                 res.setMessage("Impossible de modifier l'utilisateur de la commande.");
                 erreur=true;
             }
             if(!erreur){
+                //Vérification de la non modification de la date de la commande si elle est déjà défini.
                 if(c.getDateCommande()!=null && commandeDto.getDateCommande()!=null && !c.getDateCommande().equals(commandeDto.getDateCommande())) {
+                    //Ecriture de la réponse
                     res.setOk(false);
                     res.setMessage("Impossible de modifier la date de la commande.");
                     erreur = true;
                 }
             }
             if(!erreur){
+                //Vérification que toutes les sorties des réservations de la commande ne sont pas encore passées
                 if(commandeDto.getDateCommande()!=null){
                     Iterator<Reservation> it = c.getReservationSet().iterator();
                     while (it.hasNext()){
@@ -114,6 +126,7 @@ public class CommandeServiceImpl implements CommandeService {
                         long miliseconds = System.currentTimeMillis();
                         Date date = new Date(miliseconds);
                         if(r.getIdSortie().getDate().before(date)){
+                            //Ecriture de la réponse
                             erreur=true;
                             res.setOk(false);
                             res.setMessage("La réservation "+r+" est pour une sortie déjà passée.");
@@ -122,25 +135,31 @@ public class CommandeServiceImpl implements CommandeService {
                 }
             }
             if(!erreur){
+                //Vérification que la place restante dans chaque sortie est suffisante pour toutes les réservations de la commande
                 Iterator<Reservation> it = c.getReservationSet().iterator();
                 while (it.hasNext()) {
                     Reservation r = it.next();
                     int newNbInscrit = r.getIdSortie().getNbInscrits()+r.getNbPersonnes();
                     if(newNbInscrit>r.getIdSortie().getNbPlaces()){
+                        //Ecriture de la réponse
                         erreur=true;
                         res.setOk(false);
                         res.setMessage("Le nombre de place disciponible n'est pas suffisant pour la sortie "+r.getIdSortie()+".");
                     }else{
+                        //Incrémentation du nombre d'inscrit de la sortie
                         r.getIdSortie().setNbInscrits(newNbInscrit);
                         this.sortieRepository.save(r.getIdSortie());
                     }
                 }
             }
             if(!erreur){
+                //Mise à jour de la date de la commande si la nouvelle n'est pas null.
                 if(commandeDto.getDateCommande()!=null){
                     c.setDateCommande(commandeDto.getDateCommande());
                 }
+                //Sauvegarde des modifications
                 c=this.commandeRepository.save(c);
+                //Ecriture de la réponse
                 CommandeDto commandeDto1 = this.commandeEntityToDto(c);
                 res.setOk(true);
                 res.setMessage("Commande modifier");
@@ -149,6 +168,7 @@ public class CommandeServiceImpl implements CommandeService {
                 res.setData(set);
             }
         }catch (EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("Commande inexistante");
         }
@@ -158,17 +178,22 @@ public class CommandeServiceImpl implements CommandeService {
     @Override
     public ResultatDto deleteCommande(int commandeId) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existance de la commande
         try{
             Commande c =  this.commandeRepository.findById(commandeId).orElseThrow(() -> new EntityNotFoundException("Commande not found"));
+            //Suppression de toutes les réservations de la commande
             Iterator<Reservation> it = c.getReservationSet().iterator();
             while(it.hasNext()){
                 ReservationServiceImpl rsi = new ReservationServiceImpl(reservationRepository, commandeRepository,optionRepository,sortieRepository);
                 rsi.deleteReservation(it.next().getIdReservation());
             }
+            //Suppression de la commande
             this.commandeRepository.delete(c);
+            //Ecriture de la réponse
             res.setOk(true);
             res.setMessage("Commande supprimé");
         }catch(EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("Commande inexistante");
         }
@@ -179,10 +204,12 @@ public class CommandeServiceImpl implements CommandeService {
     public ResultatDto getAllCommande() {
         ResultatDto res = new ResultatDto();
         Set<Object> commandesDto = new HashSet<>();
+        //Récupéreration de toutes les commandes
         List<Commande> commandes = commandeRepository.findAll();
         commandes.forEach(commande -> {
             commandesDto.add(commandeEntityToDto(commande));
         });
+        //Ecriture de la réponse
         res.setOk(true);
         res.setMessage("Liste de toutes les commandes.");
         res.setData(commandesDto);
@@ -192,19 +219,24 @@ public class CommandeServiceImpl implements CommandeService {
     @Override
     public ResultatDto getCommandeByIdUtilisateur(String pseudo) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existanec de l'utilisateur
         try {
             Utilisateur u = this.utilisateurRepository.findById(pseudo).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
             Set<Object> commandesDto = new HashSet<>();
+            //Récupération de toutes les commandes
             List<Commande> commandes = commandeRepository.findAll();
             commandes.forEach(commande -> {
+                //Récupération des commande de l'utilisateur
                 if (commande.getPseudoUtilisateur().getPseudo().equals(pseudo)) {
                     commandesDto.add(this.commandeEntityToDto(commande));
                 }
             });
+            //Ecriture de la réponse
             res.setOk(true);
             res.setMessage("Liste de toutes les commandes de l'utlisateur " + pseudo + ".");
             res.setData(commandesDto);
         }catch (EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("Utilisateur inexistant.");
         }

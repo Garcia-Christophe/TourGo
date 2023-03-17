@@ -17,10 +17,13 @@ public interface ReservationService {
      */
     ResultatDto getReservationById(int reservationId);
 
+    /**
+     * Modifier une reservation par son id
+     */
     ResultatDto updateReservationById(int reservationId, ReservationDto reservationDto);
 
     /**
-     * Supprimer une reservation par son identifiant
+     * Supprimer une reservation par son id
      */
     ResultatDto deleteReservation(int reservationId);
 
@@ -30,7 +33,7 @@ public interface ReservationService {
     ResultatDto getAllReservation();
 
     /**
-     * Récuperer toutes les reservations d'une commande
+     * Récuperer toutes les reservations d'une commande par son id
      */
     ResultatDto getReservetionByIdCommande(int id);
 }

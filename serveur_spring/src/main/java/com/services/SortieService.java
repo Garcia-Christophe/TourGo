@@ -17,12 +17,12 @@ public interface SortieService {
     ResultatDto getSortieById(int sortieId);
 
     /**
-     * Récupérer une sortie par son id
+     * Modifier une sortie par son id
      */
     ResultatDto updateSortie(int idSortie,SortieDto sortieDto);
 
     /**
-     * Supprimer une sortie par son identifiant
+     * Supprimer une sortie par son id
      */
     ResultatDto deleteSortie(int sortieId);
 

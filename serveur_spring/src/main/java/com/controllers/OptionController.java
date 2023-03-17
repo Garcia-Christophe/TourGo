@@ -17,8 +17,7 @@ public class OptionController {
     }
 
     /**
-     * <p>Get all sortie in the system</p>
-     * @return List<SortieDto>
+     * Récupérer toutes les options
      */
     @GetMapping
     public ResultatDto getOption() {
@@ -26,7 +25,7 @@ public class OptionController {
     }
 
     /**
-     * Method to get the sortie based on the ID
+     * Récupérer les options d'une sortie correspondant à l'id
      */
     @GetMapping("/sortie/{id}")
     public ResultatDto getOptionBySortieId(@PathVariable int id){
@@ -34,7 +33,7 @@ public class OptionController {
     }
 
     /**
-     * Method to get the sortie based on the ID
+     * Récupérer les options d'une reservation correspondant à l'id
      */
     @GetMapping("/reservation/{id}")
     public ResultatDto getOptionByReservationId(@PathVariable int id){
@@ -42,7 +41,7 @@ public class OptionController {
     }
 
     /**
-     * Method to get the sortie based on the ID
+     * Récupérer l'option correspondant à l'id
      */
     @GetMapping("/{id}")
     public ResultatDto getOption(@PathVariable int id){
@@ -50,7 +49,7 @@ public class OptionController {
     }
 
     /**
-     * Create a new Sortie in the system
+     * Enregistrer une nouvelle option
      */
     @PostMapping
     public ResultatDto saveOption(final @RequestBody OptionDto optionDto){
@@ -58,7 +57,7 @@ public class OptionController {
     }
 
     /**
-     * Update a sortie by it's id
+     * Modifier l'option existante correspondante à l'id
      */
     @PutMapping("/{id}")
     public ResultatDto updateOption(@PathVariable int id,final @RequestBody OptionDto optionDto){
@@ -66,7 +65,7 @@ public class OptionController {
     }
 
     /**
-     * Delete a sortie by it's id
+     * Supprimer l'option existante correspondante à l'id
      */
     @DeleteMapping("/{id}")
     public ResultatDto deleteOption(@PathVariable int id){

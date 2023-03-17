@@ -35,11 +35,14 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
         // Vérification de l'unicité du pseudo
         try {
+            //Vérification que le pseudo est bien défini
             if(utilisateurDto.getPseudo()==null){
+                //Ecriture de la réponse
                 res.setOk(false);
                 res.setMessage("Le pseudo doit être défini.");
             }else{
                 Utilisateur u = utilisateurRepository.findById(utilisateurDto.getPseudo()).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
+                //Ecriture de la réponse
                 res.setOk(false);
                 res.setMessage("Le pseudo est déjà pris.");
             }
@@ -59,6 +62,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 System.out.println("u : "+ utilisateur);
                 utilisateur = utilisateurRepository.save(utilisateur);
                 utilisateurDtoRetourne = utilisateurEntityToDto(utilisateur);
+                //Ecriture de la réponse
                 res.setOk(true);
                 res.setMessage("L'utilisateur est bien inscrit");
                 Set<Object> set = new HashSet<>();
@@ -72,14 +76,17 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public ResultatDto getUtilisateurById(String utilisateurId) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existance de l'utilisateur
         try {
             Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
+            //Ecriture de la réponse
             Set<Object> set = new HashSet<>();
             set.add(this.utilisateurEntityToDto(utilisateur));
             res.setData(set);
             res.setOk(true);
             res.setMessage("Utilisateur existant");
         }catch (EntityNotFoundException e) {
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("Utilisateur inexistant");
         }
@@ -89,6 +96,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public ResultatDto updateUtilisateurById(String utilisateurId, UtilisateurDto utilisateurDto) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existance de l'utilisateur
         try{
             Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
             UtilisateurDto utilisateurDtoFinal = null;
@@ -122,8 +130,10 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 }
                 //Changement de la date de naissance
                 utilisateur.setDateNaissance(utilisateurDto.getDateNaissance());
+                //Enregistrement des modification de l'utilisateur
                 utilisateurRepository.save(utilisateur);
                 utilisateurDtoFinal = this.utilisateurEntityToDto(utilisateur);
+                //Ecriture de la réponse
                 res.setOk(true);
                 res.setMessage("Modification réussi.");
                 Set<Object> set = new HashSet<>();
@@ -131,6 +141,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 res.setData(set);
             }
         }catch(EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("Utilisateur inexistant.");
         }
@@ -141,9 +152,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public ResultatDto deleteUtilisateur(String utilisateurId) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existance de l'utilisateur
         try{
             Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElseThrow(() -> new EntityNotFoundException("Utilisateur not found"));
             Set<Commande> commandes = utilisateur.getCommandeSet();
+            //Suppression de toutes les commendes de l'utilisateur
             if(commandes!=null){
                 Iterator<Commande> it = commandes.iterator();
                 while (it.hasNext()){
@@ -153,16 +166,20 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                     csi.deleteCommande(c.getIdCommande());
                 }
             }
+            //Suppression de tous les commentaires de l'utilisateur
             List<Commentaire> commentaires = this.commentaireRepository.findAll();
             commentaires.forEach(commentaire -> {
                 if(commentaire.getPseudoUtilisateur().equals(utilisateurId)){
                     this.commentaireRepository.delete(commentaire);
                 }
             });
+            //Suppression de l'utilisateur
             utilisateurRepository.deleteById(utilisateurId);
+            //Ecriture de la réponse
             res.setOk(true);
             res.setMessage("Suppression réussi.");
         }catch (EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("Utilisateur inexistant.");
         }
@@ -173,10 +190,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public ResultatDto getAllUtilisateurs() {
         ResultatDto res = new ResultatDto();
         Set<Object> utilisateurDtos = new HashSet<>();
+        //Récupération de tous les utilisateurs
         List<Utilisateur> utilisateurs = utilisateurRepository.findAll();
         utilisateurs.forEach(utilisateur -> {
             utilisateurDtos.add(utilisateurEntityToDto(utilisateur));
         });
+        //Ecriture de la réponse
         res.setOk(true);
         res.setMessage("Liste de tous les utilisateurs.");
         res.setData(utilisateurDtos);

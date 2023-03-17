@@ -17,8 +17,7 @@ public class UtilisateurController {
     }
 
     /**
-     * <p>Get all Utilisateur in the system</p>
-     * @return List<UtilisateurDto>
+     * Récupérer tous les utilisateurs
      */
     @GetMapping
     public ResultatDto getUtilisateur() {
@@ -26,7 +25,7 @@ public class UtilisateurController {
     }
 
     /**
-     * Method to get the Utilisateur based on the ID
+     * Récupérer l'utilisateur correspondant à l'id
      */
     @GetMapping("/{id}")
     public ResultatDto getUtilisateur(@PathVariable String id){
@@ -34,7 +33,7 @@ public class UtilisateurController {
     }
 
     /**
-     * Create a new Utilisateur in the system
+     * Enregister un nouvelle utilisateur
      */
     @PostMapping
     public ResultatDto saveUtilisateur(final @RequestBody UtilisateurDto utilisateurDto){
@@ -42,7 +41,7 @@ public class UtilisateurController {
     }
 
     /**
-     * Update a Utilisateur in the system
+     * Modifier un utilisateur existant correspondant à l'id
      */
     @PutMapping("/{id}")
     public ResultatDto updateUtilisateur(@PathVariable String id, final @RequestBody UtilisateurDto utilisateurDto){
@@ -50,7 +49,7 @@ public class UtilisateurController {
     }
 
     /**
-     * Delete a Utilisateur by it's id
+     * Supprimer un utilisateur existant correspondant à l'id
      */
     @DeleteMapping("/{id}")
     public ResultatDto deleteUtilisateur(@PathVariable String id){

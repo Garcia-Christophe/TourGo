@@ -41,6 +41,7 @@ public class ReservationServiceImpl implements ReservationService {
         // Vérification de l'unicité de l'id
         try {
             Reservation reservation =  this.reservationRepository.findById(reservationDto.getIdReservation()).orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("L'identifiant de la réservation est déjà pris.");
         } catch (EntityNotFoundException e) {
@@ -48,6 +49,7 @@ public class ReservationServiceImpl implements ReservationService {
 
             // Vérification que la commande n'est pas null
             if (reservationDto.getIdCommande() == 0 || reservationDto.getIdSortie() == 0 || reservationDto.getNbPersonnes()==0){
+                //Ecriture de la réponse
                 res.setOk(false);
                 res.setMessage("La commande, la soirée et/ou le nombre de personne ne sont pas définis.");
                 erreur = true;
@@ -55,9 +57,11 @@ public class ReservationServiceImpl implements ReservationService {
 
             // Aucune erreur enregistrement de la reservation
             if (!erreur) {
+                //Vérification que la commande et la soirée existent
                 try{
                     Reservation r = this.reservationDtoToEntity(reservationDto);
                     r = this.reservationRepository.save(r);
+                    //Ajout de la réservations dans la liste des reservations de toutes les options demandées
                     Iterator<Monoption> it = r.getOptionSet().iterator();
                     while (it.hasNext()){
                         Monoption o = it.next();
@@ -68,12 +72,14 @@ public class ReservationServiceImpl implements ReservationService {
                         this.optionRepository.save(o);
                     }
                     reservationDtoRetourne= this.reservationEntityToDto(r);
+                    //Ecriture de la réponse
                     res.setOk(true);
                     res.setMessage("Reservation ajouté");
                     Set<Object> set = new HashSet<>();
                     set.add(reservationDtoRetourne);
                     res.setData(set);
                 }catch (EntityNotFoundException err){
+                    //Ecriture de la réponse
                     res.setOk(false);
                     res.setMessage("La commande, la soirée ou les options définis n'existent pas.");
                 }
@@ -85,14 +91,17 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ResultatDto getReservationById(int reservationId) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existence de la réservation
         try{
             Reservation reservation =  this.reservationRepository.findById(reservationId).orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
+            //Ecriture de la réponse
             res.setOk(true);
             res.setMessage("Reservation existante");
             Set<Object> set = new HashSet<>();
             set.add(this.reservationEntityToDto(reservation));
             res.setData(set);
         }catch(EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("Reservation inexistante");
         }
@@ -102,18 +111,23 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ResultatDto updateReservationById(int reservationId, ReservationDto reservationDto) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existence de la réservation
         try{
             Reservation reservation = this.reservationRepository.findById(reservationId).orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
             boolean erreur = false;
+            //Vérification de la date de la commande de la réservation
             if(reservation.getIdCommande().getDateCommande()!=null){
                 erreur =true;
+                //Ecriture de la réponse
                 res.setOk(false);
                 res.setMessage("La commande étant déjà passée vous ne pouvez pas modifier la reservation.");
             }
             if(!erreur){
+                //Modification du nombre de personnes de la réservation
                 if(reservationDto.getNbPersonnes()!=0){
                     reservation.setNbPersonnes(reservationDto.getNbPersonnes());
                 }
+                //Modification des options de la réservation
                 if(reservationDto.getIdOptions()!=null){
                     Iterator<Monoption> it = reservation.getOptionSet().iterator();
                     while(it.hasNext()){
@@ -152,7 +166,9 @@ public class ReservationServiceImpl implements ReservationService {
                         }
                     }
                 }
+                //Enregistrement des modification de la réservation
                 this.reservationRepository.save(reservation);
+                //Ecriture de la réponse
                 res.setOk(true);
                 res.setMessage("Réservation modifier.");
                 Set<Object> set = new HashSet<>();
@@ -160,6 +176,7 @@ public class ReservationServiceImpl implements ReservationService {
                 res.setData(set);
             }
         }catch (EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setMessage("La réservation n'existe pas.");
             res.setOk(false);
         }
@@ -169,23 +186,29 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ResultatDto deleteReservation(int reservationId) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existence de la réservation
         try{
             Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
+            //Suppression de la réservation dans la liste des réservations des options
             Iterator<Monoption> it = reservation.getOptionSet().iterator();
             while (it.hasNext()){
                 Monoption o = it.next();
                 o.getReservationSet().remove(reservation);
                 this.optionRepository.save(o);
             }
+            //Décrémentation du nombre d'inscrit à une sortie si la commande est passée.
             if(reservation.getIdCommande().getDateCommande()!=null){
                 int newNbInscrit = reservation.getIdSortie().getNbInscrits()-reservation.getNbPersonnes();
                 reservation.getIdSortie().setNbInscrits(newNbInscrit);
                 this.sortieRepository.save(reservation.getIdSortie());
             }
+            //Suppression de la réservation
             this.reservationRepository.deleteById(reservationId);
+            //Ecriture de la réponse
             res.setOk(true);
             res.setMessage("Suppression réussi.");
         }catch (EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("Reservation inexistant.");
         }
@@ -200,6 +223,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservations.forEach(reservation -> {
             reservationDto.add(reservationEntityToDto(reservation));
         });
+        //Ecriture de la réponse
         res.setOk(true);
         res.setMessage("Liste de toutes les reservations.");
         res.setData(reservationDto);
@@ -209,19 +233,23 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ResultatDto getReservetionByIdCommande(int id) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existence de la réservation
         try {
             Commande c = this.commandeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Commande not found"));
             Set<Object> reservationDto = new HashSet<>();
             List<Reservation> reservations = this.reservationRepository.findAll();
             reservations.forEach(reservation -> {
+                //Récupération de toutes les réservations d'une commande
                 if(reservation.getIdCommande().equals(c)) {
                     reservationDto.add(reservationEntityToDto(reservation));
                 }
             });
+            //Ecriture de la réponse
             res.setOk(true);
             res.setMessage("Liste de toutes les reservations de la commande"+id+".");
             res.setData(reservationDto);
         }catch (EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("Commande inexistante.");
         }

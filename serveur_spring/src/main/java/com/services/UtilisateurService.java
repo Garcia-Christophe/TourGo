@@ -8,24 +8,27 @@ import java.util.List;
 
 public interface UtilisateurService {
     /**
-     * Sauvegarder une utilisateur
+     * Sauvegarder un utilisateur
      */
     ResultatDto saveUtilisateur(UtilisateurDto utilisateurDto);
 
     /**
-     * Récupérer une utilisateur par son id
+     * Récupérer un utilisateur par son id
      */
     ResultatDto getUtilisateurById(String utilisateurId);
 
+    /**
+     * Modifier un utilisateur par son id
+     */
     ResultatDto updateUtilisateurById(String utilisateurId, UtilisateurDto utilisateurDto);
 
     /**
-     * Supprimer une utilisateur par son identifiant
+     * Supprimer un utilisateur par son id
      */
     ResultatDto deleteUtilisateur(String utilisateurId);
 
     /**
-     * Récuperer toutes les utilisateurs
+     * Récuperer tous les utilisateurs
      */
     ResultatDto getAllUtilisateurs();
 }

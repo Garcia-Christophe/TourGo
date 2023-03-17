@@ -17,8 +17,7 @@ public class SortieController {
     }
 
     /**
-     * <p>Get all sortie in the system</p>
-     * @return List<SortieDto>
+     * Récupérer toutes les sorties
      */
     @GetMapping
     public ResultatDto getSortie() {
@@ -26,7 +25,7 @@ public class SortieController {
     }
 
     /**
-     * Method to get the sortie based on the ID
+     * Récupérer la sortie correspondant à l'id
      */
     @GetMapping("/{id}")
     public ResultatDto getSortie(@PathVariable int id){
@@ -34,7 +33,7 @@ public class SortieController {
     }
 
     /**
-     * Create a new Sortie in the system
+     * Enregistrer une nouvelle sortie
      */
     @PostMapping
     public ResultatDto saveSortie(final @RequestBody SortieDto sortieDto){
@@ -42,7 +41,7 @@ public class SortieController {
     }
 
     /**
-     * Update a Sortie in the system
+     * Modifier une sortie existante correspondant à l'id
      */
     @PutMapping("/{id}")
     public ResultatDto updateSortie(@PathVariable int id, final @RequestBody SortieDto sortieDto){
@@ -50,7 +49,7 @@ public class SortieController {
     }
 
     /**
-     * Delete a sortie by it's id
+     * Supprimer une sortie existante correspondant à l'id
      */
     @DeleteMapping("/{id}")
     public ResultatDto deleteSortie(@PathVariable int id){

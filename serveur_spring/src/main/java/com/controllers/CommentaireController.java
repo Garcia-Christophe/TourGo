@@ -17,8 +17,7 @@ public class CommentaireController {
     }
 
     /**
-     * <p>Get all Commentaire in the system</p>
-     * @return List<CommentaireDto>
+     * Récupérer tous les commentaires
      */
     @GetMapping
     public ResultatDto getCommentaire() {
@@ -26,7 +25,7 @@ public class CommentaireController {
     }
 
     /**
-     * Method to get the Commentaire based on the ID
+     * Récupérer un commentaire correspondant à l'id
      */
     @GetMapping("/{_id}")
     public ResultatDto getCommentaire(@PathVariable String _id){
@@ -34,7 +33,7 @@ public class CommentaireController {
     }
 
     /**
-     * Get a commentaire by it's user id
+     * Récupérer les commentaires d'un utilisateur correspondant à l'id
      */
     @GetMapping("/utilisateur/{pseudo}")
     public ResultatDto getCommentaireByUtilisateur(@PathVariable String pseudo){
@@ -42,7 +41,7 @@ public class CommentaireController {
     }
 
     /**
-     * Get a commentaire by it's sortie id
+     * Récupérer les commentaires d'une sortie correspondant à l'id
      */
     @GetMapping("/sortie/{id}")
     public ResultatDto getCommentaireBySortie(@PathVariable int id){
@@ -50,7 +49,7 @@ public class CommentaireController {
     }
 
     /**
-     * Create a new commentaire in the system
+     * Enregistrer un nouveau commentaire
      */
     @PostMapping
     public ResultatDto saveCommentaire(final @RequestBody CommentaireDto commentaireDto){
@@ -58,7 +57,7 @@ public class CommentaireController {
     }
 
     /**
-     * Update a commentaire in the system
+     * Modifier un commentaire existant
      */
     @PutMapping("/{_id}")
     public ResultatDto updateCommentaire(@PathVariable String _id,final @RequestBody CommentaireDto commentaireDto){
@@ -66,7 +65,7 @@ public class CommentaireController {
     }
 
     /**
-     * Delete a commentaire in the system
+     * Supprimer un commentaire existant
      */
     @DeleteMapping("/{_id}")
     public ResultatDto deleteCommentaire(@PathVariable String _id){

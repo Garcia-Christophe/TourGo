@@ -7,28 +7,37 @@ import org.bson.types.ObjectId;
 public interface CommentaireService {
 
     /**
-     * Sauvegarder une Commentaire
+     * Sauvegarder un commentaire
      */
     ResultatDto saveCommentaire(CommentaireDto commentaireDto);
 
     /**
-     * Récupérer une Commentaire par son id
+     * Récupérer un commentaire par son id
      */
     ResultatDto getCommentaireById(String objId);
 
+    /**
+     * Modifier un commentaire par son id
+     */
     ResultatDto updateCommentaireById(String objId, CommentaireDto commentaireDto);
 
     /**
-     * Supprimer une Commentaire par son identifiant
+     * Supprimer un commentaire par son id
      */
     ResultatDto deleteCommentaire(String objId);
 
     /**
-     * Récuperer toutes les Commentaires
+     * Récuperer tous les commentaires
      */
     ResultatDto getAllCommentaires();
 
+    /**
+     * Récupérer tous les commentaires d'un utilisateur par son pseudo
+     */
     ResultatDto getCommentaireByUtilisateur(String pseudo);
 
+    /**
+     * Récupérer tous les commentaires d'une sortie par son id
+     */
     ResultatDto getCommentaireBySortie(int idSortie);
 }

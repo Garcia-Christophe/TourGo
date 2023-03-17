@@ -18,8 +18,7 @@ public class CommandeController {
     }
 
     /**
-     * <p>Get all Commande in the system</p>
-     * @return List<CommandeDto>
+     * Récupérer toutes les commandes
      */
     @GetMapping
     public ResultatDto getCommande() {
@@ -27,7 +26,7 @@ public class CommandeController {
     }
 
     /**
-     * Method to get the Commande based on the ID
+     * Récupérer la commande correspondant à l'id
      */
     @GetMapping("/{id}")
     public ResultatDto getCommande(@PathVariable int id){
@@ -35,7 +34,7 @@ public class CommandeController {
     }
 
     /**
-     * Get a Commande by it's user id
+     * Récupérer les commandes d'un utilisateur correspondant à l'id
      */
     @GetMapping("/utilisateur/{pseudo}")
     public ResultatDto getCommandeByIdUtilisateur(@PathVariable String pseudo){
@@ -43,7 +42,7 @@ public class CommandeController {
     }
 
     /**
-     * Create a new Commande in the system
+     * Enregistrer une nouvelle commande
      */
     @PostMapping
     public ResultatDto saveCommande(final @RequestBody CommandeDto commandeDto){
@@ -51,7 +50,7 @@ public class CommandeController {
     }
 
     /**
-     * Update a Commande in the system
+     * Modifier une commande existante
      */
     @PutMapping("/{id}")
     public ResultatDto updateCommande(@PathVariable int id, final @RequestBody CommandeDto commandeDto){
@@ -59,7 +58,7 @@ public class CommandeController {
     }
 
     /**
-     * Delete a Commande by it's id
+     * Supprimer une commande existante
      */
     @DeleteMapping("/{id}")
     public ResultatDto deleteCommande(@PathVariable int id){

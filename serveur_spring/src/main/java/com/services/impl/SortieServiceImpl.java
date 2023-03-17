@@ -37,6 +37,7 @@ public class SortieServiceImpl implements SortieService {
         // Vérification de l'unicité de l'id
         try {
             Sortie s = sortieRepository.findById(sortieDto.getIdSortie()).orElseThrow(() -> new EntityNotFoundException("Sortie not found"));
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("L'identifiant est déjà pris.");
         }catch (EntityNotFoundException e){
@@ -50,10 +51,12 @@ public class SortieServiceImpl implements SortieService {
             }
             if(!erreur){
                 Sortie sortie = this.sortieDtoToEntity(sortieDto);
+                //Mise à zéro du nombre de vue, inscrit
                 sortie.setNbVues(0);
-                sortie.setNbPlaces(0);
                 sortie.setNbInscrits(0);
+                //Enregistrement de la sortie
                 this.sortieRepository.save(sortie);
+                //Ecriture de la réponse
                 sortieDtoRetourne=this.sortieEntityToDto(sortie);
                 res.setOk(true);
                 res.setMessage("Sortie ajoutée.");
@@ -68,14 +71,17 @@ public class SortieServiceImpl implements SortieService {
     @Override
     public ResultatDto getSortieById(int sortieId) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existance de la sortie
         try{
             Sortie sortie = sortieRepository.findById(sortieId).orElseThrow(() -> new EntityNotFoundException("Sortie not found"));
+            //Ecriture de la réponse
             res.setOk(true);
             res.setMessage("La sortie existe.");
             Set<Object> set = new HashSet<>();
             set.add(sortieEntityToDto(sortie));
             res.setData(set);
         }catch(EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("La sortie n'existe pas.");
         }
@@ -87,37 +93,48 @@ public class SortieServiceImpl implements SortieService {
         ResultatDto res = new ResultatDto();
         System.out.println(sortieDto.getNbVues());
         SortieDto sortieDtoRetourne = null;
+        //Vérification de l'exstance de la sortie
         try {
             Sortie sortie = sortieRepository.findById(idSortie).orElseThrow(() -> new EntityNotFoundException("Sortie not found"));
+            //Mise à jour du nom de la sortie
             if(sortieDto.getNomSortie()!=null && sortieDto.getNomSortie().length()!=0){
                 sortie.setNomSortie(sortieDto.getNomSortie());
             }
+            //Mise à jour de la description de la sortie
             if(sortieDto.getDescriptionSortie()!=null && sortieDto.getDescriptionSortie().length()!=0){
                 sortie.setDescriptionSortie(sortieDto.getDescriptionSortie());
             }
+            //Mise à jour de la date de la sortie
             if(sortieDto.getDate()!=null){
                 sortie.setDate(sortieDto.getDate());
             }
+            //Mise à jour de l'heure de la sortie
             if(sortieDto.getHeure()!=null){
                 sortie.setHeure(sortieDto.getHeure());
             }
+            //Mise à jour de la durée de la sortie
             if(sortieDto.getDuree()!=null){
                sortie.setDuree(sortieDto.getDuree());
             }
+            //Mise à jour de l'image de la sortie
             if( sortieDto.getImage()!=null && sortieDto.getImage().length()!=0) {
                 sortie.setImage(sortieDto.getImage());
             }
+            //Mise à jour de lieu de la sortie
             if(sortieDto.getLieu()!=null && sortieDto.getLieu().length()!=0){
                 sortie.setLieu(sortieDto.getLieu());
             }
+            //Mise à jour du nombre de vue de la sortie
             if(sortieDto.getNbVues()!=0){
                 System.out.println(sortie.getNbVues()+" : "+sortie.getNbVues()+1);
                 sortie.setNbVues(sortie.getNbVues()+1);
             }
             boolean erreur = false;
+            //Mise à jour du nombre de place si possible par rapport au nombre d'inscrits
             if(sortieDto.getNbPlaces()!=0){
                 if(sortie.getNbInscrits()>sortieDto.getNbPlaces()){
                     erreur=true;
+                    //Ecriture de la réponse
                     res.setOk(false);
                     res.setMessage("Le nombre d'inscrit est trop important pour diminuer le nombre de places.");
                 }else{
@@ -126,8 +143,10 @@ public class SortieServiceImpl implements SortieService {
             }
             if(!erreur){
                 sortie.setPrixSortie(sortieDto.getPrixSortie());
+                //Enregistrement des modifications de la sortie
                 this.sortieRepository.save(sortie);
                 sortieDtoRetourne=this.sortieEntityToDto(sortie);
+                //Ecriture de la réponse
                 res.setOk(true);
                 res.setMessage("Sortie modifiée.");
                 Set<Object> set = new HashSet<>();
@@ -135,6 +154,7 @@ public class SortieServiceImpl implements SortieService {
                 res.setData(set);
             }
         }catch (EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("L'identifiant n'existe pas.");
         }
@@ -144,24 +164,30 @@ public class SortieServiceImpl implements SortieService {
     @Override
     public ResultatDto deleteSortie(int sortieId) {
         ResultatDto res = new ResultatDto();
+        //Vérification de l'existance de la sortie
         try{
             Sortie sortie = sortieRepository.findById(sortieId).orElseThrow(() -> new EntityNotFoundException("Sortie not found"));
+            //Suppression des reservations de la sortie
             Iterator<Reservation> itResa = sortie.getReservationSet().iterator();
             ReservationServiceImpl rsi = new ReservationServiceImpl(reservationRepository,commandeRepository,optionRepository,sortieRepository);
             while(itResa.hasNext()){
                 Reservation resa = itResa.next();
                 rsi.deleteReservation(resa.getIdReservation());
             }
+            //Suppression des options de la sortie
             Iterator<Monoption> itOp = sortie.getOptionSet().iterator();
             OptionServiceImpl osp = new OptionServiceImpl(optionRepository, sortieRepository, reservationRepository);
             while(itOp.hasNext()){
                 Monoption op = itOp.next();
                 osp.deleteOption(op.getIdOption());
             }
+            //Suppression de la sortie
             sortieRepository.delete(sortie);
+            //Ecriture de la réponse
             res.setOk(true);
             res.setMessage("Suppression réussi.");
         }catch (EntityNotFoundException e){
+            //Ecriture de la réponse
             res.setOk(false);
             res.setMessage("Sortie inexistant.");
         }
@@ -172,10 +198,12 @@ public class SortieServiceImpl implements SortieService {
     public ResultatDto getAllSorties() {
         ResultatDto res = new ResultatDto();
         Set<Object> sortieDtos = new HashSet<>();
+        //Récupération de toutes les sorties
         List<Sortie> sorties = sortieRepository.findAll();
         sorties.forEach(sortie -> {
             sortieDtos.add(sortieEntityToDto(sortie));
         });
+        //Ecriture de la réponse
         res.setOk(true);
         res.setMessage("Liste de toutes les soirées.");
         res.setData(sortieDtos);
