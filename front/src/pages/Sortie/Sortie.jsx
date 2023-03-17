@@ -8,6 +8,25 @@ import etoileVide from "../../assets/etoileVide.png";
 import axios from "axios";
 
 const Sortie = () => {
+  const [sortie, setSortie] = useState({
+    idSortie: 1,
+    nomSortie: "",
+    descriptionSortie: "",
+    prixSortie: 0,
+    nbPlaces: 0,
+    nbInscrits: 0,
+    date: "1970-01-01",
+    heure: "00:00",
+    lieu: "",
+    image: "",
+  });
+  const [options, setOptions] = useState([]);
+  const [commentaires, setCommentaires] = useState([]);
+  const [nbPersonnes, setNbPersonnes] = useState(1);
+  const [newComm_note, setNewComNote] = useState(1);
+  const [newCom_texte, setNewComText] = useState("");
+  const [newCom_images, setNewComImages] = useState([]);
+
   useEffect(() => {
     // Personnalisation de la barre de progression
     for (let e of document.querySelectorAll(
@@ -59,7 +78,11 @@ const Sortie = () => {
 
     axios(optionsHttp2).then((response) => {
       if (response.data.ok) {
-        setOptions(response.data.data);
+        let lesOptions = response.data.data;
+        for (let i = 0; i < lesOptions.length; i++) {
+          lesOptions[i].ajoutee = false;
+        }
+        setOptions(lesOptions);
       }
     });
 
@@ -80,81 +103,24 @@ const Sortie = () => {
         console.log("Nombre de vues incrémenté");
       }
     });
+    const optionsHttp4 = {
+      url: "http://localhost:3001/Sortie/Commentaires",
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+      params: {
+        idSortie: id,
+      },
+    };
+    axios(optionsHttp4).then((response) => {
+      if (response.data.ok) {
+        setCommentaires(response.data.data);
+      }
+    });
+    // eslint-disable-next-line no-use-before-define
   }, []);
-
-  const [sortie, setSortie] = useState({
-    idSortie: 1,
-    nomSortie: "",
-    descriptionSortie: "",
-    prixSortie: 0,
-    nbPlaces: 0,
-    nbInscrits: 0,
-    date: "1970-01-01",
-    heure: "00:00",
-    lieu: "",
-    image: "",
-  });
-  const [options, setOptions] = useState([]);
-  // const options = [
-  //   {
-  //     idOption: 1,
-  //     nomOption: "Option 1",
-  //     prixOption: 1,
-  //     ajoutee: false,
-  //   },
-  //   {
-  //     idOption: 2,
-  //     nomOption: "Option 2",
-  //     prixOption: 2,
-  //     ajoutee: false,
-  //   },
-  //   {
-  //     idOption: 3,
-  //     nomOption: "Option 3",
-  //     prixOption: 3,
-  //     ajoutee: false,
-  //   },
-  // ];
-  const [commentaires, setCommentaires] = useState([
-    {
-      prenomUtilisateur: "Jean",
-      nomUtilisateur: "Dupont",
-      note: 4,
-      commentaire:
-        "J'en suis très satisfait, seul bémol, c'est en noir uniquement. Comme c'est un produit qui peut se mettre à l'extérieur, pourquoi ne pas le proposer en blanc ? La plupart des maisons ont des murs blancs (en tout cas plus de murs blancs que de murs noirs me semble-t-il), et, là, quand on veut faire discret, c'est raté. Le jour où ça sort en blanc, j'en achète 4 de plus illico !",
-      dateHeureCreation: "2020-12-01T15:00:00.000Z",
-      images: [
-        "https://picsum.photos/1920/1080",
-        "https://picsum.photos/1920/1080",
-      ],
-    },
-    {
-      prenomUtilisateur: "Jean",
-      nomUtilisateur: "Dupont",
-      note: 2,
-      commentaire:
-        "J'en suis très satisfait, seul bémol, c'est en noir uniquement. Comme c'est un produit qui peut se mettre à l'extérieur, pourquoi ne pas le proposer en blanc ? La plupart des maisons ont des murs blancs (en tout cas plus de murs blancs que de murs noirs me semble-t-il), et, là, quand on veut faire discret, c'est raté. Le jour où ça sort en blanc, j'en achète 4 de plus illico !",
-      dateHeureCreation: "2020-12-01T15:00:00.000Z",
-      images: [],
-    },
-    {
-      prenomUtilisateur: "Jean",
-      nomUtilisateur: "Dupont",
-      note: 5,
-      commentaire:
-        "J'en suis très satisfait, seul bémol, c'est en noir uniquement. Comme c'est un produit qui peut se mettre à l'extérieur, pourquoi ne pas le proposer en blanc ? La plupart des maisons ont des murs blancs (en tout cas plus de murs blancs que de murs noirs me semble-t-il), et, là, quand on veut faire discret, c'est raté. Le jour où ça sort en blanc, j'en achète 4 de plus illico !",
-      dateHeureCreation: "2020-12-01T15:00:00.000Z",
-      images: [
-        "https://picsum.photos/1920/1080",
-        "https://picsum.photos/1920/1080",
-        "https://picsum.photos/1920/1080",
-      ],
-    },
-  ]);
-  const [nbPersonnes, setNbPersonnes] = useState(1);
-  const [newComm_note, setNewComNote] = useState(1);
-  const [newCom_texte, setNewComText] = useState("");
-  const [newCom_images, setNewComImages] = useState([]);
 
   return (
     <>
@@ -229,11 +195,31 @@ const Sortie = () => {
                   </div>
                 </div>
                 <button
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     if (sessionStorage.getItem("token") === null) {
                       window.location.href = "/Connexion";
                     } else {
-                      console.log("resa : " + nbPersonnes);
+                      const optionsHttp = {
+                        url: "http://localhost:3001/Sortie/Reserver",
+                        method: "POST",
+                        headers: {
+                          Accept: "application/json",
+                          "Content-Type": "application/json;charset=UTF-8",
+                          Authorization:
+                            "Bearer " + sessionStorage.getItem("token"),
+                        },
+                        data: {
+                          idSortie: sortie.idSortie,
+                          nbPersonnes: nbPersonnes,
+                          options: options.filter((option) => option.ajoutee),
+                          pseudo: sessionStorage.getItem("pseudo"),
+                        },
+                      };
+                      await axios(optionsHttp).then((response) => {
+                        if (response.data.ok) {
+                          window.location.href = "/Panier";
+                        }
+                      });
                     }
                   }}
                   className="btnReserver btn"
@@ -322,7 +308,7 @@ const Sortie = () => {
                     cols="30"
                     rows="10"
                     value={newCom_texte}
-                    maxlength="500"
+                    maxLength={500}
                     onChange={(e) => setNewComText(e.target.value)}
                   ></textarea>
                 </div>
@@ -346,21 +332,45 @@ const Sortie = () => {
                 </div>
                 <button
                   className="btn btnEnvoyer"
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     if (sessionStorage.getItem("token") === null) {
                       window.location.href = "/Connexion";
                     } else {
-                      setCommentaires([
-                        ...commentaires,
-                        {
-                          prenomUtilisateur: "Jean",
-                          nomUtilisateur: "Dupont",
+                      const optionsHttp = {
+                        url: "http://localhost:3001/Sortie/Commentaire",
+                        method: "POST",
+                        headers: {
+                          Accept: "application/json",
+                          "Content-Type": "application/json;charset=UTF-8",
+                          Authorization:
+                            "Bearer " + sessionStorage.getItem("token"),
+                        },
+                        data: {
+                          pseudoUtilisateur: sessionStorage.getItem("pseudo"),
+                          idSortie: sortie.idSortie,
+                          dateHeureCreation: new Date(),
                           note: newComm_note,
                           commentaire: newCom_texte,
                           images: newCom_images,
-                          dateHeureCreation: new Date(),
                         },
-                      ]);
+                      };
+                      await axios(optionsHttp).then((response) => {});
+                      const optionsHttp4 = {
+                        url: "http://localhost:3001/Sortie/Commentaires",
+                        method: "GET",
+                        headers: {
+                          Accept: "application/json",
+                          "Content-Type": "application/json;charset=UTF-8",
+                        },
+                        params: {
+                          idSortie: sortie.idSortie,
+                        },
+                      };
+                      await axios(optionsHttp4).then((response) => {
+                        if (response.data.ok) {
+                          setCommentaires(response.data.data);
+                        }
+                      });
                       setNewComImages([]);
                       document.getElementById("newComImages").value = [];
                       setNewComText("");

@@ -14,7 +14,7 @@ const Gestion = () => {
     nom: "",
     prenom: "",
     dateNaissance: "",
-    email: "",
+    mail: "",
     mdp: "",
   });
   const [nouvelUtilisateur, setNouvelUtilisateur] = useState({
@@ -22,32 +22,32 @@ const Gestion = () => {
     nom: "",
     prenom: "",
     dateNaissance: "",
-    email: "",
+    mail: "",
     mdp: "",
   });
   const [commandes, setCommandes] = useState([]);
   const [commandeSelectionnee, setCommandeSelectionnee] = useState({
-    idCommande: "",
+    idCommande: 0,
     dateCommande: "",
     pseudoUtilisateur: "",
   });
   const [nouvelleCommande, setNouvelleCommande] = useState({
-    idCommande: "",
+    idCommande: 0,
     dateCommande: "",
     pseudoUtilisateur: "",
   });
   const [reservations, setReservations] = useState([]);
   const [reservationSelectionnee, setReservationSelectionnee] = useState({
-    idReservation: "",
-    nbPersonnes: "",
-    idSortie: "",
-    idCommande: "",
+    idReservation: 0,
+    nbPersonnes: 0,
+    idSortie: 0,
+    idCommande: 0,
   });
   const [nouvelleReservation, setNouvelleReservation] = useState({
-    idReservation: "",
-    nbPersonnes: "",
-    idSortie: "",
-    idCommande: "",
+    idReservation: 0,
+    nbPersonnes: 0,
+    idSortie: 0,
+    idCommande: 0,
   });
   const [sorties, setSorties] = useState([]);
   const [sortieSelectionnee, setSortieSelectionnee] = useState({
@@ -76,27 +76,29 @@ const Gestion = () => {
   });
   const [options, setOptions] = useState([]);
   const [optionSelectionnee, setOptionSelectionnee] = useState({
-    idOption: "",
+    idOption: 0,
     nomOption: "",
     prixOption: "",
-    idSortie: "",
+    idSortie: 0,
   });
   const [nouvelleOption, setNouvelleOption] = useState({
-    idOption: "",
+    idOption: 0,
     nomOption: "",
     prixOption: "",
-    idSortie: "",
+    idSortie: 0,
   });
   const [commentaires, setCommentaires] = useState([]);
   const [commentaireSelectionne, setCommentaireSelectionne] = useState({
+    _id: "",
     pseudoUtilisateur: "",
-    idSortie: "",
+    idSortie: 0,
     note: "",
     commentaire: "",
     dateHeureCreation: "",
     images: [],
   });
   const [nouveauCommentaire, setNouveauCommentaire] = useState({
+    _id: "",
     pseudoUtilisateur: "",
     idSortie: "",
     note: "",
@@ -104,6 +106,12 @@ const Gestion = () => {
     dateHeureCreation: "",
     images: [],
   });
+
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
+    Authorization: "Bearer " + sessionStorage.getItem("token"),
+  };
 
   useEffect(() => {
     // Effets d'affichage
@@ -113,11 +121,7 @@ const Gestion = () => {
     const options = {
       url: "http://localhost:3001/Gestion",
       method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json;charset=UTF-8",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
-      },
+      headers: headers,
     };
     axios(options).then((response) => {
       if (response.data.ok) {
@@ -129,7 +133,8 @@ const Gestion = () => {
         setReservations(response.data.reservations.data);
       }
     });
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sorties, options, commentaires, utilisateurs, commandes, reservations]);
 
   return (
     <>
@@ -243,13 +248,30 @@ const Gestion = () => {
                   <button
                     className="btn btnSupprimer"
                     disabled={!sortieSelectionnee}
-                    onClick={() => {
-                      setSorties(
-                        sorties.filter(
-                          (sortie) =>
-                            sortie.idSortie !== sortieSelectionnee.idSortie
-                        )
-                      );
+                    onClick={async () => {
+                      let options = {
+                        url: "http://localhost:3001/Gestion",
+                        method: "DELETE",
+                        headers: headers,
+                        data: {
+                          table: "sorties",
+                          id: sortieSelectionnee.idSortie,
+                        },
+                      };
+                      await axios(options).then((response) => {
+                        document.getElementById("messageSortie").innerHTML =
+                          response.data.message;
+                        document
+                          .getElementById("messageSortie")
+                          .classList.remove(
+                            response.data.ok ? "messageKO" : "messageOK"
+                          );
+                        document
+                          .getElementById("messageSortie")
+                          .classList.add(
+                            response.data.ok ? "messageOK" : "messageKO"
+                          );
+                      });
                       setSortieSelectionnee({
                         idSortie: 0,
                         nomSortie: "",
@@ -262,14 +284,6 @@ const Gestion = () => {
                         lieu: "",
                         image: "",
                       });
-                      document.getElementById("messageSortie").innerHTML =
-                        "Sortie supprimée.";
-                      document
-                        .getElementById("messageSortie")
-                        .classList.remove("messageKO");
-                      document
-                        .getElementById("messageSortie")
-                        .classList.add("messageOK");
                     }}
                   >
                     Supprimer
@@ -296,7 +310,7 @@ const Gestion = () => {
                         <label>Description</label>
                         <textarea
                           value={nouvelleSortie.descriptionSortie}
-                          maxlength="500"
+                          maxLength={500}
                           rows="4"
                           cols="50"
                           onChange={(e) =>
@@ -407,7 +421,7 @@ const Gestion = () => {
                     </div>
                     <button
                       className="btn btnAjouter"
-                      onClick={() => {
+                      onClick={async () => {
                         if (
                           nouvelleSortie.nomSortie &&
                           nouvelleSortie.descriptionSortie &&
@@ -419,7 +433,35 @@ const Gestion = () => {
                           nouvelleSortie.lieu &&
                           nouvelleSortie.image
                         ) {
-                          setSorties([...sorties, nouvelleSortie]);
+                          let data = {
+                            table: "sorties",
+                            maTable: {},
+                          };
+                          nouvelleSortie.heure += ":00";
+                          nouvelleSortie.duree += ":00";
+                          for (let key in nouvelleSortie) {
+                            data.maTable[key] = nouvelleSortie[key];
+                          }
+                          let options = {
+                            url: "http://localhost:3001/Gestion",
+                            method: "POST",
+                            headers: headers,
+                            data: data,
+                          };
+                          await axios(options).then((response) => {
+                            document.getElementById("messageSortie").innerHTML =
+                              response.data.message;
+                            document
+                              .getElementById("messageSortie")
+                              .classList.remove(
+                                response.data.ok ? "messageKO" : "messageOK"
+                              );
+                            document
+                              .getElementById("messageSortie")
+                              .classList.add(
+                                response.data.ok ? "messageOK" : "messageKO"
+                              );
+                          });
                           setNouvelleSortie({
                             idSortie: 0,
                             nomSortie: "",
@@ -435,14 +477,6 @@ const Gestion = () => {
                           document.getElementById(
                             "ajouterInputFileSortie"
                           ).value = "";
-                          document.getElementById("messageSortie").innerHTML =
-                            "Sortie ajoutée.";
-                          document
-                            .getElementById("messageSortie")
-                            .classList.remove("messageKO");
-                          document
-                            .getElementById("messageSortie")
-                            .classList.add("messageOK");
                         } else {
                           document.getElementById("messageSortie").innerHTML =
                             "Veuillez remplir tous les champs.";
@@ -478,7 +512,7 @@ const Gestion = () => {
                         <label>Description</label>
                         <textarea
                           value={sortieSelectionnee.descriptionSortie}
-                          maxlength="500"
+                          maxLength={500}
                           rows="4"
                           cols="50"
                           onChange={(e) =>
@@ -589,7 +623,7 @@ const Gestion = () => {
                     </div>
                     <button
                       className="btn btnModifier"
-                      onClick={() => {
+                      onClick={async () => {
                         if (
                           sortieSelectionnee.nomSortie &&
                           sortieSelectionnee.descriptionSortie &&
@@ -601,13 +635,36 @@ const Gestion = () => {
                           sortieSelectionnee.lieu &&
                           sortieSelectionnee.image
                         ) {
-                          setSorties([
-                            ...sorties.filter(
-                              (sortie) =>
-                                sortie.idSortie !== sortieSelectionnee.idSortie
-                            ),
-                            sortieSelectionnee,
-                          ]);
+                          let data = {
+                            table: "sorties",
+                            id: sortieSelectionnee.idSortie,
+                            maTable: {},
+                          };
+                          sortieSelectionnee.heure += ":00";
+                          sortieSelectionnee.duree += ":00";
+                          for (let key in sortieSelectionnee) {
+                            data.maTable[key] = sortieSelectionnee[key];
+                          }
+                          let options = {
+                            url: "http://localhost:3001/Gestion",
+                            method: "PUT",
+                            headers: headers,
+                            data: data,
+                          };
+                          await axios(options).then((response) => {
+                            document.getElementById("messageSortie").innerHTML =
+                              response.data.message;
+                            document
+                              .getElementById("messageSortie")
+                              .classList.remove(
+                                response.data.ok ? "messageKO" : "messageOK"
+                              );
+                            document
+                              .getElementById("messageSortie")
+                              .classList.add(
+                                response.data.ok ? "messageOK" : "messageKO"
+                              );
+                          });
                           setSortieSelectionnee({
                             idSortie: 0,
                             nomSortie: "",
@@ -623,14 +680,6 @@ const Gestion = () => {
                           document.getElementById(
                             "modifierInputFileSortie"
                           ).value = "";
-                          document.getElementById("messageSortie").innerHTML =
-                            "Sortie modifiée.";
-                          document
-                            .getElementById("messageSortie")
-                            .classList.remove("messageKO");
-                          document
-                            .getElementById("messageSortie")
-                            .classList.add("messageOK");
                         } else {
                           document.getElementById("messageSortie").innerHTML =
                             "Veuillez remplir tous les champs.";
@@ -691,27 +740,36 @@ const Gestion = () => {
                   <button
                     className="btn btnSupprimer"
                     disabled={!optionSelectionnee}
-                    onClick={() => {
-                      setOptions(
-                        options.filter(
-                          (option) =>
-                            option.idOption !== optionSelectionnee.idOption
-                        )
-                      );
+                    onClick={async () => {
+                      let options = {
+                        url: "http://localhost:3001/Gestion",
+                        method: "DELETE",
+                        headers: headers,
+                        data: {
+                          table: "options",
+                          id: optionSelectionnee.idOption,
+                        },
+                      };
+                      await axios(options).then((response) => {
+                        document.getElementById("messageOption").innerHTML =
+                          response.data.message;
+                        document
+                          .getElementById("messageOption")
+                          .classList.remove(
+                            response.data.ok ? "messageKO" : "messageOK"
+                          );
+                        document
+                          .getElementById("messageOption")
+                          .classList.add(
+                            response.data.ok ? "messageOK" : "messageKO"
+                          );
+                      });
                       setOptionSelectionnee({
                         idOption: 0,
                         nomOption: "",
                         prixOption: 0,
                         idSortie: 0,
                       });
-                      document.getElementById("messageOption").innerHTML =
-                        "Option supprimée.";
-                      document
-                        .getElementById("messageOption")
-                        .classList.remove("messageKO");
-                      document
-                        .getElementById("messageOption")
-                        .classList.add("messageOK");
                     }}
                   >
                     Supprimer
@@ -765,27 +823,45 @@ const Gestion = () => {
                     </div>
                     <button
                       className="btn btnAjouter"
-                      onClick={() => {
+                      onClick={async () => {
                         if (
                           nouvelleOption.nomOption &&
                           nouvelleOption.prixOption &&
                           nouvelleOption.idSortie
                         ) {
-                          setOptions([...options, nouvelleOption]);
+                          let data = {
+                            table: "options",
+                            maTable: {},
+                          };
+                          for (let key in nouvelleOption) {
+                            data.maTable[key] = nouvelleOption[key];
+                          }
+                          let options = {
+                            url: "http://localhost:3001/Gestion",
+                            method: "POST",
+                            headers: headers,
+                            data: data,
+                          };
+                          await axios(options).then((response) => {
+                            document.getElementById("messageOption").innerHTML =
+                              response.data.message;
+                            document
+                              .getElementById("messageOption")
+                              .classList.remove(
+                                response.data.ok ? "messageKO" : "messageOK"
+                              );
+                            document
+                              .getElementById("messageOption")
+                              .classList.add(
+                                response.data.ok ? "messageOK" : "messageKO"
+                              );
+                          });
                           setNouvelleOption({
                             idOption: 0,
                             nomOption: "",
                             prixOption: 0,
                             idSortie: 0,
                           });
-                          document.getElementById("messageOption").innerHTML =
-                            "Option ajoutée.";
-                          document
-                            .getElementById("messageOption")
-                            .classList.remove("messageKO");
-                          document
-                            .getElementById("messageOption")
-                            .classList.add("messageOK");
                         } else {
                           document.getElementById("messageOption").innerHTML =
                             "Veuillez remplir tous les champs.";
@@ -831,44 +907,48 @@ const Gestion = () => {
                           }
                         />
                       </div>
-                      <div className="input grid">
-                        <label>ID Sortie</label>
-                        <input
-                          type="number"
-                          min={1}
-                          value={optionSelectionnee.idSortie}
-                          onChange={(e) =>
-                            setOptionSelectionnee({
-                              ...optionSelectionnee,
-                              idSortie: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
                     </div>
                     <button
                       className="btn btnModifier"
-                      onClick={() => {
+                      onClick={async () => {
                         if (
                           optionSelectionnee.nomOption &&
-                          optionSelectionnee.prixOption &&
-                          optionSelectionnee.idSortie
+                          optionSelectionnee.prixOption
                         ) {
-                          setOptions(
-                            options.map((option) =>
-                              option.idOption === optionSelectionnee.idOption
-                                ? optionSelectionnee
-                                : option
-                            )
-                          );
-                          document.getElementById("messageOption").innerHTML =
-                            "Option modifiée.";
-                          document
-                            .getElementById("messageOption")
-                            .classList.remove("messageKO");
-                          document
-                            .getElementById("messageOption")
-                            .classList.add("messageOK");
+                          let data = {
+                            table: "options",
+                            id: optionSelectionnee.idOption,
+                            maTable: {},
+                          };
+                          for (let key in optionSelectionnee) {
+                            data.maTable[key] = optionSelectionnee[key];
+                          }
+                          let options = {
+                            url: "http://localhost:3001/Gestion",
+                            method: "PUT",
+                            headers: headers,
+                            data: data,
+                          };
+                          await axios(options).then((response) => {
+                            document.getElementById("messageOption").innerHTML =
+                              response.data.message;
+                            document
+                              .getElementById("messageOption")
+                              .classList.remove(
+                                response.data.ok ? "messageKO" : "messageOK"
+                              );
+                            document
+                              .getElementById("messageOption")
+                              .classList.add(
+                                response.data.ok ? "messageOK" : "messageKO"
+                              );
+                          });
+                          setOptionSelectionnee({
+                            idOption: 0,
+                            nomOption: "",
+                            prixOption: 0,
+                            idSortie: 0,
+                          });
                         } else {
                           document.getElementById("messageOption").innerHTML =
                             "Veuillez remplir tous les champs.";
@@ -925,6 +1005,7 @@ const Gestion = () => {
                     className="btn btnDeselectionner"
                     onClick={() =>
                       setCommentaireSelectionne({
+                        _id: "",
                         pseudoUtilisateur: "",
                         idSortie: 0,
                         note: 0,
@@ -939,19 +1020,33 @@ const Gestion = () => {
                   <button
                     className="btn btnSupprimer"
                     disabled={!commentaireSelectionne}
-                    onClick={() => {
-                      setCommentaires(
-                        commentaires.filter(
-                          (commentaire) =>
-                            commentaire.pseudoUtilisateur !==
-                              commentaireSelectionne.pseudoUtilisateur ||
-                            commentaire.idSortie !==
-                              commentaireSelectionne.idSortie ||
-                            commentaire.dateHeureCreation !==
-                              commentaireSelectionne.dateHeureCreation
-                        )
-                      );
+                    onClick={async () => {
+                      let options = {
+                        url: "http://localhost:3001/Gestion",
+                        method: "DELETE",
+                        headers: headers,
+                        data: {
+                          table: "commentaires",
+                          id: commentaireSelectionne._id,
+                        },
+                      };
+                      await axios(options).then((response) => {
+                        document.getElementById(
+                          "messageCommentaire"
+                        ).innerHTML = response.data.message;
+                        document
+                          .getElementById("messageCommentaire")
+                          .classList.remove(
+                            response.data.ok ? "messageKO" : "messageOK"
+                          );
+                        document
+                          .getElementById("messageCommentaire")
+                          .classList.add(
+                            response.data.ok ? "messageOK" : "messageKO"
+                          );
+                      });
                       setCommentaireSelectionne({
+                        _id: "",
                         pseudoUtilisateur: "",
                         idSortie: 0,
                         note: 0,
@@ -959,14 +1054,6 @@ const Gestion = () => {
                         dateHeureCreation: "",
                         images: [],
                       });
-                      document.getElementById("messageCommentaire").innerHTML =
-                        "Commentaire supprimé.";
-                      document
-                        .getElementById("messageCommentaire")
-                        .classList.remove("messageKO");
-                      document
-                        .getElementById("messageCommentaire")
-                        .classList.add("messageOK");
                     }}
                   >
                     Supprimer
@@ -1064,7 +1151,7 @@ const Gestion = () => {
                       </div>
                       <button
                         className="btn btnAjouter"
-                        onClick={() => {
+                        onClick={async () => {
                           if (
                             nouveauCommentaire.pseudoUtilisateur.length > 0 &&
                             nouveauCommentaire.idSortie > 0 &&
@@ -1073,11 +1160,36 @@ const Gestion = () => {
                             nouveauCommentaire.commentaire.length > 0 &&
                             nouveauCommentaire.dateHeureCreation.length > 0
                           ) {
-                            setCommentaires([
-                              ...commentaires,
-                              nouveauCommentaire,
-                            ]);
+                            let data = {
+                              table: "commentaires",
+                              maTable: {},
+                            };
+                            for (let key in nouveauCommentaire) {
+                              data.maTable[key] = nouveauCommentaire[key];
+                            }
+                            let options = {
+                              url: "http://localhost:3001/Gestion",
+                              method: "POST",
+                              headers: headers,
+                              data: data,
+                            };
+                            await axios(options).then((response) => {
+                              document.getElementById(
+                                "messageCommentaire"
+                              ).innerHTML = response.data.message;
+                              document
+                                .getElementById("messageCommentaire")
+                                .classList.remove(
+                                  response.data.ok ? "messageKO" : "messageOK"
+                                );
+                              document
+                                .getElementById("messageCommentaire")
+                                .classList.add(
+                                  response.data.ok ? "messageOK" : "messageKO"
+                                );
+                            });
                             setNouveauCommentaire({
+                              _id: "",
                               pseudoUtilisateur: "",
                               idSortie: 0,
                               note: 0,
@@ -1088,16 +1200,6 @@ const Gestion = () => {
                             document.getElementById(
                               "ajouterInputImagesCommentaire"
                             ).value = "";
-                            document.getElementById(
-                              "messageCommentaire"
-                            ).innerHTML = "Commentaire ajouté.";
-                            document
-                              .getElementById("messageCommentaire")
-                              .classList.remove("messageKO");
-                            document
-
-                              .getElementById("messageCommentaire")
-                              .classList.add("messageOK");
                           } else {
                             document.getElementById(
                               "messageCommentaire"
@@ -1167,25 +1269,43 @@ const Gestion = () => {
                       </div>
                       <button
                         className="btn btnModifier"
-                        onClick={() => {
+                        onClick={async () => {
                           if (
                             commentaireSelectionne.note >= 0 &&
                             commentaireSelectionne.note <= 5 &&
                             commentaireSelectionne.commentaire.length > 0
                           ) {
-                            setCommentaires(
-                              commentaires.map((commentaire) =>
-                                commentaire.pseudoUtilisateur ===
-                                  commentaireSelectionne.pseudoUtilisateur &&
-                                commentaire.idSortie ===
-                                  commentaireSelectionne.idSortie &&
-                                commentaire.dateHeureCreation ===
-                                  commentaireSelectionne.dateHeureCreation
-                                  ? commentaireSelectionne
-                                  : commentaire
-                              )
-                            );
+                            let data = {
+                              table: "commentaires",
+                              id: commentaireSelectionne._id,
+                              maTable: {},
+                            };
+                            for (let key in commentaireSelectionne) {
+                              data.maTable[key] = commentaireSelectionne[key];
+                            }
+                            let options = {
+                              url: "http://localhost:3001/Gestion",
+                              method: "PUT",
+                              headers: headers,
+                              data: data,
+                            };
+                            await axios(options).then((response) => {
+                              document.getElementById(
+                                "messageCommentaire"
+                              ).innerHTML = response.data.message;
+                              document
+                                .getElementById("messageCommentaire")
+                                .classList.remove(
+                                  response.data.ok ? "messageKO" : "messageOK"
+                                );
+                              document
+                                .getElementById("messageCommentaire")
+                                .classList.add(
+                                  response.data.ok ? "messageOK" : "messageKO"
+                                );
+                            });
                             setCommentaireSelectionne({
+                              _id: "",
                               pseudoUtilisateur: "",
                               idSortie: 0,
                               note: 0,
@@ -1196,15 +1316,6 @@ const Gestion = () => {
                             document.getElementById(
                               "modifierInputImagesCommentaire"
                             ).value = "";
-                            document.getElementById(
-                              "messageCommentaire"
-                            ).innerHTML = "Commentaire modifié.";
-                            document
-                              .getElementById("messageCommentaire")
-                              .classList.remove("messageKO");
-                            document
-                              .getElementById("messageCommentaire")
-                              .classList.add("messageOK");
                           } else {
                             document.getElementById(
                               "messageCommentaire"
@@ -1250,7 +1361,7 @@ const Gestion = () => {
                         <td>{utilisateur.nom}</td>
                         <td>{utilisateur.prenom}</td>
                         <td>{utilisateur.dateNaissance}</td>
-                        <td>{utilisateur.email}</td>
+                        <td>{utilisateur.mail}</td>
                         <td></td>
                       </tr>
                     ))}
@@ -1265,7 +1376,7 @@ const Gestion = () => {
                         nom: "",
                         prenom: "",
                         dateNaissance: "",
-                        email: "",
+                        mail: "",
                         mdp: "",
                       })
                     }
@@ -1275,29 +1386,39 @@ const Gestion = () => {
                   <button
                     className="btn btnSupprimer"
                     disabled={!utilisateurSelectionne}
-                    onClick={() => {
-                      setUtilisateurs(
-                        utilisateurs.filter(
-                          (utilisateur) =>
-                            utilisateur.pseudo !== utilisateurSelectionne.pseudo
-                        )
-                      );
+                    onClick={async () => {
+                      let options = {
+                        url: "http://localhost:3001/Gestion",
+                        method: "DELETE",
+                        headers: headers,
+                        data: {
+                          table: "utilisateurs",
+                          id: utilisateurSelectionne.pseudo,
+                        },
+                      };
+                      await axios(options).then((response) => {
+                        document.getElementById(
+                          "messageUtilisateur"
+                        ).innerHTML = response.data.message;
+                        document
+                          .getElementById("messageUtilisateur")
+                          .classList.remove(
+                            response.data.ok ? "messageKO" : "messageOK"
+                          );
+                        document
+                          .getElementById("messageUtilisateur")
+                          .classList.add(
+                            response.data.ok ? "messageOK" : "messageKO"
+                          );
+                      });
                       setUtilisateurSelectionne({
                         pseudo: "",
                         nom: "",
                         prenom: "",
                         dateNaissance: "",
-                        email: "",
+                        mail: "",
                         mdp: "",
                       });
-                      document.getElementById("messageUtilisateur").innerHTML =
-                        "Utilisateur supprimé.";
-                      document
-                        .getElementById("messageUtilisateur")
-                        .classList.remove("messageKO");
-                      document
-                        .getElementById("messageUtilisateur")
-                        .classList.add("messageOK");
                     }}
                   >
                     Supprimer
@@ -1363,11 +1484,11 @@ const Gestion = () => {
                         <label>Email</label>
                         <input
                           type="email"
-                          value={nouvelUtilisateur.email}
+                          value={nouvelUtilisateur.mail}
                           onChange={(e) =>
                             setNouvelUtilisateur({
                               ...nouvelUtilisateur,
-                              email: e.target.value,
+                              mail: e.target.value,
                             })
                           }
                         />
@@ -1387,35 +1508,50 @@ const Gestion = () => {
                       </div>
                       <button
                         className="btn btnAjouter"
-                        onClick={() => {
+                        onClick={async () => {
                           if (
                             nouvelUtilisateur.pseudo !== "" &&
                             nouvelUtilisateur.nom !== "" &&
                             nouvelUtilisateur.prenom !== "" &&
                             nouvelUtilisateur.dateNaissance !== "" &&
-                            nouvelUtilisateur.email !== ""
+                            nouvelUtilisateur.mail !== ""
                           ) {
-                            setUtilisateurs([
-                              ...utilisateurs,
-                              nouvelUtilisateur,
-                            ]);
+                            let data = {
+                              table: "utilisateurs",
+                              maTable: {},
+                            };
+                            for (let key in nouvelUtilisateur) {
+                              data.maTable[key] = nouvelUtilisateur[key];
+                            }
+                            let options = {
+                              url: "http://localhost:3001/Gestion",
+                              method: "POST",
+                              headers: headers,
+                              data: data,
+                            };
+                            await axios(options).then((response) => {
+                              document.getElementById(
+                                "messageUtilisateur"
+                              ).innerHTML = response.data.message;
+                              document
+                                .getElementById("messageUtilisateur")
+                                .classList.remove(
+                                  response.data.ok ? "messageKO" : "messageOK"
+                                );
+                              document
+                                .getElementById("messageUtilisateur")
+                                .classList.add(
+                                  response.data.ok ? "messageOK" : "messageKO"
+                                );
+                            });
                             setNouvelUtilisateur({
                               pseudo: "",
                               nom: "",
                               prenom: "",
                               dateNaissance: "",
-                              email: "",
+                              mail: "",
                               mdp: "",
                             });
-                            document.getElementById(
-                              "messageUtilisateur"
-                            ).innerHTML = "Utilisateur ajouté.";
-                            document
-                              .getElementById("messageUtilisateur")
-                              .classList.remove("messageKO");
-                            document
-                              .getElementById("messageUtilisateur")
-                              .classList.add("messageOK");
                           } else {
                             document.getElementById(
                               "messageUtilisateur"
@@ -1479,11 +1615,11 @@ const Gestion = () => {
                         <label>Email</label>
                         <input
                           type="email"
-                          value={utilisateurSelectionne.email}
+                          value={utilisateurSelectionne.mail}
                           onChange={(e) =>
                             setUtilisateurSelectionne({
                               ...utilisateurSelectionne,
-                              email: e.target.value,
+                              mail: e.target.value,
                             })
                           }
                         />
@@ -1503,39 +1639,51 @@ const Gestion = () => {
                       </div>
                       <button
                         className="btn btnModifier"
-                        onClick={() => {
+                        onClick={async () => {
                           if (
                             utilisateurSelectionne.nom !== "" &&
                             utilisateurSelectionne.prenom !== "" &&
                             utilisateurSelectionne.dateNaissance !== "" &&
-                            utilisateurSelectionne.email !== ""
+                            utilisateurSelectionne.mail !== ""
                           ) {
-                            setUtilisateurs(
-                              utilisateurs.map((utilisateur) =>
-                                utilisateur.pseudo ===
-                                utilisateurSelectionne.pseudo
-                                  ? utilisateurSelectionne
-                                  : utilisateur
-                              )
-                            );
+                            let data = {
+                              table: "utilisateurs",
+                              id: utilisateurSelectionne.pseudo,
+                              maTable: {},
+                            };
+                            for (let key in utilisateurSelectionne) {
+                              data.maTable[key] = utilisateurSelectionne[key];
+                            }
+                            let options = {
+                              url: "http://localhost:3001/Gestion",
+                              method: "PUT",
+                              headers: headers,
+                              data: data,
+                            };
+                            await axios(options).then((response) => {
+                              document.getElementById(
+                                "messageUtilisateur"
+                              ).innerHTML = response.data.message;
+                              document
+                                .getElementById("messageUtilisateur")
+                                .classList.remove(
+                                  response.data.ok ? "messageKO" : "messageOK"
+                                );
+                              document
+                                .getElementById("messageUtilisateur")
+                                .classList.add(
+                                  response.data.ok ? "messageOK" : "messageKO"
+                                );
+                            });
                             setUtilisateurSelectionne({
                               idUtilisateur: 0,
                               pseudo: "",
                               nom: "",
                               prenom: "",
                               dateNaissance: "",
-                              email: "",
+                              mail: "",
                               mdp: "",
                             });
-                            document.getElementById(
-                              "messageUtilisateur"
-                            ).innerHTML = "Utilisateur modifié.";
-                            document
-                              .getElementById("messageUtilisateur")
-                              .classList.remove("messageKO");
-                            document
-                              .getElementById("messageUtilisateur")
-                              .classList.add("messageOK");
                           } else {
                             document.getElementById(
                               "messageUtilisateur"
@@ -1595,27 +1743,35 @@ const Gestion = () => {
                   <button
                     className="btn btnSupprimer"
                     disabled={!commandeSelectionnee}
-                    onClick={() => {
-                      setCommandes(
-                        commandes.filter(
-                          (commande) =>
-                            commande.idCommande !==
-                            commandeSelectionnee.idCommande
-                        )
-                      );
+                    onClick={async () => {
+                      let options = {
+                        url: "http://localhost:3001/Gestion",
+                        method: "DELETE",
+                        headers: headers,
+                        data: {
+                          table: "commandes",
+                          id: commandeSelectionnee.idCommande,
+                        },
+                      };
+                      await axios(options).then((response) => {
+                        document.getElementById("messageCommande").innerHTML =
+                          response.data.message;
+                        document
+                          .getElementById("messageCommande")
+                          .classList.remove(
+                            response.data.ok ? "messageKO" : "messageOK"
+                          );
+                        document
+                          .getElementById("messageCommande")
+                          .classList.add(
+                            response.data.ok ? "messageOK" : "messageKO"
+                          );
+                      });
                       setCommandeSelectionnee({
                         idCommande: 0,
                         dateCommande: "",
                         pseudoUtilisateur: "",
                       });
-                      document.getElementById("messageCommande").innerHTML =
-                        "Commande supprimée.";
-                      document
-                        .getElementById("messageCommande")
-                        .classList.remove("messageKO");
-                      document
-                        .getElementById("messageCommande")
-                        .classList.add("messageOK");
                     }}
                   >
                     Supprimer
@@ -1625,19 +1781,6 @@ const Gestion = () => {
                   <div className="ajouterDiv grid">
                     <h3>Ajouter</h3>
                     <div className="formulaireAjouter grid">
-                      <div className="input grid">
-                        <label>Date</label>
-                        <input
-                          type="date"
-                          value={nouvelleCommande.dateCommande}
-                          onChange={(e) =>
-                            setNouvelleCommande({
-                              ...nouvelleCommande,
-                              dateCommande: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
                       <div className="input grid">
                         <label>Utilisateur</label>
                         <input
@@ -1653,26 +1796,41 @@ const Gestion = () => {
                       </div>
                       <button
                         className="btn btnAjouter"
-                        onClick={() => {
-                          if (
-                            nouvelleCommande.dateCommande !== "" &&
-                            nouvelleCommande.pseudoUtilisateur !== ""
-                          ) {
-                            setCommandes([...commandes, nouvelleCommande]);
+                        onClick={async () => {
+                          if (nouvelleCommande.pseudoUtilisateur !== "") {
+                            let data = {
+                              table: "commandes",
+                              maTable: {},
+                            };
+                            for (let key in nouvelleCommande) {
+                              data.maTable[key] = nouvelleCommande[key];
+                            }
+                            let options = {
+                              url: "http://localhost:3001/Gestion",
+                              method: "POST",
+                              headers: headers,
+                              data: data,
+                            };
+                            await axios(options).then((response) => {
+                              document.getElementById(
+                                "messageCommande"
+                              ).innerHTML = response.data.message;
+                              document
+                                .getElementById("messageCommande")
+                                .classList.remove(
+                                  response.data.ok ? "messageKO" : "messageOK"
+                                );
+                              document
+                                .getElementById("messageCommande")
+                                .classList.add(
+                                  response.data.ok ? "messageOK" : "messageKO"
+                                );
+                            });
                             setNouvelleCommande({
                               idCommande: 0,
                               dateCommande: "",
                               pseudoUtilisateur: "",
                             });
-                            document.getElementById(
-                              "messageCommande"
-                            ).innerHTML = "Commande ajoutée.";
-                            document
-                              .getElementById("messageCommande")
-                              .classList.remove("messageKO");
-                            document
-                              .getElementById("messageCommande")
-                              .classList.add("messageOK");
                           } else {
                             document.getElementById(
                               "messageCommande"
@@ -1708,30 +1866,42 @@ const Gestion = () => {
                       </div>
                       <button
                         className="btn btnModifier"
-                        onClick={() => {
+                        onClick={async () => {
                           if (commandeSelectionnee.dateCommande !== "") {
-                            setCommandes(
-                              commandes.map((commande) =>
-                                commande.idCommande ===
-                                commandeSelectionnee.idCommande
-                                  ? commandeSelectionnee
-                                  : commande
-                              )
-                            );
+                            let data = {
+                              table: "commandes",
+                              id: commandeSelectionnee.idCommande,
+                              maTable: {},
+                            };
+                            for (let key in commandeSelectionnee) {
+                              data.maTable[key] = commandeSelectionnee[key];
+                            }
+                            let options = {
+                              url: "http://localhost:3001/Gestion",
+                              method: "PUT",
+                              headers: headers,
+                              data: data,
+                            };
+                            await axios(options).then((response) => {
+                              document.getElementById(
+                                "messageCommande"
+                              ).innerHTML = response.data.message;
+                              document
+                                .getElementById("messageCommande")
+                                .classList.remove(
+                                  response.data.ok ? "messageKO" : "messageOK"
+                                );
+                              document
+                                .getElementById("messageCommande")
+                                .classList.add(
+                                  response.data.ok ? "messageOK" : "messageKO"
+                                );
+                            });
                             setCommandeSelectionnee({
                               idCommande: 0,
                               dateCommande: "",
                               pseudoUtilisateur: "",
                             });
-                            document.getElementById(
-                              "messageCommande"
-                            ).innerHTML = "Commande ajoutée.";
-                            document
-                              .getElementById("messageCommande")
-                              .classList.remove("messageKO");
-                            document
-                              .getElementById("messageCommande")
-                              .classList.add("messageOK");
                           } else {
                             document.getElementById(
                               "messageCommande"
@@ -1796,28 +1966,37 @@ const Gestion = () => {
                   <button
                     className="btn btnSupprimer"
                     disabled={!reservationSelectionnee}
-                    onClick={() => {
-                      setReservations(
-                        reservations.filter(
-                          (reservation) =>
-                            reservation.idReservation !==
-                            reservationSelectionnee.idReservation
-                        )
-                      );
+                    onClick={async () => {
+                      let options = {
+                        url: "http://localhost:3001/Gestion",
+                        method: "DELETE",
+                        headers: headers,
+                        data: {
+                          table: "reservations",
+                          id: reservationSelectionnee.idReservation,
+                        },
+                      };
+                      await axios(options).then((response) => {
+                        document.getElementById(
+                          "messageReservation"
+                        ).innerHTML = response.data.message;
+                        document
+                          .getElementById("messageReservation")
+                          .classList.remove(
+                            response.data.ok ? "messageKO" : "messageOK"
+                          );
+                        document
+                          .getElementById("messageReservation")
+                          .classList.add(
+                            response.data.ok ? "messageOK" : "messageKO"
+                          );
+                      });
                       setReservationSelectionnee({
                         idReservation: 0,
                         nbPersonnes: 0,
                         idSortie: 0,
                         idCommande: 0,
                       });
-                      document.getElementById("messageReservation").innerHTML =
-                        "Réservation supprimée.";
-                      document
-                        .getElementById("messageReservation")
-                        .classList.remove("messageKO");
-                      document
-                        .getElementById("messageReservation")
-                        .classList.add("messageOK");
                     }}
                   >
                     Supprimer
@@ -1871,31 +2050,46 @@ const Gestion = () => {
                       </div>
                       <button
                         className="btn btnAjouter"
-                        onClick={() => {
+                        onClick={async () => {
                           if (
                             nouvelleReservation.nbPersonnes > 0 &&
                             nouvelleReservation.idSortie > 0 &&
                             nouvelleReservation.idCommande > 0
                           ) {
-                            setReservations([
-                              ...reservations,
-                              nouvelleReservation,
-                            ]);
+                            let data = {
+                              table: "reservations",
+                              maTable: {},
+                            };
+                            for (let key in nouvelleReservation) {
+                              data.maTable[key] = nouvelleReservation[key];
+                            }
+                            let options = {
+                              url: "http://localhost:3001/Gestion",
+                              method: "POST",
+                              headers: headers,
+                              data: data,
+                            };
+                            await axios(options).then((response) => {
+                              document.getElementById(
+                                "messageReservation"
+                              ).innerHTML = response.data.message;
+                              document
+                                .getElementById("messageReservation")
+                                .classList.remove(
+                                  response.data.ok ? "messageKO" : "messageOK"
+                                );
+                              document
+                                .getElementById("messageReservation")
+                                .classList.add(
+                                  response.data.ok ? "messageOK" : "messageKO"
+                                );
+                            });
                             setNouvelleReservation({
                               idReservation: 0,
                               nbPersonnes: 0,
                               idSortie: 0,
                               idCommande: 0,
                             });
-                            document.getElementById(
-                              "messageReservation"
-                            ).innerHTML = "Réservation ajoutée.";
-                            document
-                              .getElementById("messageReservation")
-                              .classList.remove("messageKO");
-                            document
-                              .getElementById("messageReservation")
-                              .classList.add("messageOK");
                           } else {
                             document.getElementById(
                               "messageReservation"
@@ -1930,65 +2124,45 @@ const Gestion = () => {
                           }
                         />
                       </div>
-                      <div className="input grid">
-                        <label>ID Sortie</label>
-                        <input
-                          type="number"
-                          min={1}
-                          value={reservationSelectionnee.idSortie}
-                          onChange={(e) =>
-                            setReservationSelectionnee({
-                              ...reservationSelectionnee,
-                              idSortie: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                      <div className="input grid">
-                        <label>ID Commande</label>
-                        <input
-                          type="number"
-                          min={1}
-                          value={reservationSelectionnee.idCommande}
-                          onChange={(e) =>
-                            setReservationSelectionnee({
-                              ...reservationSelectionnee,
-                              idCommande: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
                       <button
                         className="btn btnModifier"
-                        onClick={() => {
-                          if (
-                            reservationSelectionnee.nbPersonnes > 0 &&
-                            reservationSelectionnee.idSortie > 0 &&
-                            reservationSelectionnee.idCommande > 0
-                          ) {
-                            setReservations(
-                              reservations.map((reservation) =>
-                                reservation.idReservation ===
-                                reservationSelectionnee.idReservation
-                                  ? reservationSelectionnee
-                                  : reservation
-                              )
-                            );
+                        onClick={async () => {
+                          if (reservationSelectionnee.nbPersonnes > 0) {
+                            let data = {
+                              table: "reservations",
+                              id: reservationSelectionnee.idReservation,
+                              maTable: {},
+                            };
+                            for (let key in reservationSelectionnee) {
+                              data.maTable[key] = reservationSelectionnee[key];
+                            }
+                            let options = {
+                              url: "http://localhost:3001/Gestion",
+                              method: "PUT",
+                              headers: headers,
+                              data: data,
+                            };
+                            await axios(options).then((response) => {
+                              document.getElementById(
+                                "messageReservation"
+                              ).innerHTML = response.data.message;
+                              document
+                                .getElementById("messageReservation")
+                                .classList.remove(
+                                  response.data.ok ? "messageKO" : "messageOK"
+                                );
+                              document
+                                .getElementById("messageReservation")
+                                .classList.add(
+                                  response.data.ok ? "messageOK" : "messageKO"
+                                );
+                            });
                             setReservationSelectionnee({
                               idReservation: 0,
                               nbPersonnes: 0,
                               idSortie: 0,
                               idCommande: 0,
                             });
-                            document.getElementById(
-                              "messageReservation"
-                            ).innerHTML = "Réservation ajoutée.";
-                            document
-                              .getElementById("messageReservation")
-                              .classList.remove("messageKO");
-                            document
-                              .getElementById("messageReservation")
-                              .classList.add("messageOK");
                           } else {
                             document.getElementById(
                               "messageReservation"

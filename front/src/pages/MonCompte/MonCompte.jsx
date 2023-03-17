@@ -4,156 +4,48 @@ import Navbar from "../../components/Navbar/Navbar";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Reservation from "../../components/Reservation/Reservation";
+import axios from "axios";
 
 const MonCompte = () => {
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json;charset=UTF-8",
+    Authorization: "Bearer " + sessionStorage.getItem("token"),
+  };
+
   useEffect(() => {
     // Effets d'affichage
     Aos.init({ duration: 2000 });
+
+    // Récupération des sorties les plus populaires
+    let options = {
+      url: "http://localhost:3001/MonCompte",
+      method: "GET",
+      headers: headers,
+      params: {
+        pseudo: sessionStorage.getItem("pseudo"),
+      },
+    };
+    axios(options).then((response) => {
+      if (response.data.ok) {
+        setUtilisateur(response.data.infos.data[0]);
+        setCommandes(response.data.commandes.data);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [utilisateur, setUtilisateur] = useState({
-    pseudo: "mon_pseudo",
-    nom: "mon_nom",
-    prenom: "mon_prenom",
-    dateNaissance: "2001-07-01",
-    email: "monemail@gmail.com",
+    pseudo: "",
     mdp: "",
+    nom: "",
+    prenom: "",
+    dateNaissance: "",
+    mail: "",
     nouveauMdp: "",
     confirmationMdp: "",
   });
-
-  const [commandes, setCommandes] = useState([
-    {
-      idCommande: 1,
-      dateCommande: "2021-01-01",
-      reservations: [
-        {
-          idReservation: 1,
-          nbPersonnes: 5,
-          sortie: {
-            idSortie: 1,
-            nomSortie: "Journée au Puy du Fou",
-            descriptionSortie: "description plus ou moins longue de la sortie",
-            prixSortie: 50,
-            nbPlaces: 600,
-            nbInscrits: 150,
-            date: "05/06/2023",
-            heure: "08h00",
-            duree: "02h00",
-            lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-            image: "https://picsum.photos/1920/1080",
-          },
-          options: [
-            {
-              idOption: 1,
-              nomOption: "Option 1",
-              prixOption: 2,
-            },
-            {
-              idOption: 2,
-              nomOption: "Option 2",
-              prixOption: 3,
-            },
-          ],
-        },
-        {
-          idReservation: 2,
-          nbPersonnes: 1,
-          sortie: {
-            idSortie: 2,
-            nomSortie: "La transléonarde",
-            descriptionSortie: "description plus ou moins longue de la sortie",
-            prixSortie: 30,
-            nbPlaces: 600,
-            nbInscrits: 150,
-            date: "05/06/2023",
-            heure: "08h00",
-            duree: "02h00",
-            lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-            image: "https://picsum.photos/1920/1080",
-          },
-          options: [],
-        },
-        {
-          idReservation: 3,
-          nbPersonnes: 2,
-          sortie: {
-            idSortie: 3,
-            nomSortie: "Balade en forêt",
-            descriptionSortie: "description plus ou moins longue de la sortie",
-            prixSortie: 2,
-            nbPlaces: 600,
-            nbInscrits: 150,
-            date: "05/06/2023",
-            heure: "08h00",
-            duree: "02h00",
-            lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-            image: "https://picsum.photos/1920/1080",
-          },
-          options: [
-            {
-              idOption: 1,
-              nomOption: "Option 1",
-              prixOption: 1.5,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      idCommande: 2,
-      dateCommande: "2021-05-15",
-      reservations: [
-        {
-          idReservation: 1,
-          nbPersonnes: 5,
-          sortie: {
-            idSortie: 1,
-            nomSortie: "Journée au Puy du Fou",
-            descriptionSortie: "description plus ou moins longue de la sortie",
-            prixSortie: 50,
-            nbPlaces: 600,
-            nbInscrits: 150,
-            date: "05/06/2023",
-            heure: "08h00",
-            duree: "02h00",
-            lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-            image: "https://picsum.photos/1920/1080",
-          },
-          options: [
-            {
-              idOption: 1,
-              nomOption: "Option 1",
-              prixOption: 2,
-            },
-            {
-              idOption: 2,
-              nomOption: "Option 2",
-              prixOption: 3,
-            },
-          ],
-        },
-        {
-          idReservation: 2,
-          nbPersonnes: 1,
-          sortie: {
-            idSortie: 2,
-            nomSortie: "La transléonarde",
-            descriptionSortie: "description plus ou moins longue de la sortie",
-            prixSortie: 30,
-            nbPlaces: 600,
-            nbInscrits: 150,
-            date: "05/06/2023",
-            heure: "08h00",
-            duree: "02h00",
-            lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-            image: "https://picsum.photos/1920/1080",
-          },
-          options: [],
-        },
-      ],
-    },
-  ]);
+  const [commandes, setCommandes] = useState([]);
 
   return (
     <>
@@ -219,9 +111,9 @@ const MonCompte = () => {
                 type="email"
                 name="email"
                 id="email"
-                value={utilisateur.email}
+                value={utilisateur.mail}
                 onChange={(e) =>
-                  setUtilisateur({ ...utilisateur, email: e.target.value })
+                  setUtilisateur({ ...utilisateur, mail: e.target.value })
                 }
               />
             </div>
@@ -269,13 +161,25 @@ const MonCompte = () => {
           </div>
           <button
             className="btn btnValider"
-            onClick={(e) => {
+            onClick={async (e) => {
               if (utilisateur.nouveauMdp !== utilisateur.confirmationMdp) {
                 alert(
                   "La confirmation du nouveau mot de passe est différent du nouveau mot de passe !"
                 );
               } else {
-                console.log(utilisateur);
+                let options = {
+                  url: "http://localhost:3001/MonCompte/MesInfos",
+                  method: "PUT",
+                  headers: headers,
+                  data: {
+                    utilisateur: utilisateur,
+                  },
+                };
+                await axios(options).then((response) => {
+                  if (response.data.ok) {
+                    setUtilisateur(response.data.data[0]);
+                  }
+                });
               }
             }}
           >

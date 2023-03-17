@@ -103,6 +103,14 @@
 
     .destText {
       justify-content: space-between;
+      display: block; /* Fallback for non-webkit */
+      display: -webkit-box;
+      height: 2.6em; /* Fallback for non-webkit, line-height * 2 */
+      line-height: 1.3em;
+      -webkit-line-clamp: 2; /* if you change this, make sure to change the fallback line-height and height */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       h6 {
         color: var(--black);

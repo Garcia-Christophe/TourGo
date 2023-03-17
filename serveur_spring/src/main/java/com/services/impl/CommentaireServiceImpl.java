@@ -108,6 +108,7 @@ public class CommentaireServiceImpl implements CommentaireService {
                 res.setMessage("Impossible de modifier l'utilisateur");
             }
             if(!erreur && commentaireDto.getImages()!=null){
+                commentaire.getImages().removeAll(commentaire.getImages());
                 commentaire.setImages(commentaireDto.getImages());
             }
             if(!erreur && commentaireDto.getCommentaire()!=null){
@@ -221,7 +222,7 @@ public class CommentaireServiceImpl implements CommentaireService {
 
     private Commentaire commentaireDtoToEntity(CommentaireDto commentaireDto) {
         Commentaire commentaire = new Commentaire();
-        if(commentaireDto.get_id()!=null){
+        if(commentaireDto.get_id()!=null && !commentaireDto.get_id().isEmpty()){
             commentaire.set_id(new ObjectId(commentaireDto.get_id()));
         }
         commentaire.setIdSortie(commentaireDto.getIdSortie());

@@ -39,6 +39,7 @@ const Connexion = () => {
       if (response.data.connexion) {
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("role", response.data.role);
+        sessionStorage.setItem("pseudo", response.data.pseudo);
         window.location.href = "/";
       }
     });

@@ -3,9 +3,9 @@ import "./sorties.css";
 import Navbar from "../../components/Navbar/Navbar";
 import CarteSortie from "../../components/CarteSortie/CarteSortie";
 import Aos from "aos";
-import BG from "../../assets/fondEcranAccueil.jpg";
 import "aos/dist/aos.css";
 import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
+import axios from "axios";
 
 const Sorties = () => {
   useEffect(() => {
@@ -23,192 +23,20 @@ const Sorties = () => {
 
     // Effets d'affichage
     Aos.init({ duration: 2000 });
+
+    // Récupération des sorties
+    let options = {
+      url: "http://localhost:3001/Sorties",
+      method: "GET",
+    };
+    axios(options).then((response) => {
+      if (response.data.ok) {
+        setSorties(response.data.data);
+      }
+    });
   }, []);
 
-  const sorties = [
-    {
-      idSortie: 1,
-      nomSortie: "La transléonardetransléonardetransléonarde",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 2,
-      nomSortie: "La transléonarde",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 3,
-      nomSortie: "La transléonarde",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 4,
-      nomSortie: "La transléonarde",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 5,
-      nomSortie: "La transléonarde",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 6,
-      nomSortie: "La transléonarde",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 7,
-      nomSortie: "La transléonarde",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 8,
-      nomSortie: "La transléonarde",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 9,
-      nomSortie: "La transléonarde",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 10,
-      nomSortie: "TEST test TEST",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 11,
-      nomSortie: "TEST test TEST",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 12,
-      nomSortie: "TEST test TEST",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 13,
-      nomSortie: "TEST test TEST",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-    {
-      idSortie: 14,
-      nomSortie: "TEST test TEST",
-      descriptionSortie: "description plus ou moins longue de la sortie",
-      prixSortie: "A côté du terrain de Pontivy.",
-      nbPlaces: 600,
-      nbInscrits: 150,
-      date: "05/06/2023",
-      heure: "08h00",
-      duree: "02h00",
-      lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-      image: BG,
-    },
-  ];
+  const [sorties, setSorties] = useState([]); // liste des sorties affichées
   const nbSortiesAffichees = 9; // nombre de sorties affichées par page
   const [indexPremiereSortie, setIndexPremiereSortie] = useState(0); // index de la première sortie affichée
 

@@ -110,6 +110,7 @@ const Navbar = ({ navbarTransparente }) => {
                     onClick={() => {
                       sessionStorage.removeItem("token");
                       sessionStorage.removeItem("role");
+                      sessionStorage.removeItem("pseudo");
                     }}
                   >
                     <a href="/">Déconnexion</a>

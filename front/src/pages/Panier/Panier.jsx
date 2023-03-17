@@ -4,86 +4,32 @@ import Navbar from "../../components/Navbar/Navbar";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import Reservation from "../../components/Reservation/Reservation";
+import axios from "axios";
 
 const Panier = () => {
+  const [reservations, setReservations] = useState([]);
+
   useEffect(() => {
     // Effets d'affichage
     Aos.init({ duration: 2000 });
-  }, []);
 
-  const [reservations, setReservations] = useState([
-    {
-      idReservation: 1,
-      nbPersonnes: 5,
-      sortie: {
-        idSortie: 1,
-        nomSortie: "Journée au Puy du Fou",
-        descriptionSortie: "description plus ou moins longue de la sortie",
-        prixSortie: 50,
-        nbPlaces: 600,
-        nbInscrits: 150,
-        date: "05/06/2023",
-        heure: "08h00",
-        duree: "02h00",
-        lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-        image: "https://picsum.photos/1920/1080",
+    // Récupération des réservations en cours
+    const optionsHttp = {
+      url: "http://localhost:3001/Panier",
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
-      options: [
-        {
-          idOption: 1,
-          nomOption: "Option 1",
-          prixOption: 2,
-        },
-        {
-          idOption: 2,
-          nomOption: "Option 2",
-          prixOption: 3,
-        },
-      ],
-    },
-    {
-      idReservation: 2,
-      nbPersonnes: 1,
-      sortie: {
-        idSortie: 2,
-        nomSortie: "La transléonarde",
-        descriptionSortie: "description plus ou moins longue de la sortie",
-        prixSortie: 30,
-        nbPlaces: 600,
-        nbInscrits: 150,
-        date: "05/06/2023",
-        heure: "08h00",
-        duree: "02h00",
-        lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-        image: "https://picsum.photos/1920/1080",
+      params: {
+        pseudo: sessionStorage.getItem("pseudo"),
       },
-      options: [],
-    },
-    {
-      idReservation: 3,
-      nbPersonnes: 2,
-      sortie: {
-        idSortie: 3,
-        nomSortie: "Balade en forêt",
-        descriptionSortie: "description plus ou moins longue de la sortie",
-        prixSortie: 2,
-        nbPlaces: 600,
-        nbInscrits: 150,
-        date: "05/06/2023",
-        heure: "08h00",
-        duree: "02h00",
-        lieu: "52 Rue Albirt Loutte, 92900 Brets.",
-        image: "https://picsum.photos/1920/1080",
-      },
-      options: [
-        {
-          idOption: 1,
-          nomOption: "Option 1",
-          prixOption: 1.5,
-        },
-      ],
-    },
-  ]);
+    };
+    axios(optionsHttp).then((response) => {
+      setReservations(response.data);
+    });
+  }, []);
 
   return (
     <>
@@ -92,13 +38,40 @@ const Panier = () => {
         <div className="secContainer">
           <h1 className="titre">Panier</h1>
           <div className="panier grid">
-            {reservations.map((reservation) => (
+            {reservations?.map((reservation) => (
               <Reservation
                 reservation={reservation}
-                deleteCallback={(idResa) => {
-                  setReservations(
-                    reservations.filter((res) => res.idReservation !== idResa)
-                  );
+                deleteCallback={async () => {
+                  const optionsHttp = {
+                    url: "http://localhost:3001/Panier",
+                    method: "DELETE",
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json;charset=UTF-8",
+                      Authorization:
+                        "Bearer " + sessionStorage.getItem("token"),
+                    },
+                    data: {
+                      idReservation: reservation.idReservation,
+                    },
+                  };
+                  await axios(optionsHttp).then((response) => {});
+                  const optionsHttp2 = {
+                    url: "http://localhost:3001/Panier",
+                    method: "GET",
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json;charset=UTF-8",
+                      Authorization:
+                        "Bearer " + sessionStorage.getItem("token"),
+                    },
+                    params: {
+                      pseudo: sessionStorage.getItem("pseudo"),
+                    },
+                  };
+                  await axios(optionsHttp2).then((response) => {
+                    setReservations(response.data);
+                  });
                 }}
               />
             ))}
