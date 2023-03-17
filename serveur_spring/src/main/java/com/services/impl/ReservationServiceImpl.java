@@ -3,9 +3,8 @@ package com.services.impl;
 import com.dtos.ReservationDto;
 import com.dtos.ResultatDto;
 import com.entities.Commande;
-import com.entities.Option;
+import com.entities.Monoption;
 import com.entities.Reservation;
-import com.entities.Utilisateur;
 import com.repositories.CommandeRepository;
 import com.repositories.OptionRepository;
 import com.repositories.ReservationRepository;
@@ -59,9 +58,9 @@ public class ReservationServiceImpl implements ReservationService {
                 try{
                     Reservation r = this.reservationDtoToEntity(reservationDto);
                     r = this.reservationRepository.save(r);
-                    Iterator<Option> it = r.getOptionSet().iterator();
+                    Iterator<Monoption> it = r.getOptionSet().iterator();
                     while (it.hasNext()){
-                        Option o = it.next();
+                        Monoption o = it.next();
                         if(o.getReservationSet() == null){
                             o.setReservationSet(new HashSet<>());
                         }
@@ -116,9 +115,9 @@ public class ReservationServiceImpl implements ReservationService {
                     reservation.setNbPersonnes(reservationDto.getNbPersonnes());
                 }
                 if(reservationDto.getIdOptions()!=null){
-                    Iterator<Option> it = reservation.getOptionSet().iterator();
+                    Iterator<Monoption> it = reservation.getOptionSet().iterator();
                     while(it.hasNext()){
-                        Option o = it.next();
+                        Monoption o = it.next();
                         boolean trouve = false;
                         Iterator<Integer> it2 = reservationDto.getIdOptions().iterator();
                         while (it2.hasNext()){
@@ -137,7 +136,7 @@ public class ReservationServiceImpl implements ReservationService {
                     while (it2.hasNext()){
                         int id = it2.next();
                         try{
-                           Option o = this.optionRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Option not found"));
+                            Monoption o = this.optionRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Option not found"));
                            if(o.getReservationSet().size()==0){
                                o.setReservationSet(new HashSet<>());
                            }
@@ -172,9 +171,9 @@ public class ReservationServiceImpl implements ReservationService {
         ResultatDto res = new ResultatDto();
         try{
             Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new EntityNotFoundException("Reservation not found"));
-            Iterator<Option> it = reservation.getOptionSet().iterator();
+            Iterator<Monoption> it = reservation.getOptionSet().iterator();
             while (it.hasNext()){
-                Option o = it.next();
+                Monoption o = it.next();
                 o.getReservationSet().remove(reservation);
                 this.optionRepository.save(o);
             }
@@ -236,9 +235,9 @@ public class ReservationServiceImpl implements ReservationService {
         reservationDto.setIdSortie(reservation.getIdSortie().getIdSortie());
         reservationDto.setNbPersonnes(reservation.getNbPersonnes());
         Set<Integer> set = new HashSet<>();
-        Iterator<Option> it = reservation.getOptionSet().iterator();
+        Iterator<Monoption> it = reservation.getOptionSet().iterator();
         while(it.hasNext()){
-            Option option = it.next();
+            Monoption option = it.next();
             set.add(option.getIdOption());
         }
         reservationDto.setIdOptions(set);
@@ -251,7 +250,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setIdCommande(this.commandeRepository.findById(reservationDto.getIdCommande()).orElseThrow(() -> new EntityNotFoundException("Commande not found")));
         reservation.setIdSortie(this.sortieRepository.findById(reservationDto.getIdSortie()).orElseThrow(() -> new EntityNotFoundException("Soiree not found")));
         reservation.setNbPersonnes(reservationDto.getNbPersonnes());
-        Set<Option> set = new HashSet<>();
+        Set<Monoption> set = new HashSet<>();
         Iterator<Integer> it = reservationDto.getIdOptions().iterator();
         while(it.hasNext()){
             int id = it.next();

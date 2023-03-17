@@ -37,7 +37,7 @@ public class Reservation implements Serializable {
     @Column(name = "nbPersonnes")
     private int nbPersonnes;
     @ManyToMany(mappedBy = "reservationSet")
-    private Set<Option> optionSet;
+    private Set<Monoption> optionSet;
     @JoinColumn(name = "idCommande", referencedColumnName = "idCommande")
     @ManyToOne(optional = false)
     private Commande idCommande;
@@ -73,11 +73,11 @@ public class Reservation implements Serializable {
         this.nbPersonnes = nbPersonnes;
     }
 
-    public Set<Option> getOptionSet() {
+    public Set<Monoption> getOptionSet() {
         return optionSet;
     }
 
-    public void setOptionSet(Set<Option> optionSet) {
+    public void setOptionSet(Set<Monoption> optionSet) {
         this.optionSet = optionSet;
     }
 

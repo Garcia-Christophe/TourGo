@@ -84,7 +84,7 @@ public class Sortie implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSortie")
     private Set<Reservation> reservationSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSortie")
-    private Set<Option> optionSet;
+    private Set<Monoption> optionSet;
 
     public Sortie() {
     }
@@ -209,11 +209,11 @@ public class Sortie implements Serializable {
         this.reservationSet = reservationSet;
     }
 
-    public Set<Option> getOptionSet() {
+    public Set<Monoption> getOptionSet() {
         return optionSet;
     }
 
-    public void setOptionSet(Set<Option> optionSet) {
+    public void setOptionSet(Set<Monoption> optionSet) {
         this.optionSet = optionSet;
     }
 

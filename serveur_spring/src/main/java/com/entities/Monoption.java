@@ -21,13 +21,13 @@ import javax.persistence.Table;
  * @author Utilisateur
  */
 @Entity
-@Table(name = "Option")
+@Table(name = "Monoption")
 @NamedQueries({
-        @NamedQuery(name = "Option.findAll", query = "SELECT o FROM Option o"),
-        @NamedQuery(name = "Option.findByIdOption", query = "SELECT o FROM Option o WHERE o.idOption = :idOption"),
-        @NamedQuery(name = "Option.findByNomOption", query = "SELECT o FROM Option o WHERE o.nomOption = :nomOption"),
-        @NamedQuery(name = "Option.findByPrixOption", query = "SELECT o FROM Option o WHERE o.prixOption = :prixOption")})
-public class Option implements Serializable {
+        @NamedQuery(name = "Monoption.findAll", query = "SELECT o FROM Monoption o"),
+        @NamedQuery(name = "Monoption.findByIdOption", query = "SELECT o FROM Monoption o WHERE o.idOption = :idOption"),
+        @NamedQuery(name = "Monoption.findByNomOption", query = "SELECT o FROM Monoption o WHERE o.nomOption = :nomOption"),
+        @NamedQuery(name = "Monoption.findByPrixOption", query = "SELECT o FROM Monoption o WHERE o.prixOption = :prixOption")})
+public class Monoption implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,14 +50,14 @@ public class Option implements Serializable {
     @ManyToOne(optional = false)
     private Sortie idSortie;
 
-    public Option() {
+    public Monoption() {
     }
 
-    public Option(Integer idOption) {
+    public Monoption(Integer idOption) {
         this.idOption = idOption;
     }
 
-    public Option(Integer idOption, String nomOption, int prixOption) {
+    public Monoption(Integer idOption, String nomOption, int prixOption) {
         this.idOption = idOption;
         this.nomOption = nomOption;
         this.prixOption = prixOption;
@@ -113,10 +113,10 @@ public class Option implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Option)) {
+        if (!(object instanceof Monoption)) {
             return false;
         }
-        Option other = (Option) object;
+        Monoption other = (Monoption) object;
         if ((this.idOption == null && other.idOption != null) || (this.idOption != null && !this.idOption.equals(other.idOption))) {
             return false;
         }
@@ -125,7 +125,7 @@ public class Option implements Serializable {
 
     @Override
     public String toString() {
-        return "Option[ idOption=" + idOption + " ]";
+        return "Monoption[ idOption=" + idOption + " ]";
     }
 
 }

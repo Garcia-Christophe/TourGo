@@ -4,7 +4,7 @@ import com.dtos.OptionDto;
 import com.entities.Reservation;
 import com.entities.Sortie;
 import com.dtos.ResultatDto;
-import com.entities.Option;
+import com.entities.Monoption;
 import com.repositories.OptionRepository;
 import com.repositories.ReservationRepository;
 import com.repositories.SortieRepository;
@@ -30,7 +30,7 @@ public class OptionServiceImpl implements OptionService {
     public ResultatDto saveOption(OptionDto optionDto) {
         ResultatDto res = new ResultatDto();
         try{
-            Option option = optionRepository.findById(optionDto.getIdOption()).orElseThrow(() -> new EntityNotFoundException("option not found"));
+            Monoption option = optionRepository.findById(optionDto.getIdOption()).orElseThrow(() -> new EntityNotFoundException("option not found"));
             res.setOk(false);
             res.setMessage("Identifiant déjà existant.");
         }catch (EntityNotFoundException e){
@@ -42,7 +42,7 @@ public class OptionServiceImpl implements OptionService {
             }
             if(!erreur){
                 try{
-                    Option option = optionDtoToEntity(optionDto);
+                    Monoption option = optionDtoToEntity(optionDto);
                     option = optionRepository.save(option);
                     res.setOk(true);
                     res.setMessage("Option ajoutée.");
@@ -62,7 +62,7 @@ public class OptionServiceImpl implements OptionService {
     public ResultatDto getOptionById(int optionId) {
         ResultatDto res = new ResultatDto();
         try{
-            Option option = optionRepository.findById(optionId).orElseThrow(() -> new EntityNotFoundException("option not found"));
+            Monoption option = optionRepository.findById(optionId).orElseThrow(() -> new EntityNotFoundException("option not found"));
             res.setOk(true);
             res.setMessage("Option existante");
             Set<Object> set = new HashSet<>();
@@ -79,7 +79,7 @@ public class OptionServiceImpl implements OptionService {
     public ResultatDto updateOptionById(int optionId, OptionDto optionDto) {
         ResultatDto res = new ResultatDto();
         try{
-            Option option = optionRepository.findById(optionId).orElseThrow(() -> new EntityNotFoundException("option not found"));
+            Monoption option = optionRepository.findById(optionId).orElseThrow(() -> new EntityNotFoundException("option not found"));
             boolean erreur = false;
             if(optionDto.getIdSortie()!=option.getIdSortie().getIdSortie()){
                    erreur = true;
@@ -109,7 +109,7 @@ public class OptionServiceImpl implements OptionService {
     public ResultatDto deleteOption(int optionId) {
         ResultatDto res = new ResultatDto();
         try{
-            Option option = optionRepository.findById(optionId).orElseThrow(() -> new EntityNotFoundException("Option not found"));
+            Monoption option = optionRepository.findById(optionId).orElseThrow(() -> new EntityNotFoundException("Option not found"));
             Iterator<Reservation> it = option.getReservationSet().iterator();
             while (it.hasNext()){
                 Reservation r = it.next();
@@ -130,7 +130,7 @@ public class OptionServiceImpl implements OptionService {
     public ResultatDto getAllOptions() {
         ResultatDto res = new ResultatDto();
         Set<Object> optionsDtos = new HashSet<>();
-        List<Option> options = optionRepository.findAll();
+        List<Monoption> options = optionRepository.findAll();
         options.forEach(option -> {
             optionsDtos.add(optionEntityToDto(option));
         });
@@ -146,7 +146,7 @@ public class OptionServiceImpl implements OptionService {
         Set<Object> optionsDtos = new HashSet<>();
         try {
             Sortie s = this.sortieRepository.findById(sortieId).orElseThrow(() -> new EntityNotFoundException("sortie not found"));
-            List<Option> options = optionRepository.findAll();
+            List<Monoption> options = optionRepository.findAll();
             options.forEach(option -> {
                 if(option.getIdSortie().getIdSortie()==sortieId){
                     optionsDtos.add(optionEntityToDto(option));
@@ -168,7 +168,7 @@ public class OptionServiceImpl implements OptionService {
         Set<Object> optionsDtos = new HashSet<>();
         try {
             Reservation resa = this.reservationRepository.findById(reservationId).orElseThrow(() -> new EntityNotFoundException("reservation not found"));
-            List<Option> options = optionRepository.findAll();
+            List<Monoption> options = optionRepository.findAll();
             options.forEach(option -> {
                 if(option.getReservationSet().contains(resa)){
                     optionsDtos.add(optionEntityToDto(option));
@@ -184,7 +184,7 @@ public class OptionServiceImpl implements OptionService {
         return res;
     }
 
-    private OptionDto optionEntityToDto(Option option) {
+    private OptionDto optionEntityToDto(Monoption option) {
         OptionDto optionDto = new OptionDto();
         optionDto.setIdOption(option.getIdOption());
         optionDto.setNomOption(option.getNomOption());
@@ -193,8 +193,8 @@ public class OptionServiceImpl implements OptionService {
         return optionDto;
     }
 
-    private Option optionDtoToEntity(OptionDto optionDto) {
-        Option option = new Option();
+    private Monoption optionDtoToEntity(OptionDto optionDto) {
+        Monoption option = new Monoption();
         option.setIdOption(optionDto.getIdOption());
         option.setNomOption(optionDto.getNomOption());
         option.setPrixOption(optionDto.getPrixOption());

@@ -1,8 +1,5 @@
 package com.dtos;
 
-import com.entities.Commande;
-import com.entities.Option;
-import com.entities.Sortie;
 import lombok.Data;
 
 import javax.persistence.*;

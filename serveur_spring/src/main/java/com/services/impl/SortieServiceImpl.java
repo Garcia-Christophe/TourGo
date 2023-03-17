@@ -2,7 +2,7 @@ package com.services.impl;
 
 import com.dtos.ResultatDto;
 import com.dtos.SortieDto;
-import com.entities.Option;
+import com.entities.Monoption;
 import com.entities.Reservation;
 import com.entities.Sortie;
 import com.repositories.CommandeRepository;
@@ -152,10 +152,10 @@ public class SortieServiceImpl implements SortieService {
                 Reservation resa = itResa.next();
                 rsi.deleteReservation(resa.getIdReservation());
             }
-            Iterator<Option> itOp = sortie.getOptionSet().iterator();
+            Iterator<Monoption> itOp = sortie.getOptionSet().iterator();
             OptionServiceImpl osp = new OptionServiceImpl(optionRepository, sortieRepository, reservationRepository);
             while(itOp.hasNext()){
-                Option op = itOp.next();
+                Monoption op = itOp.next();
                 osp.deleteOption(op.getIdOption());
             }
             sortieRepository.delete(sortie);
