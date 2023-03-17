@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 public class CommentaireDto{
 
-    ObjectId _id;
+    String _id;
     String pseudoUtilisateur;
     int idSortie;
     int note;

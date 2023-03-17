@@ -207,7 +207,7 @@ public class CommentaireServiceImpl implements CommentaireService {
 
     private CommentaireDto commentaireEntityToDto(Commentaire commentaire) {
         CommentaireDto commentaireDto = new CommentaireDto();
-        commentaireDto.set_id(commentaire.get_id());
+        commentaireDto.set_id(commentaire.get_id().toHexString());
         commentaireDto.setCommentaire(commentaire.getCommentaire());
         commentaireDto.setIdSortie(commentaire.getIdSortie());
         commentaireDto.setPseudoUtilisateur(commentaire.getPseudoUtilisateur());
@@ -219,7 +219,7 @@ public class CommentaireServiceImpl implements CommentaireService {
 
     private Commentaire commentaireDtoToEntity(CommentaireDto commentaireDto) {
         Commentaire commentaire = new Commentaire();
-        commentaire.set_id(commentaireDto.get_id());
+        commentaire.set_id(new ObjectId(commentaireDto.get_id()));
         commentaire.setIdSortie(commentaireDto.getIdSortie());
         commentaire.setPseudoUtilisateur(commentaireDto.getPseudoUtilisateur());
         commentaire.setDateHeureCreation(commentaireDto.getDateHeureCreation());
