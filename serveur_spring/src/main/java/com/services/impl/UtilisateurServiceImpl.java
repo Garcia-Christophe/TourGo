@@ -18,13 +18,15 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     private final ReservationRepository reservationRepository;
     private final OptionRepository optionRepository;
     private final SortieRepository sortieRepository;
+    private final CommentaireRepository commentaireRepository;
 
-    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, CommandeRepository commandeRepository, ReservationRepository reservationRepository, OptionRepository optionRepository, SortieRepository sortieRepository){
+    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, CommandeRepository commandeRepository, ReservationRepository reservationRepository, OptionRepository optionRepository, SortieRepository sortieRepository, CommentaireRepository commentaireRepository){
         this.utilisateurRepository = utilisateurRepository;
         this.commandeRepository = commandeRepository;
         this.reservationRepository = reservationRepository;
         this.optionRepository = optionRepository;
         this.sortieRepository = sortieRepository;
+        this.commentaireRepository = commentaireRepository;
     }
     @Override
     public ResultatDto saveUtilisateur(UtilisateurDto utilisateurDto) {
@@ -147,12 +149,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 while (it.hasNext()){
                     Commande c = it.next();
                     it.remove();
-                    System.out.println(c.getIdCommande());
                     CommandeServiceImpl csi = new CommandeServiceImpl(commandeRepository,utilisateurRepository,reservationRepository, optionRepository, sortieRepository);
                     csi.deleteCommande(c.getIdCommande());
                 }
             }
-            System.out.println(utilisateur.getCommandeSet().size());
+            List<Commentaire> commentaires = this.commentaireRepository.findAll();
+            commentaires.forEach(commentaire -> {
+                if(commentaire.getPseudoUtilisateur().equals(utilisateurId)){
+                    this.commentaireRepository.delete(commentaire);
+                }
+            });
             utilisateurRepository.deleteById(utilisateurId);
             res.setOk(true);
             res.setMessage("Suppression réussi.");
