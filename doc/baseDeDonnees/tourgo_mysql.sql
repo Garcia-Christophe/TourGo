@@ -77,11 +77,11 @@ INSERT INTO `LiaisonReservationOption` (`idReservation`, `idOption`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Option`
+-- Table structure for table `Monoption`
 --
 
-DROP TABLE IF EXISTS `Option`;
-CREATE TABLE `Option` (
+DROP TABLE IF EXISTS `Monoption`;
+CREATE TABLE `Monoption` (
   `idOption` int(11) NOT NULL,
   `nomOption` varchar(100) NOT NULL,
   `prixOption` int(11) NOT NULL,
@@ -89,10 +89,10 @@ CREATE TABLE `Option` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `Option`
+-- Dumping data for table `Monoption`
 --
 
-INSERT INTO `Option` (`idOption`, `nomOption`, `prixOption`, `idSortie`) VALUES
+INSERT INTO `Monoption` (`idOption`, `nomOption`, `prixOption`, `idSortie`) VALUES
 (9, 'Prêt de chaussures de randonnées', 2, 13),
 (10, 'Retour au départ en bus après la course', 4, 14),
 (11, 'Repas sain réconfort après la course', 13, 14),
@@ -240,9 +240,9 @@ ALTER TABLE `LiaisonReservationOption`
   ADD KEY `fk_liaison_option` (`idOption`);
 
 --
--- Indexes for table `Option`
+-- Indexes for table `Monoption`
 --
-ALTER TABLE `Option`
+ALTER TABLE `Monoption`
   ADD PRIMARY KEY (`idOption`),
   ADD KEY `fk_option_sortie` (`idSortie`);
 
@@ -277,9 +277,9 @@ ALTER TABLE `Commande`
   MODIFY `idCommande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `Option`
+-- AUTO_INCREMENT for table `Monoption`
 --
-ALTER TABLE `Option`
+ALTER TABLE `Monoption`
   MODIFY `idOption` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
@@ -308,13 +308,13 @@ ALTER TABLE `Commande`
 -- Constraints for table `LiaisonReservationOption`
 --
 ALTER TABLE `LiaisonReservationOption`
-  ADD CONSTRAINT `fk_liaison_option` FOREIGN KEY (`idOption`) REFERENCES `Option` (`idOption`),
+  ADD CONSTRAINT `fk_liaison_option` FOREIGN KEY (`idOption`) REFERENCES `Monoption` (`idOption`),
   ADD CONSTRAINT `fk_liaison_reservation` FOREIGN KEY (`idReservation`) REFERENCES `Reservation` (`idReservation`);
 
 --
--- Constraints for table `Option`
+-- Constraints for table `Monoption`
 --
-ALTER TABLE `Option`
+ALTER TABLE `Monoption`
   ADD CONSTRAINT `fk_option_sortie` FOREIGN KEY (`idSortie`) REFERENCES `Sortie` (`idSortie`);
 
 --
