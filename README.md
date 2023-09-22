@@ -64,3 +64,34 @@ Option :
 - **Axios** : envois de requêtes HTTP via React vers Node et Node vers Spring
 - **Git** : projet Gitlab (https://gitlab.com/G.Christophe/tourgo/)
 - **Postman** : création d’une collection permettant de tester une multitude de requêtes vers Spring
+
+## Quelques screens
+
+L'application n'était pas reliée à la base de données au moment des captures d'écrans. Il manque donc plusieurs pages (Chat, Page d'une sortie, Panier...) et quelques blocs (ex: sorties populaires à la page d'accueil).
+
+### Acceuil
+
+![](./doc/screens/accueil.png)
+![](./doc/screens/accueil2.png)
+
+### Sorties
+
+![](./doc/screens/sorties.png)
+
+### Contact
+
+![](./doc/screens/contact.png)
+![](./doc/screens/chat.png)
+
+### Mon compte
+
+![](./doc/screens/moncompte.png)
+
+### Gestion
+
+![](./doc/screens/gestion.png)
+
+### Connexion/Inscription
+
+![](./doc/screens/connexion.png)
+![](./doc/screens/inscription.png)
